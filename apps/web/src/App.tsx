@@ -1,5 +1,6 @@
+import { Link } from "react-router";
 import { Features } from "./components/Features";
-import { HowItWorks } from "./components/HowItWorks"; 
+import { HowItWorks } from "./components/HowItWorks";
 import { ThemeShowcase } from "./components/ThemeShowcase";
 
 const creationBenefits = [
@@ -19,13 +20,13 @@ function App() {
   return (
     <div className="site-shell">
       <header className="topbar">
-        <a className="brand" href="#" aria-label="Página inicial da Coraeli">
+        <Link className="brand" to="/" aria-label="Página inicial da Coraeli">
           <span className="brand__mark" aria-hidden="true">
             C
           </span>
 
           <span className="brand__name">Coraeli</span>
-        </a>
+        </Link>
 
         <nav className="navigation" aria-label="Navegação principal">
           <a href="#como-funciona">Como funciona</a>
@@ -38,9 +39,9 @@ function App() {
             Entrar
           </button>
 
-          <a className="button button--small" href="#criar">
+          <Link className="button button--small" to="/criar">
             Criar presente
-          </a>
+          </Link>
         </div>
       </header>
 
@@ -63,10 +64,10 @@ function App() {
             </p>
 
             <div className="hero__actions">
-              <button className="button button--primary" type="button">
+              <Link className="button button--primary" to="/criar">
                 Criar meu presente
                 <span aria-hidden="true">→</span>
-              </button>
+              </Link>
 
               <a className="button button--secondary" href="#como-funciona">
                 Ver como funciona
