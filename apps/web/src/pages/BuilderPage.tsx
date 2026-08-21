@@ -2,6 +2,7 @@ import { useState } from "react";
 import { Link } from "react-router";
 import "./BuilderPage.css";
 import "./BuilderStep2.css";
+import "./BuilderStep3.css";
 
 const occasions = [
   "Declaração de amor",
@@ -46,6 +47,25 @@ const giftThemes = [
   },
 ];
 
+type StoryBlock = {
+  id: number;
+  type: "title" | "message";
+  content: string;
+};
+
+const initialStoryBlocks: StoryBlock[] = [
+  {
+    id: 1,
+    type: "title",
+    content: "Um capítulo que quero guardar",
+  },
+  {
+    id: 2,
+    type: "message",
+    content: "Entre tantos momentos, existem alguns que merecem viver para sempre.",
+  },
+];
+
 export function BuilderPage() {
   const [currentStep, setCurrentStep] = useState(1);
   const [recipientName, setRecipientName] = useState("Lívia");
@@ -55,6 +75,7 @@ export function BuilderPage() {
     "Você transformou momentos simples nas minhas melhores memórias.",
   );
   const [selectedThemeId, setSelectedThemeId] = useState(giftThemes[0].id);
+  const [storyBlocks, setStoryBlocks] = useState<StoryBlock[]>(initialStoryBlocks);
 
   const selectedTheme =
     giftThemes.find((theme) => theme.id === selectedThemeId) ?? giftThemes[0];
@@ -62,6 +83,30 @@ export function BuilderPage() {
   function changeStep(step: number) {
     setCurrentStep(step);
     window.scrollTo({ top: 0, behavior: "smooth" });
+  }
+
+  function addStoryBlock(type: StoryBlock["type"]) {
+    const newBlock: StoryBlock = {
+      id: Date.now(),
+      type,
+      content: type === "title" ? "Novo título" : "Escreva uma nova lembrança...",
+    };
+
+    setStoryBlocks((currentBlocks) => [...currentBlocks, newBlock]);
+  }
+
+  function updateStoryBlock(id: number, content: string) {
+    setStoryBlocks((currentBlocks) =>
+      currentBlocks.map((block) =>
+        block.id === id ? { ...block, content } : block,
+      ),
+    );
+  }
+
+  function deleteStoryBlock(id: number) {
+    setStoryBlocks((currentBlocks) =>
+      currentBlocks.filter((block) => block.id !== id),
+    );
   }
 
   return (
@@ -198,7 +243,7 @@ export function BuilderPage() {
                 </button>
               </form>
             </>
-          ) : (
+          ) : currentStep === 2 ? (
             <div className="builder-theme-step">
               <div className="builder-form__heading">
                 <span>Etapa 2 de 4</span>
@@ -264,17 +309,106 @@ export function BuilderPage() {
                 <button
                   className="builder-continue builder-continue--compact"
                   type="button"
-                  disabled
-                  title="A etapa de momentos será construída em seguida"
+                  onClick={() => changeStep(3)}
                 >
                   Adicionar momentos
                   <span aria-hidden="true">→</span>
                 </button>
               </div>
+            </div>
+          ) : (
+            <div className="builder-moments-step">
+              <div className="builder-form__heading">
+                <span>Etapa 3 de 4</span>
+                <h1>Monte os momentos da história.</h1>
+                <p>
+                  Comece com títulos e mensagens. Fotos, música e contador serão
+                  adicionados aos poucos nas próximas partes.
+                </p>
+              </div>
 
-              <p className="builder-next-note">
-                A etapa de fotos, textos e música será liberada na próxima parte.
-              </p>
+              <div className="builder-block-tools" aria-label="Adicionar conteúdo">
+                <button type="button" onClick={() => addStoryBlock("title")}>
+                  <span aria-hidden="true">T</span>
+                  <strong>Adicionar título</strong>
+                  <small>Destaque uma parte da história</small>
+                </button>
+
+                <button type="button" onClick={() => addStoryBlock("message")}>
+                  <span aria-hidden="true">Aa</span>
+                  <strong>Adicionar mensagem</strong>
+                  <small>Escreva um texto ou uma lembrança</small>
+                </button>
+              </div>
+
+              <div className="builder-block-list" aria-live="polite">
+                {storyBlocks.length > 0 ? (
+                  storyBlocks.map((block, index) => (
+                    <article className="builder-story-block" key={block.id}>
+                      <div className="builder-story-block__header">
+                        <span>{String(index + 1).padStart(2, "0")}</span>
+
+                        <div>
+                          <strong>
+                            {block.type === "title" ? "Título" : "Mensagem"}
+                          </strong>
+                          <small>Bloco de conteúdo</small>
+                        </div>
+
+                        <button
+                          type="button"
+                          aria-label={`Excluir ${
+                            block.type === "title" ? "título" : "mensagem"
+                          }`}
+                          onClick={() => deleteStoryBlock(block.id)}
+                        >
+                          Excluir
+                        </button>
+                      </div>
+
+                      {block.type === "title" ? (
+                        <input
+                          type="text"
+                          value={block.content}
+                          maxLength={70}
+                          aria-label="Conteúdo do título"
+                          onChange={(event) =>
+                            updateStoryBlock(block.id, event.target.value)
+                          }
+                        />
+                      ) : (
+                        <textarea
+                          value={block.content}
+                          maxLength={260}
+                          rows={4}
+                          aria-label="Conteúdo da mensagem"
+                          onChange={(event) =>
+                            updateStoryBlock(block.id, event.target.value)
+                          }
+                        />
+                      )}
+                    </article>
+                  ))
+                ) : (
+                  <div className="builder-block-empty">
+                    <span aria-hidden="true">✦</span>
+                    <strong>Sua história ainda está vazia</strong>
+                    <p>Adicione um título ou uma mensagem para começar.</p>
+                  </div>
+                )}
+              </div>
+
+              <div className="builder-moments-actions">
+                <button
+                  className="builder-back-button"
+                  type="button"
+                  onClick={() => changeStep(2)}
+                >
+                  ← Voltar aos temas
+                </button>
+
+                <span>{storyBlocks.length} blocos adicionados</span>
+              </div>
             </div>
           )}
         </section>
@@ -317,6 +451,20 @@ export function BuilderPage() {
                   <span className="builder-phone__theme-name">
                     Tema {selectedTheme.name}
                   </span>
+                )}
+
+                {currentStep === 3 && storyBlocks.length > 0 && (
+                  <div className="builder-phone__story-blocks">
+                    {storyBlocks.map((block) =>
+                      block.type === "title" ? (
+                        <h3 key={block.id}>{block.content || "Novo título"}</h3>
+                      ) : (
+                        <p key={block.id}>
+                          {block.content || "Sua mensagem aparecerá aqui."}
+                        </p>
+                      ),
+                    )}
+                  </div>
                 )}
               </div>
             </article>

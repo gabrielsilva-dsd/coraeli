@@ -1,0 +1,232 @@
+/* Etapa 3 — blocos de título e mensagem */
+
+.builder-moments-step {
+  display: grid;
+  max-width: 43rem;
+}
+
+.builder-block-tools {
+  display: grid;
+  margin-bottom: 1.25rem;
+  gap: 0.7rem;
+}
+
+.builder-block-tools button {
+  display: grid;
+  grid-template-columns: 2.6rem 1fr;
+  min-height: 4.8rem;
+  padding: 0.75rem;
+  column-gap: 0.75rem;
+  align-items: center;
+  border: 1px dashed rgba(245, 113, 133, 0.38);
+  border-radius: 0.9rem;
+  color: inherit;
+  background: rgba(245, 113, 133, 0.045);
+  font: inherit;
+  text-align: left;
+  cursor: pointer;
+}
+
+.builder-block-tools button > span {
+  display: grid;
+  grid-row: 1 / 3;
+  width: 2.6rem;
+  height: 2.6rem;
+  place-items: center;
+  border-radius: 0.75rem;
+  color: var(--coral);
+  background: rgba(245, 113, 133, 0.12);
+  font-size: 0.8rem;
+  font-weight: 800;
+}
+
+.builder-block-tools strong {
+  align-self: end;
+  color: var(--ivory);
+  font-size: 0.76rem;
+}
+
+.builder-block-tools small {
+  align-self: start;
+  color: var(--text-soft);
+  font-size: 0.62rem;
+}
+
+.builder-block-list {
+  display: grid;
+  gap: 0.75rem;
+}
+
+.builder-story-block {
+  padding: 0.85rem;
+  border: 1px solid var(--line);
+  border-radius: 1rem;
+  background: rgba(255, 255, 255, 0.03);
+}
+
+.builder-story-block__header {
+  display: grid;
+  grid-template-columns: auto 1fr auto;
+  margin-bottom: 0.75rem;
+  gap: 0.65rem;
+  align-items: center;
+}
+
+.builder-story-block__header > span {
+  display: grid;
+  width: 2rem;
+  height: 2rem;
+  place-items: center;
+  border: 1px solid var(--line);
+  border-radius: 50%;
+  color: var(--coral);
+  font-size: 0.6rem;
+  font-weight: 800;
+}
+
+.builder-story-block__header > div {
+  display: grid;
+}
+
+.builder-story-block__header strong {
+  color: var(--ivory);
+  font-size: 0.72rem;
+}
+
+.builder-story-block__header small {
+  color: var(--text-soft);
+  font-size: 0.58rem;
+}
+
+.builder-story-block__header button {
+  padding: 0.4rem 0.5rem;
+  border: 0;
+  color: #ee8294;
+  background: transparent;
+  font: inherit;
+  font-size: 0.62rem;
+  cursor: pointer;
+}
+
+.builder-story-block input,
+.builder-story-block textarea {
+  width: 100%;
+  border: 1px solid var(--line);
+  border-radius: 0.75rem;
+  outline: 0;
+  color: var(--ivory);
+  background: rgba(7, 2, 11, 0.3);
+  font: inherit;
+  font-size: 0.78rem;
+  transition:
+    border-color 160ms ease,
+    box-shadow 160ms ease;
+}
+
+.builder-story-block input {
+  min-height: 3rem;
+  padding: 0 0.8rem;
+  font-family: "DM Serif Display", Georgia, serif;
+  font-size: 1rem;
+}
+
+.builder-story-block textarea {
+  min-height: 6.5rem;
+  padding: 0.8rem;
+  resize: vertical;
+  line-height: 1.55;
+}
+
+.builder-story-block input:focus,
+.builder-story-block textarea:focus {
+  border-color: rgba(245, 113, 133, 0.72);
+  box-shadow: 0 0 0 0.2rem rgba(245, 113, 133, 0.08);
+}
+
+.builder-block-empty {
+  display: grid;
+  min-height: 12rem;
+  padding: 1.5rem;
+  place-items: center;
+  align-content: center;
+  border: 1px dashed var(--line);
+  border-radius: 1rem;
+  color: var(--text-soft);
+  text-align: center;
+}
+
+.builder-block-empty > span {
+  margin-bottom: 0.65rem;
+  color: var(--coral);
+  font-size: 1.25rem;
+}
+
+.builder-block-empty strong {
+  color: var(--ivory);
+  font-size: 0.82rem;
+}
+
+.builder-block-empty p {
+  margin: 0.3rem 0 0;
+  font-size: 0.67rem;
+}
+
+.builder-moments-actions {
+  display: flex;
+  margin-top: 1rem;
+  gap: 0.75rem;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.builder-moments-actions > span {
+  color: var(--text-soft);
+  font-size: 0.64rem;
+}
+
+.builder-phone__story-blocks {
+  display: grid;
+  margin-top: 1rem;
+  padding-top: 0.85rem;
+  gap: 0.5rem;
+  border-top: 1px solid currentColor;
+  text-align: left;
+}
+
+.builder-phone__story-blocks h3 {
+  margin: 0;
+  color: inherit;
+  font-family: "DM Serif Display", Georgia, serif;
+  font-size: 0.9rem;
+  font-weight: 400;
+  line-height: 1.15;
+  overflow-wrap: anywhere;
+}
+
+.builder-phone__story-blocks p {
+  min-height: 0;
+  margin: 0;
+  color: inherit;
+  font-size: 0.57rem;
+  line-height: 1.5;
+  opacity: 0.8;
+  overflow-wrap: anywhere;
+}
+
+@media (min-width: 700px) {
+  .builder-block-tools {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
+
+@media (hover: hover) {
+  .builder-block-tools button:hover {
+    border-style: solid;
+    border-color: rgba(245, 113, 133, 0.65);
+    background: rgba(245, 113, 133, 0.08);
+  }
+
+  .builder-story-block__header button:hover {
+    color: #ffb1bd;
+  }
+}
