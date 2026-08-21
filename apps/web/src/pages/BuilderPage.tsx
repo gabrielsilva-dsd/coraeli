@@ -342,6 +342,29 @@ export function BuilderPage() {
     );
   }
 
+  function moveStoryBlock(id: number, direction: "up" | "down") {
+    setStoryBlocks((currentBlocks) => {
+      const currentIndex = currentBlocks.findIndex((block) => block.id === id);
+      const targetIndex = direction === "up" ? currentIndex - 1 : currentIndex + 1;
+
+      if (
+        currentIndex === -1 ||
+        targetIndex < 0 ||
+        targetIndex >= currentBlocks.length
+      ) {
+        return currentBlocks;
+      }
+
+      const reorderedBlocks = [...currentBlocks];
+      [reorderedBlocks[currentIndex], reorderedBlocks[targetIndex]] = [
+        reorderedBlocks[targetIndex],
+        reorderedBlocks[currentIndex],
+      ];
+
+      return reorderedBlocks;
+    });
+  }
+
   return (
     <div className="builder">
       <header className="builder-header">
@@ -697,19 +720,43 @@ export function BuilderPage() {
                           </small>
                         </div>
 
-                        <button
-                          type="button"
-                          aria-label={`Excluir ${
-                            block.type === "title"
-                              ? "título"
-                              : block.type === "message"
-                                ? "mensagem"
-                                : "mídia"
-                          }`}
-                          onClick={() => deleteStoryBlock(block.id)}
-                        >
-                          Excluir
-                        </button>
+                        <div className="builder-story-block__actions">
+                          <button
+                            type="button"
+                            aria-label="Mover bloco para cima"
+                            title="Mover para cima"
+                            disabled={index === 0}
+                            onClick={() => moveStoryBlock(block.id, "up")}
+                          >
+                            ↑
+                          </button>
+
+                          <button
+                            type="button"
+                            aria-label="Mover bloco para baixo"
+                            title="Mover para baixo"
+                            disabled={index === storyBlocks.length - 1}
+                            onClick={() => moveStoryBlock(block.id, "down")}
+                          >
+                            ↓
+                          </button>
+
+                          <button
+                            className="builder-story-block__delete"
+                            type="button"
+                            aria-label={`Excluir ${
+                              block.type === "title"
+                                ? "título"
+                                : block.type === "message"
+                                  ? "mensagem"
+                                  : "mídia"
+                            }`}
+                            title="Excluir bloco"
+                            onClick={() => deleteStoryBlock(block.id)}
+                          >
+                            ×
+                          </button>
+                        </div>
                       </div>
 
                       {block.type === "media" ? (
