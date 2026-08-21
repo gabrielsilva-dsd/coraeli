@@ -1,0 +1,16 @@
+<svg
+  xmlns="http://www.w3.org/2000/svg"
+  viewBox="0 0 64 64"
+  role="img"
+  aria-label="Coraeli"
+>
+  <rect width="64" height="64" rx="18" fill="#F36B7F"/>
+
+  <path
+    d="M46 20C42.5 16 37.5 14 32 14C22.1 14 14 22.1 14 32S22.1 50 32 50C37.5 50 42.5 48 46 44"
+    fill="none"
+    stroke="#1A1020"
+    stroke-width="7"
+    stroke-linecap="round"
+  />
+</svg>
