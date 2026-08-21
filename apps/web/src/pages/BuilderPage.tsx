@@ -1,5 +1,6 @@
 import { useEffect, useRef, useState, type ChangeEvent } from "react";
 import { Link } from "react-router";
+import { MediaCarousel } from "../components/MediaCarousel";
 import "./BuilderPage.css";
 import "./BuilderStep2.css";
 import "./BuilderStep3.css";
@@ -81,6 +82,8 @@ type Soundtrack = {
   fileName: string;
   title: string;
 };
+
+type MediaPresentation = "carousel" | "showcase" | "gallery";
 
 const initialStoryBlocks: StoryBlock[] = [
   {
@@ -204,14 +207,17 @@ export function BuilderPage() {
   const [musicError, setMusicError] = useState("");
   const [soundtrack, setSoundtrack] = useState<Soundtrack | null>(null);
   const [isMusicPreviewPlaying, setIsMusicPreviewPlaying] = useState(false);
+  const [mediaPresentation, setMediaPresentation] =
+    useState<MediaPresentation>("carousel");
   const mediaUrls = useRef<string[]>([]);
   const audioRef = useRef<HTMLAudioElement | null>(null);
 
   const selectedTheme =
     giftThemes.find((theme) => theme.id === selectedThemeId) ?? giftThemes[0];
-  const mediaItemCount = storyBlocks.filter(
-    (block) => block.type === "media",
-  ).length;
+  const mediaBlocks = storyBlocks.filter(
+    (block): block is MediaStoryBlock => block.type === "media",
+  );
+  const mediaItemCount = mediaBlocks.length;
   const isMediaLimitReached = mediaItemCount >= MAX_MEDIA_ITEMS;
   const hasCounterBlock = storyBlocks.some((block) => block.type === "counter");
   const todayValue = getLocalDateValue(new Date());
@@ -795,6 +801,61 @@ export function BuilderPage() {
                 </p>
               )}
 
+              {mediaItemCount > 0 && (
+                <section
+                  className="media-presentation-picker"
+                  aria-labelledby="media-presentation-title"
+                >
+                  <div>
+                    <small>Exibição das mídias</small>
+                    <strong id="media-presentation-title">
+                      Como as fotos e os vídeos devem aparecer?
+                    </strong>
+                  </div>
+
+                  <div className="media-presentation-picker__options">
+                    <button
+                      className={
+                        mediaPresentation === "carousel" ? "is-selected" : ""
+                      }
+                      type="button"
+                      aria-pressed={mediaPresentation === "carousel"}
+                      onClick={() => setMediaPresentation("carousel")}
+                    >
+                      <span aria-hidden="true">▶</span>
+                      <strong>Carrossel automático</strong>
+                      <small>Cartões grandes deslizam continuamente, sem cortes.</small>
+                    </button>
+
+                    <button
+                      className={
+                        mediaPresentation === "showcase" ? "is-selected" : ""
+                      }
+                      type="button"
+                      aria-pressed={mediaPresentation === "showcase"}
+                      onClick={() => setMediaPresentation("showcase")}
+                    >
+                      <span aria-hidden="true">▰</span>
+                      <strong>Carrossel em destaque</strong>
+                      <small>Cartões menores deixam as lembranças vizinhas à vista.</small>
+                    </button>
+
+                    <button
+                      className={
+                        mediaPresentation === "gallery" ? "is-selected" : ""
+                      }
+                      type="button"
+                      aria-pressed={mediaPresentation === "gallery"}
+                      onClick={() => setMediaPresentation("gallery")}
+                    >
+                      <span aria-hidden="true">▦</span>
+                      <strong>Galeria vertical</strong>
+                      <small>Todas aparecem em sequência ao rolar a página.</small>
+                    </button>
+                  </div>
+                </section>
+              )}
+
               {soundtrack && (
                 <section className="builder-soundtrack" aria-label="Trilha sonora">
                   <div className="builder-soundtrack__cover" aria-hidden="true">
@@ -1081,23 +1142,13 @@ export function BuilderPage() {
                   <div className="builder-phone__story-blocks">
                     {storyBlocks.map((block) =>
                       block.type === "media" ? (
-                        <figure className="builder-phone__media" key={block.id}>
-                          {block.mediaType === "image" ? (
-                            <img
-                              src={block.previewUrl}
-                              alt={block.caption || "Momento especial"}
-                            />
-                          ) : (
-                            <video
-                              src={block.previewUrl}
-                              controls
-                              playsInline
-                              preload="metadata"
-                            />
-                          )}
-
-                          {block.caption && <figcaption>{block.caption}</figcaption>}
-                        </figure>
+                        block.id === mediaBlocks[0]?.id ? (
+                          <MediaCarousel
+                            items={mediaBlocks}
+                            mode={mediaPresentation}
+                            key="media-carousel"
+                          />
+                        ) : null
                       ) : block.type === "counter" ? (
                         <CounterPreview block={block} key={block.id} />
                       ) : block.type === "title" ? (
