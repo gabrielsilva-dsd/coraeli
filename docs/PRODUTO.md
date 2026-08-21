@@ -1,6 +1,18 @@
-# Planejamento inicial — Plataforma de Presentes Digitais
+# Planejamento inicial — Coraeli
 
-> O nome `presente-digital` é provisório e será substituído após a definição da marca.
+> Coraeli é uma plataforma para transformar histórias, sentimentos e memórias em presentes digitais interativos.
+
+## Nome e posicionamento
+
+**Nome:** Coraeli
+
+**Origem do nome:** combinação conceitual de coração e elo.
+
+**Slogan inicial:** Histórias que viram presentes.
+
+**Categoria:** plataforma no-code de presentes digitais personalizados.
+
+**Posicionamento:** uma experiência simples para quem cria, emocionante para quem recebe e profissional em cada detalhe.
 
 ## 1. Problema
 
