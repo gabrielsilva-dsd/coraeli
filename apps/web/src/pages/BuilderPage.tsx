@@ -4,6 +4,7 @@ import "./BuilderPage.css";
 import "./BuilderStep2.css";
 import "./BuilderStep3.css";
 import "./BuilderMedia.css";
+import "./BuilderMusic.css";
 
 const occasions = [
   "Declaração de amor",
@@ -20,6 +21,8 @@ const progressSteps = [
   { number: 3, title: "Adicione momentos", description: "Fotos, textos e música" },
   { number: 4, title: "Revise e publique", description: "Link e QR Code" },
 ];
+
+const MAX_MEDIA_ITEMS = 6;
 
 const giftThemes = [
   {
@@ -65,6 +68,12 @@ type MediaStoryBlock = {
 
 type StoryBlock = TextStoryBlock | MediaStoryBlock;
 
+type Soundtrack = {
+  previewUrl: string;
+  fileName: string;
+  title: string;
+};
+
 const initialStoryBlocks: StoryBlock[] = [
   {
     id: 1,
@@ -89,10 +98,18 @@ export function BuilderPage() {
   const [selectedThemeId, setSelectedThemeId] = useState(giftThemes[0].id);
   const [storyBlocks, setStoryBlocks] = useState<StoryBlock[]>(initialStoryBlocks);
   const [mediaError, setMediaError] = useState("");
+  const [musicError, setMusicError] = useState("");
+  const [soundtrack, setSoundtrack] = useState<Soundtrack | null>(null);
+  const [isMusicPreviewPlaying, setIsMusicPreviewPlaying] = useState(false);
   const mediaUrls = useRef<string[]>([]);
+  const audioRef = useRef<HTMLAudioElement | null>(null);
 
   const selectedTheme =
     giftThemes.find((theme) => theme.id === selectedThemeId) ?? giftThemes[0];
+  const mediaItemCount = storyBlocks.filter(
+    (block) => block.type === "media",
+  ).length;
+  const isMediaLimitReached = mediaItemCount >= MAX_MEDIA_ITEMS;
 
   useEffect(() => {
     return () => {
@@ -174,8 +191,10 @@ export function BuilderPage() {
 
     if (!file) return;
 
-    if (storyBlocks.filter((block) => block.type === "media").length >= 8) {
-      setMediaError("Nesta versão, cada presente pode ter até 8 mídias.");
+    if (isMediaLimitReached) {
+      setMediaError(
+        `O plano inicial permite até ${MAX_MEDIA_ITEMS} fotos ou vídeos.`,
+      );
       return;
     }
 
@@ -191,6 +210,79 @@ export function BuilderPage() {
       ...currentBlocks,
       createMediaBlock(file),
     ]);
+  }
+
+  function handleSoundtrackFile(event: ChangeEvent<HTMLInputElement>) {
+    const file = event.target.files?.[0];
+    event.target.value = "";
+
+    if (!file) return;
+
+    const hasAudioExtension = /\.(mp3|m4a|aac|wav|ogg)$/i.test(file.name);
+
+    if (!file.type.startsWith("audio/") && !hasAudioExtension) {
+      setMusicError("Escolha um arquivo de áudio MP3, M4A, AAC, WAV ou OGG.");
+      return;
+    }
+
+    if (file.size > 20 * 1024 * 1024) {
+      setMusicError("A música deve ter no máximo 20 MB.");
+      return;
+    }
+
+    if (audioRef.current) {
+      audioRef.current.pause();
+    }
+
+    if (soundtrack) {
+      URL.revokeObjectURL(soundtrack.previewUrl);
+      mediaUrls.current = mediaUrls.current.filter(
+        (url) => url !== soundtrack.previewUrl,
+      );
+    }
+
+    const previewUrl = URL.createObjectURL(file);
+    mediaUrls.current.push(previewUrl);
+    setMusicError("");
+    setIsMusicPreviewPlaying(false);
+    setSoundtrack({
+      previewUrl,
+      fileName: file.name,
+      title: file.name.replace(/\.[^/.]+$/, ""),
+    });
+  }
+
+  async function toggleMusicPreview() {
+    const audio = audioRef.current;
+
+    if (!audio) return;
+
+    if (audio.paused) {
+      try {
+        await audio.play();
+        setMusicError("");
+      } catch {
+        setMusicError("O navegador não conseguiu reproduzir este áudio.");
+      }
+    } else {
+      audio.pause();
+    }
+  }
+
+  function removeSoundtrack() {
+    if (!soundtrack) return;
+
+    if (audioRef.current) {
+      audioRef.current.pause();
+    }
+
+    URL.revokeObjectURL(soundtrack.previewUrl);
+    mediaUrls.current = mediaUrls.current.filter(
+      (url) => url !== soundtrack.previewUrl,
+    );
+    setSoundtrack(null);
+    setIsMusicPreviewPlaying(false);
+    setMusicError("");
   }
 
   function replaceMediaFile(
@@ -267,6 +359,18 @@ export function BuilderPage() {
           Visualizar
         </button>
       </header>
+
+      {soundtrack && (
+        <audio
+          ref={audioRef}
+          src={soundtrack.previewUrl}
+          loop
+          preload="metadata"
+          onPlay={() => setIsMusicPreviewPlaying(true)}
+          onPause={() => setIsMusicPreviewPlaying(false)}
+          onEnded={() => setIsMusicPreviewPlaying(false)}
+        />
+      )}
 
       <main className="builder-layout">
         <aside className="builder-progress" aria-label="Etapas de criação">
@@ -463,8 +567,8 @@ export function BuilderPage() {
                 <span>Etapa 3 de 4</span>
                 <h1>Monte os momentos da história.</h1>
                 <p>
-                  Combine títulos, mensagens, fotos e vídeos. Música e contador
-                  serão adicionados nas próximas partes.
+                  Combine títulos, mensagens, fotos, vídeos e uma trilha sonora.
+                  O contador será adicionado na próxima parte.
                 </p>
               </div>
 
@@ -481,15 +585,33 @@ export function BuilderPage() {
                   <small>Escreva um texto ou uma lembrança</small>
                 </button>
 
-                <label className="builder-media-tool">
+                <label
+                  className={`builder-media-tool${
+                    isMediaLimitReached ? " builder-media-tool--disabled" : ""
+                  }`}
+                >
                   <input
                     type="file"
                     accept="image/*,video/mp4,video/webm,video/quicktime"
                     onChange={handleMediaFile}
+                    disabled={isMediaLimitReached}
                   />
                   <span aria-hidden="true">▧</span>
                   <strong>Adicionar foto ou vídeo</strong>
-                  <small>Imagem até 12 MB ou vídeo até 60 MB</small>
+                  <small>
+                    {mediaItemCount} de {MAX_MEDIA_ITEMS} mídias adicionadas
+                  </small>
+                </label>
+
+                <label className="builder-music-tool">
+                  <input
+                    type="file"
+                    accept="audio/mpeg,audio/mp4,audio/aac,audio/wav,audio/ogg,.mp3,.m4a,.aac,.wav,.ogg"
+                    onChange={handleSoundtrackFile}
+                  />
+                  <span aria-hidden="true">♫</span>
+                  <strong>{soundtrack ? "Trocar música" : "Adicionar música"}</strong>
+                  <small>Trilha global de até 20 MB</small>
                 </label>
               </div>
 
@@ -497,6 +619,56 @@ export function BuilderPage() {
                 <p className="builder-media-error" role="alert">
                   {mediaError}
                 </p>
+              )}
+
+              {musicError && (
+                <p className="builder-media-error" role="alert">
+                  {musicError}
+                </p>
+              )}
+
+              {soundtrack && (
+                <section className="builder-soundtrack" aria-label="Trilha sonora">
+                  <div className="builder-soundtrack__cover" aria-hidden="true">
+                    ♫
+                  </div>
+
+                  <div className="builder-soundtrack__information">
+                    <small>Trilha sonora global</small>
+                    <input
+                      type="text"
+                      value={soundtrack.title}
+                      maxLength={60}
+                      aria-label="Nome da música"
+                      onChange={(event) =>
+                        setSoundtrack((currentSoundtrack) =>
+                          currentSoundtrack
+                            ? { ...currentSoundtrack, title: event.target.value }
+                            : currentSoundtrack,
+                        )
+                      }
+                    />
+                    <span>Música adicionada ao presente</span>
+                  </div>
+
+                  <div className="builder-soundtrack__actions">
+                    <span>Começa na entrada e se repete automaticamente</span>
+
+                    <div>
+                      <button
+                        className="builder-soundtrack__preview"
+                        type="button"
+                        onClick={toggleMusicPreview}
+                      >
+                        {isMusicPreviewPlaying ? "Pausar prévia" : "Ouvir prévia"}
+                      </button>
+
+                      <button type="button" onClick={removeSoundtrack}>
+                        Remover
+                      </button>
+                    </div>
+                  </div>
+                </section>
               )}
 
               <div className="builder-block-list" aria-live="polite">
@@ -518,7 +690,9 @@ export function BuilderPage() {
                           </strong>
                           <small>
                             {block.type === "media"
-                              ? block.fileName
+                              ? block.mediaType === "image"
+                                ? "Imagem adicionada"
+                                : "Vídeo adicionado"
                               : "Bloco de conteúdo"}
                           </small>
                         </div>
@@ -697,6 +871,16 @@ export function BuilderPage() {
                         </p>
                       ),
                     )}
+                  </div>
+                )}
+
+                {soundtrack && (
+                  <div className="builder-phone__soundtrack">
+                    <span aria-hidden="true">♫</span>
+                    <span>
+                      <small>Trilha especial</small>
+                      <strong>{soundtrack.title || "Nossa música"}</strong>
+                    </span>
                   </div>
                 )}
               </div>

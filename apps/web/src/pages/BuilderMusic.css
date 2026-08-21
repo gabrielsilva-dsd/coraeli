@@ -1,0 +1,272 @@
+/* Etapa 3 — trilha sonora global */
+
+.builder-music-tool {
+  display: grid;
+  grid-template-columns: 2.6rem 1fr;
+  min-height: 4.8rem;
+  padding: 0.75rem;
+  column-gap: 0.75rem;
+  align-items: center;
+  border: 1px dashed rgba(245, 113, 133, 0.38);
+  border-radius: 0.9rem;
+  color: inherit;
+  background: rgba(245, 113, 133, 0.045);
+  text-align: left;
+  cursor: pointer;
+}
+
+.builder-music-tool > input {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  padding: 0;
+  overflow: hidden;
+  clip: rect(0, 0, 0, 0);
+  white-space: nowrap;
+  border: 0;
+}
+
+.builder-music-tool > span {
+  display: grid;
+  grid-row: 1 / 3;
+  width: 2.6rem;
+  height: 2.6rem;
+  place-items: center;
+  border-radius: 0.75rem;
+  color: var(--coral);
+  background: rgba(245, 113, 133, 0.12);
+  font-size: 0.9rem;
+  font-weight: 800;
+}
+
+.builder-music-tool strong {
+  align-self: end;
+  color: var(--ivory);
+  font-size: 0.76rem;
+}
+
+.builder-music-tool small {
+  align-self: start;
+  color: var(--text-soft);
+  font-size: 0.62rem;
+}
+
+.builder-music-tool:focus-within {
+  border-style: solid;
+  border-color: rgba(245, 113, 133, 0.75);
+  box-shadow: 0 0 0 0.2rem rgba(245, 113, 133, 0.08);
+}
+
+.builder-media-tool--disabled {
+  border-style: solid;
+  opacity: 0.48;
+  cursor: not-allowed;
+}
+
+.builder-media-tool--disabled > span {
+  color: var(--text-soft);
+  background: rgba(255, 255, 255, 0.06);
+}
+
+.builder-soundtrack {
+  display: grid;
+  grid-template-columns: auto minmax(0, 1fr);
+  margin-bottom: 1rem;
+  padding: 0.85rem;
+  gap: 0.75rem;
+  align-items: center;
+  border: 1px solid rgba(245, 113, 133, 0.3);
+  border-radius: 1rem;
+  background:
+    linear-gradient(120deg, rgba(245, 113, 133, 0.1), transparent 65%),
+    rgba(255, 255, 255, 0.03);
+}
+
+.builder-soundtrack__cover {
+  display: grid;
+  width: 3.4rem;
+  height: 3.4rem;
+  place-items: center;
+  border-radius: 0.85rem;
+  color: #3d1024;
+  background: linear-gradient(145deg, var(--coral), #ffc0b6);
+  box-shadow: 0 10px 24px rgba(245, 113, 133, 0.18);
+}
+
+.builder-soundtrack__information {
+  display: grid;
+  min-width: 0;
+}
+
+.builder-soundtrack__information small {
+  color: var(--coral);
+  font-size: 0.56rem;
+  font-weight: 800;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+}
+
+.builder-soundtrack__information input {
+  width: 100%;
+  min-height: 2rem;
+  padding: 0;
+  overflow: hidden;
+  border: 0;
+  border-bottom: 1px solid transparent;
+  outline: 0;
+  color: var(--ivory);
+  background: transparent;
+  font: inherit;
+  font-family: "DM Serif Display", Georgia, serif;
+  font-size: 1rem;
+  text-overflow: ellipsis;
+}
+
+.builder-soundtrack__information input:focus {
+  border-bottom-color: rgba(245, 113, 133, 0.65);
+}
+
+.builder-soundtrack__information > span {
+  overflow: hidden;
+  color: var(--text-soft);
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  font-size: 0.58rem;
+}
+
+.builder-soundtrack__actions {
+  display: flex;
+  grid-column: 1 / -1;
+  padding-top: 0.7rem;
+  gap: 0.75rem;
+  align-items: center;
+  justify-content: space-between;
+  border-top: 1px solid var(--line);
+}
+
+.builder-soundtrack__actions > span {
+  color: var(--text-soft);
+  font-size: 0.6rem;
+}
+
+.builder-soundtrack__actions > div {
+  display: flex;
+  gap: 0.75rem;
+  align-items: center;
+}
+
+.builder-soundtrack__actions button {
+  border: 0;
+  color: #f58ba0;
+  background: transparent;
+  font: inherit;
+  font-size: 0.63rem;
+  cursor: pointer;
+}
+
+.builder-soundtrack__actions .builder-soundtrack__preview {
+  padding: 0.45rem 0.7rem;
+  border: 1px solid rgba(245, 113, 133, 0.38);
+  border-radius: 999px;
+  color: var(--ivory);
+  background: rgba(245, 113, 133, 0.1);
+}
+
+@media (max-width: 520px) {
+  .builder-soundtrack__actions {
+    align-items: flex-start;
+    flex-direction: column;
+  }
+
+  .builder-soundtrack__actions > div {
+    width: 100%;
+    justify-content: space-between;
+  }
+}
+
+.builder-phone__soundtrack {
+  display: grid;
+  grid-template-columns: auto minmax(0, 1fr);
+  width: 100%;
+  min-height: 2.8rem;
+  margin-top: 0.85rem;
+  padding: 0.4rem;
+  gap: 0.5rem;
+  align-items: center;
+  border: 1px solid rgba(255, 255, 255, 0.55);
+  border-radius: 0.65rem;
+  color: inherit;
+  background: rgba(255, 255, 255, 0.58);
+  font: inherit;
+  text-align: left;
+}
+
+.builder-phone__soundtrack > span:first-child {
+  display: grid;
+  width: 2rem;
+  height: 2rem;
+  place-items: center;
+  border-radius: 50%;
+  color: #fff;
+  background: #d94d68;
+  font-size: 0.52rem;
+}
+
+.builder-phone__soundtrack > span:last-child {
+  display: grid;
+  min-width: 0;
+}
+
+.builder-phone__soundtrack small,
+.builder-phone__soundtrack strong {
+  overflow: hidden;
+  color: inherit;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.builder-phone__soundtrack small {
+  font-size: 0.48rem;
+  opacity: 0.65;
+}
+
+.builder-phone__soundtrack strong {
+  font-size: 0.56rem;
+}
+
+.builder-phone--cinema .builder-phone__soundtrack {
+  border-color: rgba(229, 185, 79, 0.35);
+  background: rgba(229, 185, 79, 0.12);
+}
+
+.builder-phone--cinema .builder-phone__soundtrack > span:first-child {
+  color: #18100d;
+  background: #e5b94f;
+}
+
+.builder-phone--essencia .builder-phone__soundtrack {
+  border-color: rgba(125, 96, 158, 0.3);
+  background: rgba(167, 139, 202, 0.15);
+}
+
+.builder-phone--essencia .builder-phone__soundtrack > span:first-child {
+  background: #7d609e;
+}
+
+@media (min-width: 700px) {
+  .builder-block-tools {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+}
+
+@media (hover: hover) {
+  .builder-music-tool:hover {
+    border-style: solid;
+    border-color: rgba(245, 113, 133, 0.65);
+    background: rgba(245, 113, 133, 0.08);
+  }
+
+  .builder-soundtrack__actions button:hover {
+    color: #ffc0cb;
+  }
+}
