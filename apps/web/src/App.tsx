@@ -1,3 +1,6 @@
+import { HowItWorks } from "./components/HowItWorks"; 
+import { ThemeShowcase } from "./components/ThemeShowcase";
+
 const creationBenefits = [
   "Prévia gratuita",
   "Feito para celular",
@@ -183,7 +186,7 @@ function App() {
           </div>
         </section>
 
-        <section className="trust-strip" id="como-funciona">
+        <section className="trust-strip">
           <div>
             <strong>Sem código</strong>
             <span>Crie visualmente</span>
@@ -199,6 +202,9 @@ function App() {
             <span>Experiência responsiva</span>
           </div>
         </section>
+
+        <HowItWorks />
+        <ThemeShowcase />
       </main>
     </div>
   );
