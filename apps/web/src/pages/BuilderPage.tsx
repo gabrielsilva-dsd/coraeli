@@ -1,8 +1,9 @@
-import { useState } from "react";
+import { useEffect, useRef, useState, type ChangeEvent } from "react";
 import { Link } from "react-router";
 import "./BuilderPage.css";
 import "./BuilderStep2.css";
 import "./BuilderStep3.css";
+import "./BuilderMedia.css";
 
 const occasions = [
   "Declaração de amor",
@@ -47,11 +48,22 @@ const giftThemes = [
   },
 ];
 
-type StoryBlock = {
+type TextStoryBlock = {
   id: number;
   type: "title" | "message";
   content: string;
 };
+
+type MediaStoryBlock = {
+  id: number;
+  type: "media";
+  mediaType: "image" | "video";
+  previewUrl: string;
+  fileName: string;
+  caption: string;
+};
+
+type StoryBlock = TextStoryBlock | MediaStoryBlock;
 
 const initialStoryBlocks: StoryBlock[] = [
   {
@@ -76,17 +88,25 @@ export function BuilderPage() {
   );
   const [selectedThemeId, setSelectedThemeId] = useState(giftThemes[0].id);
   const [storyBlocks, setStoryBlocks] = useState<StoryBlock[]>(initialStoryBlocks);
+  const [mediaError, setMediaError] = useState("");
+  const mediaUrls = useRef<string[]>([]);
 
   const selectedTheme =
     giftThemes.find((theme) => theme.id === selectedThemeId) ?? giftThemes[0];
+
+  useEffect(() => {
+    return () => {
+      mediaUrls.current.forEach((url) => URL.revokeObjectURL(url));
+    };
+  }, []);
 
   function changeStep(step: number) {
     setCurrentStep(step);
     window.scrollTo({ top: 0, behavior: "smooth" });
   }
 
-  function addStoryBlock(type: StoryBlock["type"]) {
-    const newBlock: StoryBlock = {
+  function addStoryBlock(type: TextStoryBlock["type"]) {
+    const newBlock: TextStoryBlock = {
       id: Date.now(),
       type,
       content: type === "title" ? "Novo título" : "Escreva uma nova lembrança...",
@@ -98,12 +118,133 @@ export function BuilderPage() {
   function updateStoryBlock(id: number, content: string) {
     setStoryBlocks((currentBlocks) =>
       currentBlocks.map((block) =>
-        block.id === id ? { ...block, content } : block,
+        block.id === id && block.type !== "media"
+          ? { ...block, content }
+          : block,
       ),
     );
   }
 
+  function updateMediaCaption(id: number, caption: string) {
+    setStoryBlocks((currentBlocks) =>
+      currentBlocks.map((block) =>
+        block.id === id && block.type === "media"
+          ? { ...block, caption }
+          : block,
+      ),
+    );
+  }
+
+  function validateMedia(file: File) {
+    const isImage = file.type.startsWith("image/");
+    const isVideo = file.type.startsWith("video/");
+
+    if (!isImage && !isVideo) {
+      return "Escolha uma imagem ou um vídeo compatível.";
+    }
+
+    const maximumSize = isImage ? 12 * 1024 * 1024 : 60 * 1024 * 1024;
+
+    if (file.size > maximumSize) {
+      return isImage
+        ? "A imagem deve ter no máximo 12 MB."
+        : "O vídeo deve ter no máximo 60 MB.";
+    }
+
+    return "";
+  }
+
+  function createMediaBlock(file: File): MediaStoryBlock {
+    const previewUrl = URL.createObjectURL(file);
+    mediaUrls.current.push(previewUrl);
+
+    return {
+      id: Date.now(),
+      type: "media",
+      mediaType: file.type.startsWith("video/") ? "video" : "image",
+      previewUrl,
+      fileName: file.name,
+      caption: "",
+    };
+  }
+
+  function handleMediaFile(event: ChangeEvent<HTMLInputElement>) {
+    const file = event.target.files?.[0];
+    event.target.value = "";
+
+    if (!file) return;
+
+    if (storyBlocks.filter((block) => block.type === "media").length >= 8) {
+      setMediaError("Nesta versão, cada presente pode ter até 8 mídias.");
+      return;
+    }
+
+    const validationError = validateMedia(file);
+
+    if (validationError) {
+      setMediaError(validationError);
+      return;
+    }
+
+    setMediaError("");
+    setStoryBlocks((currentBlocks) => [
+      ...currentBlocks,
+      createMediaBlock(file),
+    ]);
+  }
+
+  function replaceMediaFile(
+    id: number,
+    event: ChangeEvent<HTMLInputElement>,
+  ) {
+    const file = event.target.files?.[0];
+    event.target.value = "";
+
+    if (!file) return;
+
+    const validationError = validateMedia(file);
+
+    if (validationError) {
+      setMediaError(validationError);
+      return;
+    }
+
+    const newPreviewUrl = URL.createObjectURL(file);
+    const blockToReplace = storyBlocks.find((block) => block.id === id);
+    mediaUrls.current.push(newPreviewUrl);
+    setMediaError("");
+
+    if (blockToReplace?.type === "media") {
+      URL.revokeObjectURL(blockToReplace.previewUrl);
+      mediaUrls.current = mediaUrls.current.filter(
+        (url) => url !== blockToReplace.previewUrl,
+      );
+    }
+
+    setStoryBlocks((currentBlocks) =>
+      currentBlocks.map((block) => {
+        if (block.id !== id || block.type !== "media") return block;
+
+        return {
+          ...block,
+          mediaType: file.type.startsWith("video/") ? "video" : "image",
+          previewUrl: newPreviewUrl,
+          fileName: file.name,
+        };
+      }),
+    );
+  }
+
   function deleteStoryBlock(id: number) {
+    const blockToDelete = storyBlocks.find((block) => block.id === id);
+
+    if (blockToDelete?.type === "media") {
+      URL.revokeObjectURL(blockToDelete.previewUrl);
+      mediaUrls.current = mediaUrls.current.filter(
+        (url) => url !== blockToDelete.previewUrl,
+      );
+    }
+
     setStoryBlocks((currentBlocks) =>
       currentBlocks.filter((block) => block.id !== id),
     );
@@ -322,8 +463,8 @@ export function BuilderPage() {
                 <span>Etapa 3 de 4</span>
                 <h1>Monte os momentos da história.</h1>
                 <p>
-                  Comece com títulos e mensagens. Fotos, música e contador serão
-                  adicionados aos poucos nas próximas partes.
+                  Combine títulos, mensagens, fotos e vídeos. Música e contador
+                  serão adicionados nas próximas partes.
                 </p>
               </div>
 
@@ -339,7 +480,24 @@ export function BuilderPage() {
                   <strong>Adicionar mensagem</strong>
                   <small>Escreva um texto ou uma lembrança</small>
                 </button>
+
+                <label className="builder-media-tool">
+                  <input
+                    type="file"
+                    accept="image/*,video/mp4,video/webm,video/quicktime"
+                    onChange={handleMediaFile}
+                  />
+                  <span aria-hidden="true">▧</span>
+                  <strong>Adicionar foto ou vídeo</strong>
+                  <small>Imagem até 12 MB ou vídeo até 60 MB</small>
+                </label>
               </div>
+
+              {mediaError && (
+                <p className="builder-media-error" role="alert">
+                  {mediaError}
+                </p>
+              )}
 
               <div className="builder-block-list" aria-live="polite">
                 {storyBlocks.length > 0 ? (
@@ -350,15 +508,29 @@ export function BuilderPage() {
 
                         <div>
                           <strong>
-                            {block.type === "title" ? "Título" : "Mensagem"}
+                            {block.type === "media"
+                              ? block.mediaType === "image"
+                                ? "Foto"
+                                : "Vídeo"
+                              : block.type === "title"
+                                ? "Título"
+                                : "Mensagem"}
                           </strong>
-                          <small>Bloco de conteúdo</small>
+                          <small>
+                            {block.type === "media"
+                              ? block.fileName
+                              : "Bloco de conteúdo"}
+                          </small>
                         </div>
 
                         <button
                           type="button"
                           aria-label={`Excluir ${
-                            block.type === "title" ? "título" : "mensagem"
+                            block.type === "title"
+                              ? "título"
+                              : block.type === "message"
+                                ? "mensagem"
+                                : "mídia"
                           }`}
                           onClick={() => deleteStoryBlock(block.id)}
                         >
@@ -366,7 +538,50 @@ export function BuilderPage() {
                         </button>
                       </div>
 
-                      {block.type === "title" ? (
+                      {block.type === "media" ? (
+                        <div className="builder-media-editor">
+                          <div className="builder-media-editor__preview">
+                            {block.mediaType === "image" ? (
+                              <img
+                                src={block.previewUrl}
+                                alt={block.caption || "Prévia da foto adicionada"}
+                              />
+                            ) : (
+                              <video
+                                src={block.previewUrl}
+                                controls
+                                playsInline
+                                preload="metadata"
+                              />
+                            )}
+                          </div>
+
+                          <div className="builder-media-editor__details">
+                            <label htmlFor={`caption-${block.id}`}>Legenda</label>
+                            <input
+                              id={`caption-${block.id}`}
+                              type="text"
+                              value={block.caption}
+                              maxLength={100}
+                              placeholder="Conte algo sobre esse momento..."
+                              onChange={(event) =>
+                                updateMediaCaption(block.id, event.target.value)
+                              }
+                            />
+
+                            <label className="builder-media-replace">
+                              Trocar arquivo
+                              <input
+                                type="file"
+                                accept="image/*,video/mp4,video/webm,video/quicktime"
+                                onChange={(event) =>
+                                  replaceMediaFile(block.id, event)
+                                }
+                              />
+                            </label>
+                          </div>
+                        </div>
+                      ) : block.type === "title" ? (
                         <input
                           type="text"
                           value={block.content}
@@ -393,7 +608,7 @@ export function BuilderPage() {
                   <div className="builder-block-empty">
                     <span aria-hidden="true">✦</span>
                     <strong>Sua história ainda está vazia</strong>
-                    <p>Adicione um título ou uma mensagem para começar.</p>
+                    <p>Adicione um título, uma mensagem, uma foto ou um vídeo.</p>
                   </div>
                 )}
               </div>
@@ -456,7 +671,25 @@ export function BuilderPage() {
                 {currentStep === 3 && storyBlocks.length > 0 && (
                   <div className="builder-phone__story-blocks">
                     {storyBlocks.map((block) =>
-                      block.type === "title" ? (
+                      block.type === "media" ? (
+                        <figure className="builder-phone__media" key={block.id}>
+                          {block.mediaType === "image" ? (
+                            <img
+                              src={block.previewUrl}
+                              alt={block.caption || "Momento especial"}
+                            />
+                          ) : (
+                            <video
+                              src={block.previewUrl}
+                              controls
+                              playsInline
+                              preload="metadata"
+                            />
+                          )}
+
+                          {block.caption && <figcaption>{block.caption}</figcaption>}
+                        </figure>
+                      ) : block.type === "title" ? (
                         <h3 key={block.id}>{block.content || "Novo título"}</h3>
                       ) : (
                         <p key={block.id}>
