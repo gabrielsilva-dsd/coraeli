@@ -5,6 +5,7 @@ import "./BuilderStep2.css";
 import "./BuilderStep3.css";
 import "./BuilderMedia.css";
 import "./BuilderMusic.css";
+import "./BuilderSpecialBlocks.css";
 
 const occasions = [
   "Declaração de amor",
@@ -66,7 +67,14 @@ type MediaStoryBlock = {
   caption: string;
 };
 
-type StoryBlock = TextStoryBlock | MediaStoryBlock;
+type CounterStoryBlock = {
+  id: number;
+  type: "counter";
+  label: string;
+  startDate: string;
+};
+
+type StoryBlock = TextStoryBlock | MediaStoryBlock | CounterStoryBlock;
 
 type Soundtrack = {
   previewUrl: string;
@@ -86,6 +94,101 @@ const initialStoryBlocks: StoryBlock[] = [
     content: "Entre tantos momentos, existem alguns que merecem viver para sempre.",
   },
 ];
+
+function calculateElapsedTime(startDate: string) {
+  if (!startDate) return null;
+
+  const start = new Date(`${startDate}T00:00:00`);
+  const today = new Date();
+  today.setHours(0, 0, 0, 0);
+
+  if (Number.isNaN(start.getTime()) || start > today) return null;
+
+  const createClampedDate = (year: number, month: number, day: number) => {
+    const lastDayOfMonth = new Date(year, month + 1, 0).getDate();
+    return new Date(year, month, Math.min(day, lastDayOfMonth));
+  };
+
+  let years = today.getFullYear() - start.getFullYear();
+  let cursor = createClampedDate(
+    start.getFullYear() + years,
+    start.getMonth(),
+    start.getDate(),
+  );
+
+  if (cursor > today) {
+    years -= 1;
+    cursor = createClampedDate(
+      start.getFullYear() + years,
+      start.getMonth(),
+      start.getDate(),
+    );
+  }
+
+  let months = 0;
+
+  while (months < 11) {
+    const nextMonth = createClampedDate(
+      cursor.getFullYear(),
+      cursor.getMonth() + 1,
+      start.getDate(),
+    );
+
+    if (nextMonth > today) break;
+    cursor = nextMonth;
+    months += 1;
+  }
+
+  const todayUtc = Date.UTC(
+    today.getFullYear(),
+    today.getMonth(),
+    today.getDate(),
+  );
+  const cursorUtc = Date.UTC(
+    cursor.getFullYear(),
+    cursor.getMonth(),
+    cursor.getDate(),
+  );
+  const days = Math.round((todayUtc - cursorUtc) / 86_400_000);
+
+  return { years, months, days };
+}
+
+function getLocalDateValue(date: Date) {
+  const year = date.getFullYear();
+  const month = String(date.getMonth() + 1).padStart(2, "0");
+  const day = String(date.getDate()).padStart(2, "0");
+  return `${year}-${month}-${day}`;
+}
+
+function CounterPreview({ block }: { block: CounterStoryBlock }) {
+  const elapsedTime = calculateElapsedTime(block.startDate);
+
+  return (
+    <section className="builder-phone__counter">
+      <small>{block.label || "Juntos há"}</small>
+
+      {elapsedTime ? (
+        <div>
+          <span>
+            <strong>{elapsedTime.years}</strong>
+            anos
+          </span>
+          <span>
+            <strong>{elapsedTime.months}</strong>
+            meses
+          </span>
+          <span>
+            <strong>{elapsedTime.days}</strong>
+            dias
+          </span>
+        </div>
+      ) : (
+        <em>Escolha a data inicial</em>
+      )}
+    </section>
+  );
+}
 
 export function BuilderPage() {
   const [currentStep, setCurrentStep] = useState(1);
@@ -110,6 +213,8 @@ export function BuilderPage() {
     (block) => block.type === "media",
   ).length;
   const isMediaLimitReached = mediaItemCount >= MAX_MEDIA_ITEMS;
+  const hasCounterBlock = storyBlocks.some((block) => block.type === "counter");
+  const todayValue = getLocalDateValue(new Date());
 
   useEffect(() => {
     return () => {
@@ -132,11 +237,39 @@ export function BuilderPage() {
     setStoryBlocks((currentBlocks) => [...currentBlocks, newBlock]);
   }
 
+  function addCounterBlock() {
+    if (hasCounterBlock) return;
+
+    const newBlock: CounterStoryBlock = {
+      id: Date.now(),
+      type: "counter",
+      label: "Juntos há",
+      startDate: "",
+    };
+
+    setStoryBlocks((currentBlocks) => [...currentBlocks, newBlock]);
+  }
+
   function updateStoryBlock(id: number, content: string) {
     setStoryBlocks((currentBlocks) =>
       currentBlocks.map((block) =>
-        block.id === id && block.type !== "media"
+        block.id === id &&
+        (block.type === "title" || block.type === "message")
           ? { ...block, content }
+          : block,
+      ),
+    );
+  }
+
+  function updateCounterBlock(
+    id: number,
+    field: "label" | "startDate",
+    value: string,
+  ) {
+    setStoryBlocks((currentBlocks) =>
+      currentBlocks.map((block) =>
+        block.id === id && block.type === "counter"
+          ? { ...block, [field]: value }
           : block,
       ),
     );
@@ -590,8 +723,8 @@ export function BuilderPage() {
                 <span>Etapa 3 de 4</span>
                 <h1>Monte os momentos da história.</h1>
                 <p>
-                  Combine títulos, mensagens, fotos, vídeos e uma trilha sonora.
-                  O contador será adicionado na próxima parte.
+                  Combine títulos, mensagens, fotos, vídeos, contador e uma
+                  trilha sonora.
                 </p>
               </div>
 
@@ -606,6 +739,18 @@ export function BuilderPage() {
                   <span aria-hidden="true">Aa</span>
                   <strong>Adicionar mensagem</strong>
                   <small>Escreva um texto ou uma lembrança</small>
+                </button>
+
+                <button
+                  type="button"
+                  onClick={addCounterBlock}
+                  disabled={hasCounterBlock}
+                >
+                  <span aria-hidden="true">◷</span>
+                  <strong>
+                    {hasCounterBlock ? "Contador adicionado" : "Adicionar contador"}
+                  </strong>
+                  <small>Mostre há quanto tempo essa história começou</small>
                 </button>
 
                 <label
@@ -707,6 +852,8 @@ export function BuilderPage() {
                               ? block.mediaType === "image"
                                 ? "Foto"
                                 : "Vídeo"
+                              : block.type === "counter"
+                                ? "Contador"
                               : block.type === "title"
                                 ? "Título"
                                 : "Mensagem"}
@@ -716,6 +863,8 @@ export function BuilderPage() {
                               ? block.mediaType === "image"
                                 ? "Imagem adicionada"
                                 : "Vídeo adicionado"
+                              : block.type === "counter"
+                                ? "Tempo da história"
                               : "Bloco de conteúdo"}
                           </small>
                         </div>
@@ -749,7 +898,9 @@ export function BuilderPage() {
                                 ? "título"
                                 : block.type === "message"
                                   ? "mensagem"
-                                  : "mídia"
+                                  : block.type === "counter"
+                                    ? "contador"
+                                    : "mídia"
                             }`}
                             title="Excluir bloco"
                             onClick={() => deleteStoryBlock(block.id)}
@@ -802,6 +953,43 @@ export function BuilderPage() {
                             </label>
                           </div>
                         </div>
+                      ) : block.type === "counter" ? (
+                        <div className="builder-counter-editor">
+                          <label htmlFor={`counter-label-${block.id}`}>
+                            Texto do contador
+                          </label>
+                          <input
+                            id={`counter-label-${block.id}`}
+                            type="text"
+                            value={block.label}
+                            maxLength={35}
+                            placeholder="Ex.: Juntos há"
+                            onChange={(event) =>
+                              updateCounterBlock(
+                                block.id,
+                                "label",
+                                event.target.value,
+                              )
+                            }
+                          />
+
+                          <label htmlFor={`counter-date-${block.id}`}>
+                            Data em que tudo começou
+                          </label>
+                          <input
+                            id={`counter-date-${block.id}`}
+                            type="date"
+                            value={block.startDate}
+                            max={todayValue}
+                            onChange={(event) =>
+                              updateCounterBlock(
+                                block.id,
+                                "startDate",
+                                event.target.value,
+                              )
+                            }
+                          />
+                        </div>
                       ) : block.type === "title" ? (
                         <input
                           type="text"
@@ -829,7 +1017,7 @@ export function BuilderPage() {
                   <div className="builder-block-empty">
                     <span aria-hidden="true">✦</span>
                     <strong>Sua história ainda está vazia</strong>
-                    <p>Adicione um título, uma mensagem, uma foto ou um vídeo.</p>
+                    <p>Adicione um título, uma mensagem, uma mídia ou um contador.</p>
                   </div>
                 )}
               </div>
@@ -910,6 +1098,8 @@ export function BuilderPage() {
 
                           {block.caption && <figcaption>{block.caption}</figcaption>}
                         </figure>
+                      ) : block.type === "counter" ? (
+                        <CounterPreview block={block} key={block.id} />
                       ) : block.type === "title" ? (
                         <h3 key={block.id}>{block.content || "Novo título"}</h3>
                       ) : (
