@@ -1,3 +1,4 @@
+import { Features } from "./components/Features";
 import { HowItWorks } from "./components/HowItWorks"; 
 import { ThemeShowcase } from "./components/ThemeShowcase";
 
@@ -205,6 +206,7 @@ function App() {
 
         <HowItWorks />
         <ThemeShowcase />
+        <Features />
       </main>
     </div>
   );
