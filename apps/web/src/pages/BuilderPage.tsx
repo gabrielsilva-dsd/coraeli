@@ -1,6 +1,7 @@
 import { useEffect, useRef, useState, type ChangeEvent } from "react";
 import { Link } from "react-router";
 import { MediaCarousel } from "../components/MediaCarousel";
+import { useGiftDraft, type GiftThemeId } from "../context/GiftDraftContext";
 import "./BuilderPage.css";
 import "./BuilderStep2.css";
 import "./BuilderStep3.css";
@@ -195,13 +196,18 @@ function CounterPreview({ block }: { block: CounterStoryBlock }) {
 
 export function BuilderPage() {
   const [currentStep, setCurrentStep] = useState(1);
-  const [recipientName, setRecipientName] = useState("Lívia");
-  const [senderName, setSenderName] = useState("Theo");
-  const [occasion, setOccasion] = useState(occasions[0]);
-  const [message, setMessage] = useState(
-    "Você transformou momentos simples nas minhas melhores memórias.",
-  );
-  const [selectedThemeId, setSelectedThemeId] = useState(giftThemes[0].id);
+  const {
+    recipientName,
+    setRecipientName,
+    senderName,
+    setSenderName,
+    occasion,
+    setOccasion,
+    message,
+    setMessage,
+    selectedThemeId,
+    setSelectedThemeId,
+  } = useGiftDraft();
   const [storyBlocks, setStoryBlocks] = useState<StoryBlock[]>(initialStoryBlocks);
   const [mediaError, setMediaError] = useState("");
   const [musicError, setMusicError] = useState("");
@@ -673,7 +679,7 @@ export function BuilderPage() {
                       type="button"
                       key={theme.id}
                       aria-pressed={isSelected}
-                      onClick={() => setSelectedThemeId(theme.id)}
+                      onClick={() => setSelectedThemeId(theme.id as GiftThemeId)}
                     >
                       <span
                         className={`builder-theme-card__visual builder-theme-card__visual--${theme.id}`}

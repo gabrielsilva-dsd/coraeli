@@ -3,6 +3,7 @@ import { Link } from "react-router";
 import auroraCelebration from "../assets/themes/aurora/comemorando.gif";
 import auroraWaiting from "../assets/themes/aurora/espera.gif";
 import auroraMain from "../assets/themes/aurora/principal.gif";
+import { useGiftDraft } from "../context/GiftDraftContext";
 import "./ExperiencePage.css";
 
 const chapters = [
@@ -15,6 +16,17 @@ const chapters = [
 export function ExperiencePage() {
   const [hasStarted, setHasStarted] = useState(false);
   const [activeChapter, setActiveChapter] = useState(0);
+  const {
+    recipientName,
+    senderName,
+    occasion,
+    message,
+    selectedThemeId,
+  } = useGiftDraft();
+  const recipient = recipientName.trim() || "Alguém especial";
+  const sender = senderName.trim() || "Você";
+  const openingMessage =
+    message.trim() || "Algumas histórias não cabem em uma mensagem.";
 
   function goToChapter(index: number) {
     const nextIndex = Math.min(Math.max(index, 0), chapters.length - 1);
@@ -38,7 +50,7 @@ export function ExperiencePage() {
   }
 
   return (
-    <main className="experience experience--aurora">
+    <main className={`experience experience--${selectedThemeId}`}>
       <div
         className={`experience-opening${hasStarted ? " experience-opening--hidden" : ""}`}
         aria-hidden={hasStarted}
@@ -52,13 +64,13 @@ export function ExperiencePage() {
             className="experience-opening__mascot"
             type="button"
             onClick={beginExperience}
-            aria-label="Abrir o presente de Lívia"
+            aria-label={`Abrir o presente de ${recipient}`}
           >
             <img src={auroraMain} alt="" />
           </button>
 
-          <h1>Lívia, preparei algo especial.</h1>
-          <p>Algumas histórias não cabem em uma mensagem.</p>
+          <h1>{recipient}, preparei algo especial.</h1>
+          <p>{openingMessage}</p>
 
           <button
             className="experience-opening__button"
@@ -107,19 +119,19 @@ export function ExperiencePage() {
           aria-hidden={activeChapter !== 0}
         >
           <div className="experience-chapter__content">
-            <span className="experience-kicker">Declaração de amor</span>
+            <span className="experience-kicker">{occasion}</span>
 
             <div className="experience-intro__mascot" aria-hidden="true">
               <img src={auroraWaiting} alt="" />
             </div>
 
             <small>Uma história para</small>
-            <h2>Lívia</h2>
-            <p>Você transformou momentos simples nas minhas melhores memórias.</p>
+            <h2>{recipient}</h2>
+            <p>{openingMessage}</p>
 
             <div className="experience-signature">
               Com carinho,
-              <strong>Theo</strong>
+              <strong>{sender}</strong>
             </div>
 
             <div className="experience-counter" aria-label="Tempo juntos">
@@ -193,7 +205,7 @@ export function ExperiencePage() {
               Obrigado por transformar meus dias comuns em lembranças que eu
               quero guardar para sempre.
             </p>
-            <strong>Com todo o meu carinho, Theo.</strong>
+            <strong>Com todo o meu carinho, {sender}.</strong>
 
             <button
               type="button"
