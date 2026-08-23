@@ -3,12 +3,6 @@ import { Features } from "./components/Features";
 import { HowItWorks } from "./components/HowItWorks";
 import { ThemeShowcase } from "./components/ThemeShowcase";
 
-const creationBenefits = [
-  "Prévia gratuita",
-  "Feito para celular",
-  "Link e QR Code",
-];
-
 const editorBlocks = [
   { symbol: "Aa", name: "Mensagem" },
   { symbol: "◫", name: "Galeria" },
@@ -59,8 +53,8 @@ function App() {
             </h1>
 
             <p className="hero__description">
-              Transforme fotos, mensagens e momentos em uma experiência
-              digital interativa, feita por você — sem precisar programar.
+              Reúna fotos, mensagens e momentos em uma surpresa feita para
+              alguém que você ama.
             </p>
 
             <div className="hero__actions">
@@ -74,14 +68,6 @@ function App() {
               </a>
             </div>
 
-            <ul className="benefits" aria-label="Benefícios">
-              {creationBenefits.map((benefit) => (
-                <li key={benefit}>
-                  <span aria-hidden="true">✓</span>
-                  {benefit}
-                </li>
-              ))}
-            </ul>
           </div>
 
           <div className="hero__visual">
@@ -185,23 +171,6 @@ function App() {
               <span>✓</span>
               Pronto para compartilhar
             </div>
-          </div>
-        </section>
-
-        <section className="trust-strip">
-          <div>
-            <strong>Sem código</strong>
-            <span>Crie visualmente</span>
-          </div>
-
-          <div>
-            <strong>Do seu jeito</strong>
-            <span>Temas e blocos flexíveis</span>
-          </div>
-
-          <div>
-            <strong>Em qualquer tela</strong>
-            <span>Experiência responsiva</span>
           </div>
         </section>
 

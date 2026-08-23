@@ -84,7 +84,6 @@
   width: 100%;
   height: 100%;
   object-fit: contain;
-  animation: opening-float 3s ease-in-out infinite;
 }
 
 .opening-canvas__visual--heart {
@@ -107,11 +106,15 @@
 }
 
 .opening-canvas p {
+  width: 100%;
   max-width: 28rem;
   margin: 0.9rem 0 1.35rem;
   color: rgba(255, 247, 239, 0.72);
   font-size: 0.72rem;
   line-height: 1.6;
+  overflow-wrap: anywhere;
+  word-break: break-word;
+  text-wrap: pretty;
 }
 
 .opening-canvas__button {

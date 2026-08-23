@@ -58,8 +58,18 @@
   position: relative;
   display: grid;
   width: min(100%, 29rem);
+  max-height: calc(100dvh - 3rem);
+  padding-block: 0.35rem;
   justify-items: center;
+  overflow-y: auto;
+  overscroll-behavior: contain;
+  scrollbar-width: none;
   text-align: center;
+}
+
+.experience-opening__content::-webkit-scrollbar,
+.experience-chapter__content::-webkit-scrollbar {
+  display: none;
 }
 
 .experience-opening__eyebrow,
@@ -82,7 +92,6 @@
   border-radius: 3rem;
   background: radial-gradient(circle, rgba(255, 255, 255, 0.12), transparent 68%);
   cursor: pointer;
-  animation: experience-mascot-float 3s ease-in-out infinite;
 }
 
 .experience-opening__mascot img {
@@ -109,8 +118,10 @@
 
 .experience-opening h1 {
   max-width: 12ch;
-  font-size: clamp(2.4rem, 10vw, 4.6rem);
+  font-size: clamp(2.05rem, 9vw, 4.6rem);
   line-height: 0.98;
+  overflow-wrap: anywhere;
+  text-wrap: balance;
 }
 
 .experience-opening p {
@@ -118,6 +129,8 @@
   margin: 1rem 0 1.8rem;
   color: rgba(255, 244, 239, 0.7);
   line-height: 1.65;
+  overflow-wrap: anywhere;
+  text-wrap: pretty;
 }
 
 .experience-opening__button {
@@ -332,15 +345,33 @@
   position: relative;
   z-index: 1;
   width: min(100%, 42rem);
-  max-height: 100%;
+  max-height: calc(100dvh - 11.5rem);
   margin-inline: auto;
+  padding-block: 0.3rem;
+  overflow-y: auto;
+  overscroll-behavior: contain;
+  scrollbar-width: none;
+  overflow-wrap: anywhere;
+  word-break: break-word;
+}
+
+.experience-chapter__content p,
+.experience-chapter__content h2,
+.experience-chapter__content h3,
+.experience-chapter__content small,
+.experience-chapter__content strong {
+  max-width: 100%;
+  overflow-wrap: anywhere;
+  word-break: break-word;
 }
 
 .experience-chapter h2 {
   max-width: 13ch;
   margin-top: 0.65rem;
-  font-size: clamp(2.4rem, 10vw, 5.2rem);
+  font-size: clamp(2rem, 8.7vw, 5.2rem);
   line-height: 0.98;
+  overflow-wrap: anywhere;
+  text-wrap: balance;
 }
 
 .experience-chapter__lead {
@@ -564,6 +595,8 @@
   font-family: Georgia, serif;
   font-size: clamp(1.05rem, 4.3vw, 1.35rem);
   line-height: 1.65;
+  overflow-wrap: anywhere;
+  text-wrap: pretty;
 }
 
 .experience-letter h3 {
@@ -584,8 +617,8 @@
 }
 
 .experience-letter--declaration p {
-  max-height: 9rem;
-  overflow: auto;
+  max-height: none;
+  overflow: visible;
   white-space: pre-wrap;
 }
 

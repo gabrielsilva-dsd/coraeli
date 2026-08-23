@@ -123,12 +123,12 @@ export function FinalStudio({ onBack }: FinalStudioProps) {
           <div className="final-field">
             <div>
               <label htmlFor="final-message">Mensagem final</label>
-              <span>{finalMessage.length}/280</span>
+              <span>{finalMessage.length}/400</span>
             </div>
             <textarea
               id="final-message"
               value={finalMessage}
-              maxLength={280}
+              maxLength={400}
               rows={6}
               onChange={(event) => setFinalMessage(event.target.value)}
             />

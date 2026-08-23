@@ -157,12 +157,12 @@ export function OpeningStudio({ occasions, onContinue }: OpeningStudioProps) {
           <div className="opening-field">
             <div className="opening-field__label">
               <label htmlFor="opening-message">Mensagem inicial</label>
-              <span>{message.length}/160</span>
+              <span>{message.length}/400</span>
             </div>
             <textarea
               id="opening-message"
               value={message}
-              maxLength={160}
+              maxLength={400}
               rows={4}
               placeholder="Escreva uma mensagem especial..."
               onChange={(event) => setMessage(event.target.value)}

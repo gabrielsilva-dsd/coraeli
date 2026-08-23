@@ -111,18 +111,18 @@ export function DeclarationStudio({ onBack, onContinue }: DeclarationStudioProps
           <div className="declaration-field">
             <div className="declaration-field__label">
               <label htmlFor="declaration-text">Texto principal</label>
-              <span>{declarationText.length}/800</span>
+              <span>{declarationText.length}/400</span>
             </div>
             <textarea
               id="declaration-text"
               value={declarationText}
-              maxLength={800}
+              maxLength={400}
               rows={8}
               placeholder="Conte o que essa pessoa representa para você..."
               onChange={(event) => setDeclarationText(event.target.value)}
             />
             <small className="declaration-field__help">
-              Escreva naturalmente. Você pode revisar o texto antes de publicar.
+              Até 400 caracteres. A prévia se ajusta automaticamente à tela.
             </small>
           </div>
 

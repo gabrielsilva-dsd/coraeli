@@ -336,12 +336,12 @@ export function SurpriseStudio({ onBack, onContinue }: SurpriseStudioProps) {
               <div className="surprise-field">
                 <div>
                   <label htmlFor="success-message">Mensagem ao acertar</label>
-                  <span>{successMessage.length}/160</span>
+                  <span>{successMessage.length}/400</span>
                 </div>
                 <textarea
                   id="success-message"
                   value={successMessage}
-                  maxLength={160}
+                  maxLength={400}
                   rows={4}
                   onChange={(event) => setSuccessMessage(event.target.value)}
                 />
