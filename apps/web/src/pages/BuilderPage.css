@@ -103,6 +103,69 @@
   padding: 0;
 }
 
+.builder-form--studio {
+  min-width: 0;
+  padding: 0;
+}
+
+.builder-upcoming-step {
+  display: grid;
+  min-height: calc(100vh - 4.5rem);
+  padding: 2rem 1rem;
+  place-items: center;
+  align-content: center;
+  text-align: center;
+}
+
+.builder-upcoming-step > span {
+  color: var(--coral);
+  font-size: 0.65rem;
+  font-weight: 900;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+}
+
+.builder-upcoming-step > div {
+  display: grid;
+  width: 4rem;
+  height: 4rem;
+  margin: 1.2rem 0;
+  place-items: center;
+  border-radius: 1.2rem;
+  color: #3b1024;
+  background: var(--coral);
+  font-size: 1.5rem;
+}
+
+.builder-upcoming-step h1 {
+  max-width: 12ch;
+  margin: 0;
+  font-family: "DM Serif Display", Georgia, serif;
+  font-size: clamp(2.4rem, 11vw, 4.5rem);
+  font-weight: 400;
+  line-height: 0.98;
+}
+
+.builder-upcoming-step p {
+  max-width: 31rem;
+  margin: 1rem 0 1.5rem;
+  color: var(--text-soft);
+  line-height: 1.65;
+}
+
+.builder-upcoming-step button {
+  min-height: 3.2rem;
+  padding: 0 1rem;
+  border: 1px solid var(--line);
+  border-radius: 0.85rem;
+  color: var(--ivory);
+  background: rgba(255, 255, 255, 0.04);
+  font: inherit;
+  font-size: 0.72rem;
+  font-weight: 800;
+  cursor: pointer;
+}
+
 .builder-form__heading {
   max-width: 39rem;
   margin-bottom: 2rem;
@@ -440,6 +503,10 @@
     grid-template-columns: 15rem minmax(0, 1fr);
   }
 
+  .builder-layout--studio {
+    grid-template-columns: 15rem minmax(0, 1fr);
+  }
+
   .builder-progress {
     display: flex;
     position: sticky;
@@ -522,6 +589,10 @@
   }
 
   .builder-form--opening {
+    padding: 0;
+  }
+
+  .builder-form--studio {
     padding: 0;
   }
 

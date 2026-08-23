@@ -1,6 +1,8 @@
 import {
   createContext,
+  useEffect,
   useContext,
+  useRef,
   useState,
   type Dispatch,
   type ReactNode,
@@ -10,6 +12,15 @@ import {
 export type GiftThemeId = "aurora" | "cinema" | "essencia";
 export type OpeningVisual = "mascot" | "heart" | "minimal";
 export type OpeningButtonStyle = "solid" | "outline";
+export type MediaPresentation = "carousel" | "showcase" | "gallery";
+
+export type GiftMediaItem = {
+  id: number;
+  mediaType: "image" | "video";
+  previewUrl: string;
+  fileName: string;
+  caption: string;
+};
 
 type GiftDraftContextValue = {
   recipientName: string;
@@ -40,6 +51,10 @@ type GiftDraftContextValue = {
   setCounterLabel: Dispatch<SetStateAction<string>>;
   relationshipStartDate: string;
   setRelationshipStartDate: Dispatch<SetStateAction<string>>;
+  mediaItems: GiftMediaItem[];
+  setMediaItems: Dispatch<SetStateAction<GiftMediaItem[]>>;
+  mediaPresentation: MediaPresentation;
+  setMediaPresentation: Dispatch<SetStateAction<MediaPresentation>>;
 };
 
 const GiftDraftContext = createContext<GiftDraftContextValue | null>(null);
@@ -69,6 +84,27 @@ export function GiftDraftProvider({ children }: { children: ReactNode }) {
   const [counterLabel, setCounterLabel] = useState("Juntos há");
   const [relationshipStartDate, setRelationshipStartDate] =
     useState("2024-04-04");
+  const [mediaItems, setMediaItemsState] = useState<GiftMediaItem[]>([]);
+  const [mediaPresentation, setMediaPresentation] =
+    useState<MediaPresentation>("carousel");
+  const mediaItemsRef = useRef<GiftMediaItem[]>([]);
+
+  function setMediaItems(action: SetStateAction<GiftMediaItem[]>) {
+    setMediaItemsState((currentItems) => {
+      const nextItems =
+        typeof action === "function" ? action(currentItems) : action;
+      mediaItemsRef.current = nextItems;
+      return nextItems;
+    });
+  }
+
+  useEffect(() => {
+    return () => {
+      mediaItemsRef.current.forEach((item) => {
+        URL.revokeObjectURL(item.previewUrl);
+      });
+    };
+  }, []);
 
   return (
     <GiftDraftContext.Provider
@@ -101,6 +137,10 @@ export function GiftDraftProvider({ children }: { children: ReactNode }) {
         setCounterLabel,
         relationshipStartDate,
         setRelationshipStartDate,
+        mediaItems,
+        setMediaItems,
+        mediaPresentation,
+        setMediaPresentation,
       }}
     >
       {children}

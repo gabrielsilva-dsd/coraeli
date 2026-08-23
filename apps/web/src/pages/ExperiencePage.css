@@ -490,6 +490,43 @@
   background: linear-gradient(145deg, #fff8f5, #f3d4da);
 }
 
+.experience-memories .media-carousel,
+.experience-memories .media-gallery {
+  width: min(100%, 32rem);
+  margin: 1.35rem auto 0;
+}
+
+.experience-memories .media-carousel__viewport {
+  max-height: min(47vh, 24rem);
+}
+
+.experience-memories .media-gallery {
+  max-height: min(47vh, 24rem);
+  padding-right: 0.3rem;
+  overflow-y: auto;
+}
+
+.experience-memory-empty {
+  display: grid;
+  width: min(100%, 28rem);
+  min-height: 12rem;
+  margin: 1.35rem auto 0;
+  place-items: center;
+  align-content: center;
+  border: 1px dashed rgba(58, 16, 28, 0.18);
+  border-radius: 1.2rem;
+}
+
+.experience-memory-empty span {
+  color: var(--experience-coral);
+  font-size: 2.4rem;
+}
+
+.experience-memory-empty small {
+  margin-top: 0.5rem;
+  opacity: 0.6;
+}
+
 .experience-memory-strip {
   display: flex;
   width: calc(100% + 2.5rem);

@@ -3,6 +3,7 @@ import { Link } from "react-router";
 import auroraCelebration from "../assets/themes/aurora/comemorando.gif";
 import auroraWaiting from "../assets/themes/aurora/espera.gif";
 import auroraMain from "../assets/themes/aurora/principal.gif";
+import { MediaCarousel } from "../components/MediaCarousel";
 import { useGiftDraft } from "../context/GiftDraftContext";
 import { calculateElapsedTime } from "../utils/elapsedTime";
 import "./ExperiencePage.css";
@@ -32,6 +33,8 @@ export function ExperiencePage() {
     showCounter,
     counterLabel,
     relationshipStartDate,
+    mediaItems,
+    mediaPresentation,
   } = useGiftDraft();
   const recipient = recipientName.trim() || "Alguém especial";
   const sender = senderName.trim() || "Você";
@@ -180,23 +183,19 @@ export function ExperiencePage() {
             <span className="experience-kicker">Nossos momentos</span>
             <h2>Lembranças que continuam em movimento.</h2>
             <p className="experience-chapter__lead">
-              Aqui entrarão as fotos e os vídeos escolhidos no editor.
+              {mediaItems.length > 0
+                ? "Cada imagem guarda uma parte especial dessa história."
+                : "Adicione fotos ou vídeos no editor para preencher esta parte."}
             </p>
 
-            <div className="experience-memory-strip" aria-label="Exemplo de carrossel de lembranças">
-              <figure className="experience-memory experience-memory--one">
-                <span aria-hidden="true">01</span>
-                <figcaption>O começo</figcaption>
-              </figure>
-              <figure className="experience-memory experience-memory--two">
-                <span aria-hidden="true">02</span>
-                <figcaption>Nosso lugar</figcaption>
-              </figure>
-              <figure className="experience-memory experience-memory--three">
-                <span aria-hidden="true">03</span>
-                <figcaption>Seu sorriso</figcaption>
-              </figure>
-            </div>
+            {mediaItems.length > 0 ? (
+              <MediaCarousel items={mediaItems} mode={mediaPresentation} />
+            ) : (
+              <div className="experience-memory-empty" aria-hidden="true">
+                <span>▧</span>
+                <small>Seus momentos aparecerão aqui</small>
+              </div>
+            )}
           </div>
         </section>
 
