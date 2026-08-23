@@ -726,6 +726,31 @@
   object-fit: cover;
 }
 
+.experience-finale__mascot--mascot {
+  background: rgba(245, 113, 133, 0.14);
+}
+
+.experience-finale__mascot--mascot img {
+  object-fit: contain;
+}
+
+.experience-finale__mascot--heart {
+  border-radius: 50%;
+  color: var(--experience-pink);
+  background: rgba(245, 113, 133, 0.12);
+}
+
+.experience-finale__mascot--heart span {
+  font-size: clamp(4.5rem, 20vw, 7rem);
+  filter: drop-shadow(0 0.8rem 1.5rem rgba(245, 113, 133, 0.24));
+  animation: experience-finale-heartbeat 1.7s ease-in-out infinite;
+}
+
+@keyframes experience-finale-heartbeat {
+  0%, 100% { transform: scale(1); }
+  45% { transform: scale(1.08); }
+}
+
 .experience-finale h2,
 .experience-finale p {
   margin-inline: auto;
@@ -903,6 +928,9 @@
 }
 
 @media (prefers-reduced-motion: reduce) {
+  .experience-finale__mascot--heart span {
+    animation: none;
+  }
   .experience *,
   .experience *::before,
   .experience *::after {

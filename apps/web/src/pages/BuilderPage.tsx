@@ -1,6 +1,7 @@
 import { useState } from "react";
 import { Link } from "react-router";
 import { DeclarationStudio } from "../components/DeclarationStudio";
+import { FinalStudio } from "../components/FinalStudio";
 import { MomentsStudio } from "../components/MomentsStudio";
 import { OpeningStudio } from "../components/OpeningStudio";
 import { SurpriseStudio } from "../components/SurpriseStudio";
@@ -107,18 +108,7 @@ export function BuilderPage() {
           )}
 
           {currentStep === 5 && (
-            <div className="builder-upcoming-step">
-              <span>Etapa 5 de 5</span>
-              <div aria-hidden="true">♥</div>
-              <h1>O encerramento é a próxima etapa.</h1>
-              <p>
-                Aqui entraremos com mensagem final, GIF comemorativo e assinatura.
-                Esse módulo será construído no próximo checkpoint.
-              </p>
-              <button type="button" onClick={() => changeStep(4)}>
-                ← Voltar à surpresa
-              </button>
-            </div>
+            <FinalStudio onBack={() => changeStep(4)} />
           )}
         </section>
       </main>

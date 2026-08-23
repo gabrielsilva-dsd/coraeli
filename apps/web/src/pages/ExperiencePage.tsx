@@ -46,6 +46,11 @@ export function ExperiencePage() {
     secondAnswer,
     correctAnswer,
     successMessage,
+    finalTitle,
+    finalMessage,
+    finalSignature,
+    finalVisual,
+    replayButtonLabel,
   } = useGiftDraft();
   const recipient = recipientName.trim() || "Alguém especial";
   const sender = senderName.trim() || "Você";
@@ -321,22 +326,24 @@ export function ExperiencePage() {
           <div className="experience-chapter__content">
             <span className="experience-kicker">Antes de terminar</span>
 
-            <div className="experience-finale__mascot" aria-hidden="true">
-              <img src={auroraCelebration} alt="" />
+            <div
+              className={`experience-finale__mascot experience-finale__mascot--${finalVisual}`}
+              aria-hidden="true"
+            >
+              {finalVisual === "celebration" && <img src={auroraCelebration} alt="" />}
+              {finalVisual === "mascot" && <img src={auroraMain} alt="" />}
+              {finalVisual === "heart" && <span>♥</span>}
             </div>
-            <h2>Esta história ainda está só começando.</h2>
-            <p>
-              Obrigado por transformar meus dias comuns em lembranças que eu
-              quero guardar para sempre.
-            </p>
-            <strong>Com todo o meu carinho, {sender}.</strong>
+            <h2>{finalTitle.trim() || "Uma última mensagem"}</h2>
+            <p>{finalMessage.trim() || "Obrigado por fazer parte desta história."}</p>
+            <strong>{finalSignature.trim() || "Com carinho"}, {sender}.</strong>
 
             <button
               type="button"
               tabIndex={activeChapter === 3 ? 0 : -1}
               onClick={() => goToChapter(0)}
             >
-              Ver novamente
+              {replayButtonLabel.trim() || "Ver novamente"}
               <span aria-hidden="true">↟</span>
             </button>
           </div>

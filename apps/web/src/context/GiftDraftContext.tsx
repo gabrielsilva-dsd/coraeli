@@ -14,6 +14,7 @@ export type OpeningVisual = "mascot" | "heart" | "minimal";
 export type OpeningButtonStyle = "solid" | "outline";
 export type MediaPresentation = "carousel" | "showcase" | "gallery";
 export type CorrectAnswer = "first" | "second";
+export type FinalVisual = "celebration" | "mascot" | "heart";
 
 export type GiftMediaItem = {
   id: number;
@@ -78,6 +79,16 @@ type GiftDraftContextValue = {
   setCorrectAnswer: Dispatch<SetStateAction<CorrectAnswer>>;
   successMessage: string;
   setSuccessMessage: Dispatch<SetStateAction<string>>;
+  finalTitle: string;
+  setFinalTitle: Dispatch<SetStateAction<string>>;
+  finalMessage: string;
+  setFinalMessage: Dispatch<SetStateAction<string>>;
+  finalSignature: string;
+  setFinalSignature: Dispatch<SetStateAction<string>>;
+  finalVisual: FinalVisual;
+  setFinalVisual: Dispatch<SetStateAction<FinalVisual>>;
+  replayButtonLabel: string;
+  setReplayButtonLabel: Dispatch<SetStateAction<string>>;
 };
 
 const GiftDraftContext = createContext<GiftDraftContextValue | null>(null);
@@ -125,6 +136,16 @@ export function GiftDraftProvider({ children }: { children: ReactNode }) {
   const [successMessage, setSuccessMessage] = useState(
     "Você lembrou! É por isso que cada detalhe ao seu lado é especial.",
   );
+  const [finalTitle, setFinalTitle] = useState(
+    "Esta história ainda está só começando.",
+  );
+  const [finalMessage, setFinalMessage] = useState(
+    "Obrigado por transformar meus dias comuns em lembranças que eu quero guardar para sempre.",
+  );
+  const [finalSignature, setFinalSignature] = useState("Com todo o meu carinho");
+  const [finalVisual, setFinalVisual] =
+    useState<FinalVisual>("celebration");
+  const [replayButtonLabel, setReplayButtonLabel] = useState("Ver novamente");
 
   function setMediaItems(action: SetStateAction<GiftMediaItem[]>) {
     setMediaItemsState((currentItems) => {
@@ -206,6 +227,16 @@ export function GiftDraftProvider({ children }: { children: ReactNode }) {
         setCorrectAnswer,
         successMessage,
         setSuccessMessage,
+        finalTitle,
+        setFinalTitle,
+        finalMessage,
+        setFinalMessage,
+        finalSignature,
+        setFinalSignature,
+        finalVisual,
+        setFinalVisual,
+        replayButtonLabel,
+        setReplayButtonLabel,
       }}
     >
       {children}
