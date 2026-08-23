@@ -1,8 +1,10 @@
 import { useEffect, useRef, useState, type ChangeEvent } from "react";
 import { Link } from "react-router";
+import { DeclarationStudio } from "../components/DeclarationStudio";
 import { MediaCarousel } from "../components/MediaCarousel";
 import { OpeningStudio } from "../components/OpeningStudio";
-import { useGiftDraft, type GiftThemeId } from "../context/GiftDraftContext";
+import { useGiftDraft } from "../context/GiftDraftContext";
+import { calculateElapsedTime } from "../utils/elapsedTime";
 import "./BuilderPage.css";
 import "./BuilderStep2.css";
 import "./BuilderStep3.css";
@@ -21,9 +23,10 @@ const occasions = [
 
 const progressSteps = [
   { number: 1, title: "Abertura", description: "Primeira impressão" },
-  { number: 2, title: "Escolha o tema", description: "Visual e personalidade" },
-  { number: 3, title: "Adicione momentos", description: "Fotos, textos e música" },
-  { number: 4, title: "Revise e publique", description: "Link e QR Code" },
+  { number: 2, title: "Declaração", description: "Texto, contador e assinatura" },
+  { number: 3, title: "Momentos", description: "Fotos, vídeos e legendas" },
+  { number: 4, title: "Surpresa", description: "Música e interações" },
+  { number: 5, title: "Final", description: "Mensagem e publicação" },
 ];
 
 const MAX_MEDIA_ITEMS = 6;
@@ -100,65 +103,6 @@ const initialStoryBlocks: StoryBlock[] = [
   },
 ];
 
-function calculateElapsedTime(startDate: string) {
-  if (!startDate) return null;
-
-  const start = new Date(`${startDate}T00:00:00`);
-  const today = new Date();
-  today.setHours(0, 0, 0, 0);
-
-  if (Number.isNaN(start.getTime()) || start > today) return null;
-
-  const createClampedDate = (year: number, month: number, day: number) => {
-    const lastDayOfMonth = new Date(year, month + 1, 0).getDate();
-    return new Date(year, month, Math.min(day, lastDayOfMonth));
-  };
-
-  let years = today.getFullYear() - start.getFullYear();
-  let cursor = createClampedDate(
-    start.getFullYear() + years,
-    start.getMonth(),
-    start.getDate(),
-  );
-
-  if (cursor > today) {
-    years -= 1;
-    cursor = createClampedDate(
-      start.getFullYear() + years,
-      start.getMonth(),
-      start.getDate(),
-    );
-  }
-
-  let months = 0;
-
-  while (months < 11) {
-    const nextMonth = createClampedDate(
-      cursor.getFullYear(),
-      cursor.getMonth() + 1,
-      start.getDate(),
-    );
-
-    if (nextMonth > today) break;
-    cursor = nextMonth;
-    months += 1;
-  }
-
-  const todayUtc = Date.UTC(
-    today.getFullYear(),
-    today.getMonth(),
-    today.getDate(),
-  );
-  const cursorUtc = Date.UTC(
-    cursor.getFullYear(),
-    cursor.getMonth(),
-    cursor.getDate(),
-  );
-  const days = Math.round((todayUtc - cursorUtc) / 86_400_000);
-
-  return { years, months, days };
-}
-
 function getLocalDateValue(date: Date) {
   const year = date.getFullYear();
   const month = String(date.getMonth() + 1).padStart(2, "0");
@@ -203,7 +147,6 @@ export function BuilderPage() {
     occasion,
     message,
     selectedThemeId,
-    setSelectedThemeId,
   } = useGiftDraft();
   const [storyBlocks, setStoryBlocks] = useState<StoryBlock[]>(initialStoryBlocks);
   const [mediaError, setMediaError] = useState("");
@@ -537,7 +480,7 @@ export function BuilderPage() {
         />
       )}
 
-      <main className={`builder-layout${currentStep === 1 ? " builder-layout--opening" : ""}`}>
+      <main className={`builder-layout${currentStep <= 2 ? " builder-layout--opening" : ""}`}>
         <aside className="builder-progress" aria-label="Etapas de criação">
           <span className="builder-progress__label">Seu progresso</span>
 
@@ -568,86 +511,18 @@ export function BuilderPage() {
           </Link>
         </aside>
 
-        <section className={`builder-form${currentStep === 1 ? " builder-form--opening" : ""}`}>
+        <section className={`builder-form${currentStep <= 2 ? " builder-form--opening" : ""}`}>
           {currentStep === 1 ? (
             <OpeningStudio occasions={occasions} onContinue={() => changeStep(2)} />
           ) : currentStep === 2 ? (
-            <div className="builder-theme-step">
-              <div className="builder-form__heading">
-                <span>Etapa 2 de 4</span>
-                <h1>Escolha o clima da história.</h1>
-                <p>
-                  O tema define cores, atmosfera e personalidade. Todo o conteúdo
-                  continuará personalizável.
-                </p>
-              </div>
-
-              <div className="builder-theme-grid" aria-label="Temas disponíveis">
-                {giftThemes.map((theme) => {
-                  const isSelected = selectedThemeId === theme.id;
-
-                  return (
-                    <button
-                      className={`builder-theme-card${
-                        isSelected ? " builder-theme-card--selected" : ""
-                      }`}
-                      type="button"
-                      key={theme.id}
-                      aria-pressed={isSelected}
-                      onClick={() => setSelectedThemeId(theme.id as GiftThemeId)}
-                    >
-                      <span
-                        className={`builder-theme-card__visual builder-theme-card__visual--${theme.id}`}
-                        aria-hidden="true"
-                      >
-                        <span>{theme.symbol}</span>
-                      </span>
-
-                      <span className="builder-theme-card__content">
-                        <span className="builder-theme-card__top">
-                          <small>{theme.category}</small>
-                          <span className="builder-theme-card__palette">
-                            {theme.colors.map((color) => (
-                              <span key={color} style={{ backgroundColor: color }} />
-                            ))}
-                          </span>
-                        </span>
-
-                        <strong>{theme.name}</strong>
-                        <span>{theme.description}</span>
-                        <small className="builder-theme-card__selection">
-                          {isSelected ? "✓ Tema selecionado" : "Selecionar tema"}
-                        </small>
-                      </span>
-                    </button>
-                  );
-                })}
-              </div>
-
-              <div className="builder-theme-actions">
-                <button className="builder-back-button" type="button" onClick={() => changeStep(1)}>
-                  ← Voltar
-                </button>
-
-                <div>
-                  <small>Tema atual</small>
-                  <strong>{selectedTheme.name}</strong>
-                </div>
-
-                <button
-                  className="builder-continue builder-continue--compact"
-                  type="button"
-                  onClick={() => changeStep(3)}
-                >
-                  Adicionar momentos
-                  <span aria-hidden="true">→</span>
-                </button>
-              </div>
-            </div>
+            <DeclarationStudio
+              onBack={() => changeStep(1)}
+              onContinue={() => changeStep(3)}
+            />
           ) : (
             <div className="builder-moments-step">
               <div className="builder-form__heading">
-                <span>Etapa 3 de 4</span>
+                <span>Etapa 3 de 5</span>
                 <h1>Monte os momentos da história.</h1>
                 <p>
                   Combine títulos, mensagens, fotos, vídeos, contador e uma
@@ -1019,7 +894,7 @@ export function BuilderPage() {
           )}
         </section>
 
-        {currentStep !== 1 && <aside className="builder-live-preview">
+        {currentStep > 2 && <aside className="builder-live-preview">
           <div className="builder-live-preview__top">
             <div>
               <span>Prévia ao vivo</span>

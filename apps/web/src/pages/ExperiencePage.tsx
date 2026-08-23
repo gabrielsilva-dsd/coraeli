@@ -4,12 +4,13 @@ import auroraCelebration from "../assets/themes/aurora/comemorando.gif";
 import auroraWaiting from "../assets/themes/aurora/espera.gif";
 import auroraMain from "../assets/themes/aurora/principal.gif";
 import { useGiftDraft } from "../context/GiftDraftContext";
+import { calculateElapsedTime } from "../utils/elapsedTime";
 import "./ExperiencePage.css";
 
 const chapters = [
-  { id: "intro", label: "Começo" },
-  { id: "story", label: "História" },
+  { id: "declaration", label: "Declaração" },
   { id: "memories", label: "Momentos" },
+  { id: "surprise", label: "Surpresa" },
   { id: "finale", label: "Final" },
 ];
 
@@ -25,11 +26,18 @@ export function ExperiencePage() {
     openingVisual,
     openingButtonLabel,
     openingButtonStyle,
+    declarationTitle,
+    declarationText,
+    declarationSignature,
+    showCounter,
+    counterLabel,
+    relationshipStartDate,
   } = useGiftDraft();
   const recipient = recipientName.trim() || "Alguém especial";
   const sender = senderName.trim() || "Você";
   const openingMessage =
     message.trim() || "Algumas histórias não cabem em uma mensagem.";
+  const elapsedTime = calculateElapsedTime(relationshipStartDate);
 
   function goToChapter(index: number) {
     const nextIndex = Math.min(Math.max(index, 0), chapters.length - 1);
@@ -136,51 +144,37 @@ export function ExperiencePage() {
         >
           <div className="experience-chapter__content">
             <span className="experience-kicker">{occasion}</span>
+            <small>Uma declaração para</small>
+            <h2>{recipient}</h2>
 
-            <div className="experience-intro__mascot" aria-hidden="true">
-              <img src={auroraWaiting} alt="" />
+            <div className="experience-letter experience-letter--declaration">
+              <span aria-hidden="true">“</span>
+              <h3>{declarationTitle.trim() || "Nossa história"}</h3>
+              <p>
+                {declarationText.trim() ||
+                  "Algumas palavras merecem ser guardadas para sempre."}
+              </p>
             </div>
 
-            <small>Uma história para</small>
-            <h2>{recipient}</h2>
-            <p>{openingMessage}</p>
-
             <div className="experience-signature">
-              Com carinho,
+              {declarationSignature.trim() || "Com carinho"},
               <strong>{sender}</strong>
             </div>
 
-            <div className="experience-counter" aria-label="Tempo juntos">
-              <div><strong>02</strong><span>anos</span></div>
-              <div><strong>04</strong><span>meses</span></div>
-              <div><strong>18</strong><span>dias</span></div>
-            </div>
+            {showCounter && elapsedTime && (
+              <div className="experience-counter" aria-label="Tempo juntos">
+                <small>{counterLabel.trim() || "Juntos há"}</small>
+                <div><strong>{elapsedTime.years}</strong><span>anos</span></div>
+                <div><strong>{elapsedTime.months}</strong><span>meses</span></div>
+                <div><strong>{elapsedTime.days}</strong><span>dias</span></div>
+              </div>
+            )}
           </div>
         </section>
 
         <section
-          className={getChapterClass(1, "experience-story")}
+          className={getChapterClass(1, "experience-memories")}
           aria-hidden={activeChapter !== 1}
-        >
-          <div className="experience-chapter__content">
-            <span className="experience-kicker">Capítulo 01</span>
-            <h2>Um capítulo que quero guardar.</h2>
-
-            <div className="experience-letter">
-              <span aria-hidden="true">“</span>
-              <p>
-                Entre tantos momentos, existem alguns que merecem viver para
-                sempre. Cada conversa, cada risada e cada pequeno detalhe fez
-                essa história se tornar o meu lugar favorito.
-              </p>
-              <small>Uma mensagem escrita especialmente para você.</small>
-            </div>
-          </div>
-        </section>
-
-        <section
-          className={getChapterClass(2, "experience-memories")}
-          aria-hidden={activeChapter !== 2}
         >
           <div className="experience-chapter__content">
             <span className="experience-kicker">Nossos momentos</span>
@@ -203,6 +197,24 @@ export function ExperiencePage() {
                 <figcaption>Seu sorriso</figcaption>
               </figure>
             </div>
+          </div>
+        </section>
+
+        <section
+          className={getChapterClass(2, "experience-story")}
+          aria-hidden={activeChapter !== 2}
+        >
+          <div className="experience-chapter__content">
+            <span className="experience-kicker">Uma pausa especial</span>
+
+            <div className="experience-intro__mascot" aria-hidden="true">
+              <img src={auroraWaiting} alt="" />
+            </div>
+
+            <h2>A próxima surpresa está sendo preparada.</h2>
+            <p className="experience-chapter__lead">
+              Música, perguntas e pequenas interações aparecerão aqui.
+            </p>
           </div>
         </section>
 

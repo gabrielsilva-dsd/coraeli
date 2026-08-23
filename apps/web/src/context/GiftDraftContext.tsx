@@ -28,6 +28,18 @@ type GiftDraftContextValue = {
   setOpeningButtonLabel: Dispatch<SetStateAction<string>>;
   openingButtonStyle: OpeningButtonStyle;
   setOpeningButtonStyle: Dispatch<SetStateAction<OpeningButtonStyle>>;
+  declarationTitle: string;
+  setDeclarationTitle: Dispatch<SetStateAction<string>>;
+  declarationText: string;
+  setDeclarationText: Dispatch<SetStateAction<string>>;
+  declarationSignature: string;
+  setDeclarationSignature: Dispatch<SetStateAction<string>>;
+  showCounter: boolean;
+  setShowCounter: Dispatch<SetStateAction<boolean>>;
+  counterLabel: string;
+  setCounterLabel: Dispatch<SetStateAction<string>>;
+  relationshipStartDate: string;
+  setRelationshipStartDate: Dispatch<SetStateAction<string>>;
 };
 
 const GiftDraftContext = createContext<GiftDraftContextValue | null>(null);
@@ -46,6 +58,17 @@ export function GiftDraftProvider({ children }: { children: ReactNode }) {
     useState("Abrir meu presente");
   const [openingButtonStyle, setOpeningButtonStyle] =
     useState<OpeningButtonStyle>("solid");
+  const [declarationTitle, setDeclarationTitle] = useState(
+    "Um capítulo que quero guardar",
+  );
+  const [declarationText, setDeclarationText] = useState(
+    "Entre tantos momentos, existem alguns que merecem viver para sempre. Cada conversa, cada risada e cada pequeno detalhe fez essa história se tornar o meu lugar favorito.",
+  );
+  const [declarationSignature, setDeclarationSignature] = useState("Com carinho");
+  const [showCounter, setShowCounter] = useState(true);
+  const [counterLabel, setCounterLabel] = useState("Juntos há");
+  const [relationshipStartDate, setRelationshipStartDate] =
+    useState("2024-04-04");
 
   return (
     <GiftDraftContext.Provider
@@ -66,6 +89,18 @@ export function GiftDraftProvider({ children }: { children: ReactNode }) {
         setOpeningButtonLabel,
         openingButtonStyle,
         setOpeningButtonStyle,
+        declarationTitle,
+        setDeclarationTitle,
+        declarationText,
+        setDeclarationText,
+        declarationSignature,
+        setDeclarationSignature,
+        showCounter,
+        setShowCounter,
+        counterLabel,
+        setCounterLabel,
+        relationshipStartDate,
+        setRelationshipStartDate,
       }}
     >
       {children}
