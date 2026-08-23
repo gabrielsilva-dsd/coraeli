@@ -68,9 +68,12 @@
 }
 
 .builder-header__preview {
+  display: inline-flex;
   min-height: 2.5rem;
   margin-left: auto;
   padding: 0 0.85rem;
+  align-items: center;
+  justify-content: center;
   border: 1px solid var(--line);
   border-radius: 999px;
   color: var(--ivory);
@@ -78,6 +81,8 @@
   font: inherit;
   font-size: 0.7rem;
   font-weight: 700;
+  line-height: 1;
+  text-decoration: none;
   cursor: pointer;
 }
 

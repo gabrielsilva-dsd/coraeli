@@ -517,9 +517,9 @@ export function BuilderPage() {
           Rascunho salvo
         </div>
 
-        <button className="builder-header__preview" type="button">
+        <Link className="builder-header__preview" to="/experiencia">
           Visualizar
-        </button>
+        </Link>
       </header>
 
       {soundtrack && (
