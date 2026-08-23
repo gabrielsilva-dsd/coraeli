@@ -1,0 +1,396 @@
+.opening-studio {
+  display: grid;
+  gap: 0;
+  --opening-accent: #ed4f70;
+  --opening-accent-soft: #f7a8ba;
+  --opening-surface: #fff7ef;
+  --opening-text: #3a101c;
+  --opening-backdrop: #210b17;
+}
+
+.opening-studio--cinema {
+  --opening-accent: #e5b94f;
+  --opening-accent-soft: #efcf7c;
+  --opening-surface: #fff8e7;
+  --opening-text: #402519;
+  --opening-backdrop: #180d09;
+}
+
+.opening-studio--essencia {
+  --opening-accent: #a78bca;
+  --opening-accent-soft: #d7c4e7;
+  --opening-surface: #f8f3fa;
+  --opening-text: #302536;
+  --opening-backdrop: #19131d;
+}
+
+.opening-studio__preview {
+  min-width: 0;
+  padding: 1rem;
+  background: #09030d;
+}
+
+.opening-studio__preview-top {
+  display: flex;
+  margin-bottom: 0.75rem;
+  align-items: center;
+  justify-content: space-between;
+  color: #fff7ef;
+}
+
+.opening-studio__preview-top span {
+  font-size: 0.72rem;
+  font-weight: 800;
+}
+
+.opening-studio__preview-top small {
+  color: rgba(255, 247, 239, 0.55);
+  font-size: 0.6rem;
+}
+
+.opening-canvas {
+  display: grid;
+  min-height: 31rem;
+  padding: 2rem 1.2rem;
+  align-content: center;
+  justify-items: center;
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  border-radius: 1.5rem;
+  color: var(--opening-surface);
+  background:
+    radial-gradient(circle at 50% 34%, rgba(237, 79, 112, 0.24), transparent 38%),
+    linear-gradient(155deg, var(--opening-backdrop), #080308 78%);
+  text-align: center;
+  overflow: hidden;
+}
+
+.opening-canvas__eyebrow {
+  color: var(--opening-accent-soft);
+  font-size: 0.6rem;
+  font-weight: 900;
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+}
+
+.opening-canvas__visual {
+  display: grid;
+  width: min(52vw, 11rem);
+  height: 9rem;
+  margin: 1rem 0;
+  place-items: center;
+}
+
+.opening-canvas__visual--mascot img {
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
+  animation: opening-float 3s ease-in-out infinite;
+}
+
+.opening-canvas__visual--heart {
+  color: var(--opening-accent);
+  font-family: Georgia, serif;
+  font-size: 5rem;
+  filter: drop-shadow(0 1rem 2rem rgba(237, 79, 112, 0.3));
+  animation: opening-heartbeat 2.4s ease-in-out infinite;
+}
+
+.opening-canvas h1 {
+  max-width: 12ch;
+  margin: 0;
+  font-family: Georgia, "Times New Roman", serif;
+  font-size: clamp(2rem, 9vw, 3.4rem);
+  font-weight: 500;
+  line-height: 0.98;
+  letter-spacing: -0.045em;
+  overflow-wrap: anywhere;
+}
+
+.opening-canvas p {
+  max-width: 28rem;
+  margin: 0.9rem 0 1.35rem;
+  color: rgba(255, 247, 239, 0.72);
+  font-size: 0.72rem;
+  line-height: 1.6;
+}
+
+.opening-canvas__button {
+  display: inline-flex;
+  min-height: 3rem;
+  padding: 0.7rem 1.15rem;
+  gap: 0.7rem;
+  align-items: center;
+  justify-content: center;
+  border: 1px solid var(--opening-accent);
+  border-radius: 999px;
+  font: inherit;
+  font-size: 0.7rem;
+  font-weight: 900;
+}
+
+.opening-canvas__button--solid {
+  color: var(--opening-text);
+  background: var(--opening-accent);
+}
+
+.opening-canvas__button--outline {
+  color: var(--opening-surface);
+  background: transparent;
+}
+
+.opening-canvas > small:last-child {
+  margin-top: 0.8rem;
+  color: rgba(255, 247, 239, 0.48);
+  font-size: 0.58rem;
+}
+
+.opening-studio__controls {
+  position: relative;
+  z-index: 2;
+  margin-top: -1.25rem;
+  padding: 1.4rem 1rem 2.5rem;
+  border: 1px solid var(--line);
+  border-radius: 1.5rem 1.5rem 0 0;
+  background: #14091a;
+  box-shadow: 0 -1.25rem 3.5rem rgba(0, 0, 0, 0.35);
+}
+
+.opening-studio__controls::before {
+  display: block;
+  width: 2.5rem;
+  height: 0.25rem;
+  margin: 0 auto 1.2rem;
+  border-radius: 999px;
+  background: rgba(255, 255, 255, 0.18);
+  content: "";
+}
+
+.opening-studio__heading > span {
+  color: var(--coral);
+  font-size: 0.65rem;
+  font-weight: 900;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+}
+
+.opening-studio__heading h2 {
+  margin: 0.45rem 0 0.45rem;
+  font-family: "DM Serif Display", Georgia, serif;
+  font-size: clamp(1.8rem, 8vw, 2.7rem);
+  font-weight: 400;
+  line-height: 1.05;
+}
+
+.opening-studio__heading p {
+  margin: 0;
+  color: var(--text-soft);
+  font-size: 0.75rem;
+  line-height: 1.55;
+}
+
+.opening-studio__controls form {
+  display: grid;
+  margin-top: 1.4rem;
+  gap: 1.15rem;
+}
+
+.opening-field,
+.opening-choice-group {
+  display: grid;
+  margin: 0;
+  padding: 0;
+  gap: 0.55rem;
+  border: 0;
+}
+
+.opening-field-row {
+  display: grid;
+  gap: 1rem;
+}
+
+.opening-field label,
+.opening-choice-group legend {
+  color: var(--ivory);
+  font-size: 0.75rem;
+  font-weight: 800;
+}
+
+.opening-field__label {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.opening-field__label span {
+  color: var(--text-soft);
+  font-size: 0.62rem;
+}
+
+.opening-field input,
+.opening-field select,
+.opening-field textarea {
+  width: 100%;
+  border: 1px solid var(--line);
+  border-radius: 0.85rem;
+  outline: 0;
+  color: var(--ivory);
+  background: rgba(255, 255, 255, 0.045);
+  font: inherit;
+  font-size: 0.8rem;
+}
+
+.opening-field input,
+.opening-field select {
+  min-height: 3.15rem;
+  padding: 0 0.85rem;
+}
+
+.opening-field textarea {
+  min-height: 6.5rem;
+  padding: 0.85rem;
+  resize: vertical;
+  line-height: 1.55;
+}
+
+.opening-field select {
+  color-scheme: dark;
+}
+
+.opening-field input:focus,
+.opening-field select:focus,
+.opening-field textarea:focus {
+  border-color: var(--coral);
+  box-shadow: 0 0 0 0.22rem rgba(245, 113, 133, 0.1);
+}
+
+.opening-theme-options,
+.opening-segmented-options {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 0.55rem;
+}
+
+.opening-segmented-options--two {
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+}
+
+.opening-theme-options button,
+.opening-segmented-options button {
+  display: grid;
+  min-height: 3.4rem;
+  padding: 0.55rem;
+  gap: 0.3rem;
+  place-items: center;
+  border: 1px solid var(--line);
+  border-radius: 0.8rem;
+  color: var(--text-soft);
+  background: rgba(255, 255, 255, 0.035);
+  font: inherit;
+  font-size: 0.64rem;
+  cursor: pointer;
+}
+
+.opening-theme-options button.is-selected,
+.opening-segmented-options button.is-selected {
+  border-color: rgba(245, 113, 133, 0.72);
+  color: var(--ivory);
+  background: rgba(245, 113, 133, 0.1);
+  box-shadow: inset 0 0 0 1px rgba(245, 113, 133, 0.1);
+}
+
+.opening-theme-options button > span {
+  display: flex;
+}
+
+.opening-theme-options i {
+  width: 0.85rem;
+  height: 0.85rem;
+  border: 1px solid rgba(255, 255, 255, 0.2);
+  border-radius: 50%;
+}
+
+.opening-theme-options i + i {
+  margin-left: -0.2rem;
+}
+
+.opening-segmented-options button > span {
+  color: var(--coral);
+  font-size: 0.9rem;
+}
+
+.opening-studio__continue {
+  display: flex;
+  width: 100%;
+  min-height: 3.5rem;
+  padding: 0 1rem;
+  align-items: center;
+  justify-content: space-between;
+  border: 0;
+  border-radius: 0.9rem;
+  color: #3b1024;
+  background: linear-gradient(90deg, var(--coral), #ff9b91);
+  font: inherit;
+  font-size: 0.78rem;
+  font-weight: 900;
+  cursor: pointer;
+  box-shadow: 0 1rem 2rem rgba(245, 113, 133, 0.16);
+}
+
+@keyframes opening-float {
+  0%, 100% { transform: translateY(0); }
+  50% { transform: translateY(-0.45rem); }
+}
+
+@keyframes opening-heartbeat {
+  0%, 100% { transform: scale(1); }
+  12% { transform: scale(1.08); }
+  24% { transform: scale(1); }
+}
+
+@media (min-width: 700px) {
+  .opening-studio__preview,
+  .opening-studio__controls {
+    padding-right: 2rem;
+    padding-left: 2rem;
+  }
+
+  .opening-field-row {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+}
+
+@media (min-width: 1000px) {
+  .opening-studio {
+    grid-template-columns: minmax(22rem, 0.9fr) minmax(25rem, 1fr);
+    min-height: calc(100vh - 4.5rem);
+  }
+
+  .opening-studio__preview {
+    position: sticky;
+    top: 4.5rem;
+    height: calc(100vh - 4.5rem);
+    padding: 1.5rem;
+  }
+
+  .opening-canvas {
+    min-height: calc(100vh - 8rem);
+  }
+
+  .opening-studio__controls {
+    margin: 0;
+    padding: 3rem clamp(2rem, 4vw, 4rem) 4rem;
+    border-width: 0 0 0 1px;
+    border-radius: 0;
+    box-shadow: none;
+  }
+
+  .opening-studio__controls::before {
+    display: none;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .opening-canvas__visual {
+    animation: none;
+  }
+}

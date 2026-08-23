@@ -22,6 +22,9 @@ export function ExperiencePage() {
     occasion,
     message,
     selectedThemeId,
+    openingVisual,
+    openingButtonLabel,
+    openingButtonStyle,
   } = useGiftDraft();
   const recipient = recipientName.trim() || "Alguém especial";
   const sender = senderName.trim() || "Você";
@@ -60,24 +63,37 @@ export function ExperiencePage() {
         <div className="experience-opening__content">
           <span className="experience-opening__eyebrow">Uma surpresa para você</span>
 
-          <button
-            className="experience-opening__mascot"
-            type="button"
-            onClick={beginExperience}
-            aria-label={`Abrir o presente de ${recipient}`}
-          >
-            <img src={auroraMain} alt="" />
-          </button>
+          {openingVisual === "mascot" && (
+            <button
+              className="experience-opening__mascot"
+              type="button"
+              onClick={beginExperience}
+              aria-label={`Abrir o presente de ${recipient}`}
+            >
+              <img src={auroraMain} alt="" />
+            </button>
+          )}
+
+          {openingVisual === "heart" && (
+            <button
+              className="experience-opening__mascot experience-opening__mascot--heart"
+              type="button"
+              onClick={beginExperience}
+              aria-label={`Abrir o presente de ${recipient}`}
+            >
+              <span aria-hidden="true">♥</span>
+            </button>
+          )}
 
           <h1>{recipient}, preparei algo especial.</h1>
           <p>{openingMessage}</p>
 
           <button
-            className="experience-opening__button"
+            className={`experience-opening__button experience-opening__button--${openingButtonStyle}`}
             type="button"
             onClick={beginExperience}
           >
-            Abrir meu presente
+            {openingButtonLabel.trim() || "Abrir meu presente"}
             <span aria-hidden="true">→</span>
           </button>
 

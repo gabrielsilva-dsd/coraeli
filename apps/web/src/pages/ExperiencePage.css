@@ -92,6 +92,13 @@
   object-fit: contain;
 }
 
+.experience-opening__mascot--heart {
+  color: var(--experience-coral);
+  font-family: Georgia, "Times New Roman", serif;
+  font-size: clamp(5rem, 24vw, 8rem);
+  filter: drop-shadow(0 1.2rem 2.5rem rgba(237, 79, 112, 0.28));
+}
+
 .experience-opening h1,
 .experience-chapter h2 {
   margin: 0;
@@ -127,6 +134,12 @@
   background: var(--experience-ivory);
   font-weight: 800;
   cursor: pointer;
+}
+
+.experience-opening__button--outline {
+  border: 1px solid rgba(255, 247, 239, 0.55);
+  color: var(--experience-ivory);
+  background: transparent;
 }
 
 .experience-opening small {

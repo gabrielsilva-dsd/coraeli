@@ -99,6 +99,10 @@
   padding: 2rem 1rem 3rem;
 }
 
+.builder-form--opening {
+  padding: 0;
+}
+
 .builder-form__heading {
   max-width: 39rem;
   margin-bottom: 2rem;
@@ -432,6 +436,10 @@
     grid-template-columns: 15rem minmax(30rem, 1fr) minmax(22rem, 0.72fr);
   }
 
+  .builder-layout--opening {
+    grid-template-columns: 15rem minmax(0, 1fr);
+  }
+
   .builder-progress {
     display: flex;
     position: sticky;
@@ -511,6 +519,10 @@
 
   .builder-form {
     padding: 4rem clamp(2rem, 4vw, 4rem);
+  }
+
+  .builder-form--opening {
+    padding: 0;
   }
 
   .builder-live-preview {

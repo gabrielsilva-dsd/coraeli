@@ -8,6 +8,8 @@ import {
 } from "react";
 
 export type GiftThemeId = "aurora" | "cinema" | "essencia";
+export type OpeningVisual = "mascot" | "heart" | "minimal";
+export type OpeningButtonStyle = "solid" | "outline";
 
 type GiftDraftContextValue = {
   recipientName: string;
@@ -20,6 +22,12 @@ type GiftDraftContextValue = {
   setMessage: Dispatch<SetStateAction<string>>;
   selectedThemeId: GiftThemeId;
   setSelectedThemeId: Dispatch<SetStateAction<GiftThemeId>>;
+  openingVisual: OpeningVisual;
+  setOpeningVisual: Dispatch<SetStateAction<OpeningVisual>>;
+  openingButtonLabel: string;
+  setOpeningButtonLabel: Dispatch<SetStateAction<string>>;
+  openingButtonStyle: OpeningButtonStyle;
+  setOpeningButtonStyle: Dispatch<SetStateAction<OpeningButtonStyle>>;
 };
 
 const GiftDraftContext = createContext<GiftDraftContextValue | null>(null);
@@ -33,6 +41,11 @@ export function GiftDraftProvider({ children }: { children: ReactNode }) {
   );
   const [selectedThemeId, setSelectedThemeId] =
     useState<GiftThemeId>("aurora");
+  const [openingVisual, setOpeningVisual] = useState<OpeningVisual>("mascot");
+  const [openingButtonLabel, setOpeningButtonLabel] =
+    useState("Abrir meu presente");
+  const [openingButtonStyle, setOpeningButtonStyle] =
+    useState<OpeningButtonStyle>("solid");
 
   return (
     <GiftDraftContext.Provider
@@ -47,6 +60,12 @@ export function GiftDraftProvider({ children }: { children: ReactNode }) {
         setMessage,
         selectedThemeId,
         setSelectedThemeId,
+        openingVisual,
+        setOpeningVisual,
+        openingButtonLabel,
+        setOpeningButtonLabel,
+        openingButtonStyle,
+        setOpeningButtonStyle,
       }}
     >
       {children}

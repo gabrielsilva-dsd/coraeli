@@ -1,6 +1,7 @@
 import { useEffect, useRef, useState, type ChangeEvent } from "react";
 import { Link } from "react-router";
 import { MediaCarousel } from "../components/MediaCarousel";
+import { OpeningStudio } from "../components/OpeningStudio";
 import { useGiftDraft, type GiftThemeId } from "../context/GiftDraftContext";
 import "./BuilderPage.css";
 import "./BuilderStep2.css";
@@ -19,7 +20,7 @@ const occasions = [
 ];
 
 const progressSteps = [
-  { number: 1, title: "Comece a história", description: "Informações principais" },
+  { number: 1, title: "Abertura", description: "Primeira impressão" },
   { number: 2, title: "Escolha o tema", description: "Visual e personalidade" },
   { number: 3, title: "Adicione momentos", description: "Fotos, textos e música" },
   { number: 4, title: "Revise e publique", description: "Link e QR Code" },
@@ -198,13 +199,9 @@ export function BuilderPage() {
   const [currentStep, setCurrentStep] = useState(1);
   const {
     recipientName,
-    setRecipientName,
     senderName,
-    setSenderName,
     occasion,
-    setOccasion,
     message,
-    setMessage,
     selectedThemeId,
     setSelectedThemeId,
   } = useGiftDraft();
@@ -540,7 +537,7 @@ export function BuilderPage() {
         />
       )}
 
-      <main className="builder-layout">
+      <main className={`builder-layout${currentStep === 1 ? " builder-layout--opening" : ""}`}>
         <aside className="builder-progress" aria-label="Etapas de criação">
           <span className="builder-progress__label">Seu progresso</span>
 
@@ -571,91 +568,9 @@ export function BuilderPage() {
           </Link>
         </aside>
 
-        <section className="builder-form">
+        <section className={`builder-form${currentStep === 1 ? " builder-form--opening" : ""}`}>
           {currentStep === 1 ? (
-            <>
-              <div className="builder-form__heading">
-                <span>Etapa 1 de 4</span>
-                <h1>Vamos começar pela história.</h1>
-                <p>Conte para quem é o presente. Você poderá alterar tudo depois.</p>
-              </div>
-
-              <form
-                onSubmit={(event) => {
-                  event.preventDefault();
-                  changeStep(2);
-                }}
-              >
-                <div className="builder-field">
-                  <label htmlFor="occasion">Qual é a ocasião?</label>
-                  <select
-                    id="occasion"
-                    value={occasion}
-                    onChange={(event) => setOccasion(event.target.value)}
-                  >
-                    {occasions.map((occasionOption) => (
-                      <option value={occasionOption} key={occasionOption}>
-                        {occasionOption}
-                      </option>
-                    ))}
-                  </select>
-                </div>
-
-                <div className="builder-form__row">
-                  <div className="builder-field">
-                    <label htmlFor="recipient">Nome de quem receberá</label>
-                    <input
-                      id="recipient"
-                      type="text"
-                      value={recipientName}
-                      maxLength={30}
-                      placeholder="Ex.: Lívia"
-                      onChange={(event) => setRecipientName(event.target.value)}
-                    />
-                  </div>
-
-                  <div className="builder-field">
-                    <label htmlFor="sender">Seu nome</label>
-                    <input
-                      id="sender"
-                      type="text"
-                      value={senderName}
-                      maxLength={30}
-                      placeholder="Ex.: Theo"
-                      onChange={(event) => setSenderName(event.target.value)}
-                    />
-                  </div>
-                </div>
-
-                <div className="builder-field">
-                  <div className="builder-field__label">
-                    <label htmlFor="initial-message">Mensagem inicial</label>
-                    <span>{message.length}/160</span>
-                  </div>
-                  <textarea
-                    id="initial-message"
-                    value={message}
-                    maxLength={160}
-                    rows={5}
-                    placeholder="Escreva uma mensagem especial..."
-                    onChange={(event) => setMessage(event.target.value)}
-                  />
-                </div>
-
-                <div className="builder-form__tip">
-                  <span aria-hidden="true">✦</span>
-                  <p>
-                    <strong>Não precisa ficar perfeito agora.</strong>
-                    Você poderá editar essa mensagem e adicionar outras na próxima etapa.
-                  </p>
-                </div>
-
-                <button className="builder-continue" type="submit">
-                  Escolher um tema
-                  <span aria-hidden="true">→</span>
-                </button>
-              </form>
-            </>
+            <OpeningStudio occasions={occasions} onContinue={() => changeStep(2)} />
           ) : currentStep === 2 ? (
             <div className="builder-theme-step">
               <div className="builder-form__heading">
@@ -1104,7 +1019,7 @@ export function BuilderPage() {
           )}
         </section>
 
-        <aside className="builder-live-preview">
+        {currentStep !== 1 && <aside className="builder-live-preview">
           <div className="builder-live-preview__top">
             <div>
               <span>Prévia ao vivo</span>
@@ -1180,7 +1095,7 @@ export function BuilderPage() {
               </div>
             </article>
           </div>
-        </aside>
+        </aside>}
       </main>
     </div>
   );
