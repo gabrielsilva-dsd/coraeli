@@ -3,6 +3,7 @@ import { Link } from "react-router";
 import { DeclarationStudio } from "../components/DeclarationStudio";
 import { MomentsStudio } from "../components/MomentsStudio";
 import { OpeningStudio } from "../components/OpeningStudio";
+import { SurpriseStudio } from "../components/SurpriseStudio";
 import "./BuilderPage.css";
 
 const occasions = [
@@ -99,16 +100,23 @@ export function BuilderPage() {
           )}
 
           {currentStep === 4 && (
+            <SurpriseStudio
+              onBack={() => changeStep(3)}
+              onContinue={() => changeStep(5)}
+            />
+          )}
+
+          {currentStep === 5 && (
             <div className="builder-upcoming-step">
-              <span>Etapa 4 de 5</span>
-              <div aria-hidden="true">♫</div>
-              <h1>A surpresa é a próxima etapa.</h1>
+              <span>Etapa 5 de 5</span>
+              <div aria-hidden="true">♥</div>
+              <h1>O encerramento é a próxima etapa.</h1>
               <p>
-                Aqui entraremos com música, perguntas e interações. Esse módulo
-                será construído no próximo checkpoint.
+                Aqui entraremos com mensagem final, GIF comemorativo e assinatura.
+                Esse módulo será construído no próximo checkpoint.
               </p>
-              <button type="button" onClick={() => changeStep(3)}>
-                ← Voltar aos momentos
+              <button type="button" onClick={() => changeStep(4)}>
+                ← Voltar à surpresa
               </button>
             </div>
           )}

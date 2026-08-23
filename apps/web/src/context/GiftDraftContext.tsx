@@ -13,6 +13,7 @@ export type GiftThemeId = "aurora" | "cinema" | "essencia";
 export type OpeningVisual = "mascot" | "heart" | "minimal";
 export type OpeningButtonStyle = "solid" | "outline";
 export type MediaPresentation = "carousel" | "showcase" | "gallery";
+export type CorrectAnswer = "first" | "second";
 
 export type GiftMediaItem = {
   id: number;
@@ -20,6 +21,12 @@ export type GiftMediaItem = {
   previewUrl: string;
   fileName: string;
   caption: string;
+};
+
+export type GiftSoundtrack = {
+  previewUrl: string;
+  fileName: string;
+  title: string;
 };
 
 type GiftDraftContextValue = {
@@ -55,6 +62,22 @@ type GiftDraftContextValue = {
   setMediaItems: Dispatch<SetStateAction<GiftMediaItem[]>>;
   mediaPresentation: MediaPresentation;
   setMediaPresentation: Dispatch<SetStateAction<MediaPresentation>>;
+  soundtrack: GiftSoundtrack | null;
+  setSoundtrack: Dispatch<SetStateAction<GiftSoundtrack | null>>;
+  interactionEnabled: boolean;
+  setInteractionEnabled: Dispatch<SetStateAction<boolean>>;
+  surpriseTitle: string;
+  setSurpriseTitle: Dispatch<SetStateAction<string>>;
+  surpriseQuestion: string;
+  setSurpriseQuestion: Dispatch<SetStateAction<string>>;
+  firstAnswer: string;
+  setFirstAnswer: Dispatch<SetStateAction<string>>;
+  secondAnswer: string;
+  setSecondAnswer: Dispatch<SetStateAction<string>>;
+  correctAnswer: CorrectAnswer;
+  setCorrectAnswer: Dispatch<SetStateAction<CorrectAnswer>>;
+  successMessage: string;
+  setSuccessMessage: Dispatch<SetStateAction<string>>;
 };
 
 const GiftDraftContext = createContext<GiftDraftContextValue | null>(null);
@@ -88,6 +111,20 @@ export function GiftDraftProvider({ children }: { children: ReactNode }) {
   const [mediaPresentation, setMediaPresentation] =
     useState<MediaPresentation>("carousel");
   const mediaItemsRef = useRef<GiftMediaItem[]>([]);
+  const [soundtrack, setSoundtrackState] = useState<GiftSoundtrack | null>(null);
+  const soundtrackRef = useRef<GiftSoundtrack | null>(null);
+  const [interactionEnabled, setInteractionEnabled] = useState(true);
+  const [surpriseTitle, setSurpriseTitle] = useState("Uma pergunta só nossa");
+  const [surpriseQuestion, setSurpriseQuestion] = useState(
+    "Qual lugar marcou o começo da nossa história?",
+  );
+  const [firstAnswer, setFirstAnswer] = useState("Na praça");
+  const [secondAnswer, setSecondAnswer] = useState("No cinema");
+  const [correctAnswer, setCorrectAnswer] =
+    useState<CorrectAnswer>("first");
+  const [successMessage, setSuccessMessage] = useState(
+    "Você lembrou! É por isso que cada detalhe ao seu lado é especial.",
+  );
 
   function setMediaItems(action: SetStateAction<GiftMediaItem[]>) {
     setMediaItemsState((currentItems) => {
@@ -98,11 +135,23 @@ export function GiftDraftProvider({ children }: { children: ReactNode }) {
     });
   }
 
+  function setSoundtrack(action: SetStateAction<GiftSoundtrack | null>) {
+    setSoundtrackState((currentSoundtrack) => {
+      const nextSoundtrack =
+        typeof action === "function" ? action(currentSoundtrack) : action;
+      soundtrackRef.current = nextSoundtrack;
+      return nextSoundtrack;
+    });
+  }
+
   useEffect(() => {
     return () => {
       mediaItemsRef.current.forEach((item) => {
         URL.revokeObjectURL(item.previewUrl);
       });
+      if (soundtrackRef.current) {
+        URL.revokeObjectURL(soundtrackRef.current.previewUrl);
+      }
     };
   }, []);
 
@@ -141,6 +190,22 @@ export function GiftDraftProvider({ children }: { children: ReactNode }) {
         setMediaItems,
         mediaPresentation,
         setMediaPresentation,
+        soundtrack,
+        setSoundtrack,
+        interactionEnabled,
+        setInteractionEnabled,
+        surpriseTitle,
+        setSurpriseTitle,
+        surpriseQuestion,
+        setSurpriseQuestion,
+        firstAnswer,
+        setFirstAnswer,
+        secondAnswer,
+        setSecondAnswer,
+        correctAnswer,
+        setCorrectAnswer,
+        successMessage,
+        setSuccessMessage,
       }}
     >
       {children}

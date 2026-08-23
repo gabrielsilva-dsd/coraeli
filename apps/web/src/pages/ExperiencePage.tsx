@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useRef, useState } from "react";
 import { Link } from "react-router";
 import auroraCelebration from "../assets/themes/aurora/comemorando.gif";
 import auroraWaiting from "../assets/themes/aurora/espera.gif";
@@ -18,6 +18,9 @@ const chapters = [
 export function ExperiencePage() {
   const [hasStarted, setHasStarted] = useState(false);
   const [activeChapter, setActiveChapter] = useState(0);
+  const [isSoundtrackPlaying, setIsSoundtrackPlaying] = useState(false);
+  const [questionResult, setQuestionResult] = useState<"correct" | "wrong" | null>(null);
+  const soundtrackRef = useRef<HTMLAudioElement | null>(null);
   const {
     recipientName,
     senderName,
@@ -35,6 +38,14 @@ export function ExperiencePage() {
     relationshipStartDate,
     mediaItems,
     mediaPresentation,
+    soundtrack,
+    interactionEnabled,
+    surpriseTitle,
+    surpriseQuestion,
+    firstAnswer,
+    secondAnswer,
+    correctAnswer,
+    successMessage,
   } = useGiftDraft();
   const recipient = recipientName.trim() || "Alguém especial";
   const sender = senderName.trim() || "Você";
@@ -60,11 +71,41 @@ export function ExperiencePage() {
 
   function beginExperience() {
     setActiveChapter(0);
+    setQuestionResult(null);
     setHasStarted(true);
+    soundtrackRef.current?.play().catch(() => {
+      setIsSoundtrackPlaying(false);
+    });
+  }
+
+  function toggleSoundtrack() {
+    const audio = soundtrackRef.current;
+    if (!audio) return;
+
+    if (audio.paused) {
+      audio.play().catch(() => setIsSoundtrackPlaying(false));
+    } else {
+      audio.pause();
+    }
+  }
+
+  function answerQuestion(answer: "first" | "second") {
+    setQuestionResult(answer === correctAnswer ? "correct" : "wrong");
   }
 
   return (
     <main className={`experience experience--${selectedThemeId}`}>
+      {soundtrack && (
+        <audio
+          ref={soundtrackRef}
+          src={soundtrack.previewUrl}
+          loop
+          preload="metadata"
+          onPlay={() => setIsSoundtrackPlaying(true)}
+          onPause={() => setIsSoundtrackPlaying(false)}
+        />
+      )}
+
       <div
         className={`experience-opening${hasStarted ? " experience-opening--hidden" : ""}`}
         aria-hidden={hasStarted}
@@ -118,10 +159,22 @@ export function ExperiencePage() {
           <strong>Coraeli</strong>
         </Link>
 
-        <div className="experience-topbar__progress" aria-live="polite">
-          <span>{String(activeChapter + 1).padStart(2, "0")}</span>
-          <i aria-hidden="true" />
-          <span>{String(chapters.length).padStart(2, "0")}</span>
+        <div className="experience-topbar__actions">
+          {soundtrack && hasStarted && (
+            <button
+              type="button"
+              onClick={toggleSoundtrack}
+              aria-label={isSoundtrackPlaying ? "Pausar música" : "Reproduzir música"}
+            >
+              <span aria-hidden="true">{isSoundtrackPlaying ? "♫" : "♩"}</span>
+            </button>
+          )}
+
+          <div className="experience-topbar__progress" aria-live="polite">
+            <span>{String(activeChapter + 1).padStart(2, "0")}</span>
+            <i aria-hidden="true" />
+            <span>{String(chapters.length).padStart(2, "0")}</span>
+          </div>
         </div>
       </header>
 
@@ -210,10 +263,54 @@ export function ExperiencePage() {
               <img src={auroraWaiting} alt="" />
             </div>
 
-            <h2>A próxima surpresa está sendo preparada.</h2>
-            <p className="experience-chapter__lead">
-              Música, perguntas e pequenas interações aparecerão aqui.
-            </p>
+            <h2>{surpriseTitle.trim() || "Uma surpresa para você"}</h2>
+
+            {soundtrack && (
+              <div className="experience-surprise-music">
+                <span aria-hidden="true">♫</span>
+                <div>
+                  <small>Nossa trilha</small>
+                  <strong>{soundtrack.title.trim() || "Nossa música"}</strong>
+                </div>
+              </div>
+            )}
+
+            {interactionEnabled ? (
+              <div className="experience-surprise-question">
+                <p>{surpriseQuestion.trim() || "Escolha uma resposta"}</p>
+
+                {questionResult !== "correct" && (
+                  <div>
+                    <button
+                      type="button"
+                      tabIndex={activeChapter === 2 ? 0 : -1}
+                      onClick={() => answerQuestion("first")}
+                    >
+                      {firstAnswer.trim() || "Primeira opção"}
+                    </button>
+                    <button
+                      type="button"
+                      tabIndex={activeChapter === 2 ? 0 : -1}
+                      onClick={() => answerQuestion("second")}
+                    >
+                      {secondAnswer.trim() || "Segunda opção"}
+                    </button>
+                  </div>
+                )}
+
+                {questionResult && (
+                  <span className={`is-${questionResult}`} role="status">
+                    {questionResult === "correct"
+                      ? successMessage.trim() || "Você acertou!"
+                      : "Quase! Tente a outra opção."}
+                  </span>
+                )}
+              </div>
+            ) : (
+              <p className="experience-chapter__lead">
+                Uma música e um instante preparados especialmente para você.
+              </p>
+            )}
           </div>
         </section>
 
