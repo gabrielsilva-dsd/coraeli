@@ -57,6 +57,7 @@
 }
 
 .opening-canvas {
+  position: relative;
   display: grid;
   min-height: 31rem;
   padding: 2rem 1.2rem;
@@ -90,6 +91,17 @@
   height: min(50vw, 10rem);
   margin: 0.9rem 0;
   border-radius: 1.2rem;
+}
+
+.opening-canvas__decoration-secondary {
+  position: absolute;
+  top: 1rem;
+  right: 0.85rem;
+  width: 4.5rem;
+  height: 4rem;
+  margin: 0;
+  border-radius: 0.8rem;
+  opacity: 0.9;
 }
 
 .opening-canvas__eyebrow {

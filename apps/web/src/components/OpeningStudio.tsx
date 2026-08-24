@@ -1,9 +1,7 @@
-import auroraMain from "../assets/themes/aurora/principal.gif";
 import { DecorationPicker, DecorationVisual } from "./DecorationPicker";
 import {
   useGiftDraft,
   type OpeningButtonStyle,
-  type OpeningVisual,
 } from "../context/GiftDraftContext";
 import {
   giftThemes,
@@ -15,16 +13,6 @@ type OpeningStudioProps = {
   occasions: string[];
   onContinue: () => void;
 };
-
-const visualOptions: Array<{
-  id: OpeningVisual;
-  label: string;
-  symbol: string;
-}> = [
-  { id: "mascot", label: "Mascote", symbol: "✦" },
-  { id: "heart", label: "Coração", symbol: "♥" },
-  { id: "minimal", label: "Sem elemento", symbol: "—" },
-];
 
 const buttonStyles: Array<{
   id: OpeningButtonStyle;
@@ -49,8 +37,6 @@ export function OpeningStudio({ occasions, onContinue }: OpeningStudioProps) {
     decorations,
     setDecoration,
     setDecorations,
-    openingVisual,
-    setOpeningVisual,
     openingButtonLabel,
     setOpeningButtonLabel,
     openingButtonStyle,
@@ -60,7 +46,8 @@ export function OpeningStudio({ occasions, onContinue }: OpeningStudioProps) {
   const recipient = recipientName.trim() || "Alguém especial";
   const previewMessage =
     message.trim() || "Algumas histórias não cabem em uma mensagem.";
-  const openingDecoration = decorations.opening;
+  const openingDecoration = decorations.openingPrimary;
+  const openingSecondaryDecoration = decorations.openingSecondary;
 
   function chooseTheme(themeId: typeof selectedThemeId) {
     setSelectedThemeId(themeId);
@@ -84,20 +71,14 @@ export function OpeningStudio({ occasions, onContinue }: OpeningStudioProps) {
         <div className="opening-canvas">
           <span className="opening-canvas__eyebrow">Uma surpresa para você</span>
 
-          {openingDecoration ? (
-            <DecorationVisual
-              assetId={openingDecoration}
-              className="opening-canvas__decoration"
-            />
-          ) : openingVisual === "mascot" ? (
-            <div className="opening-canvas__visual opening-canvas__visual--mascot">
-              <img src={auroraMain} alt="" />
-            </div>
-          ) : openingVisual === "heart" ? (
-            <div className="opening-canvas__visual opening-canvas__visual--heart" aria-hidden="true">
-              ♥
-            </div>
-          ) : null}
+          <DecorationVisual
+            assetId={openingDecoration}
+            className="opening-canvas__decoration"
+          />
+          <DecorationVisual
+            assetId={openingSecondaryDecoration}
+            className="opening-canvas__decoration-secondary"
+          />
 
           <h1>{recipient}, preparei algo especial.</h1>
           <p>{previewMessage}</p>
@@ -205,28 +186,16 @@ export function OpeningStudio({ occasions, onContinue }: OpeningStudioProps) {
           </fieldset>
 
           <DecorationPicker
-            slot="opening"
+            slot="openingPrimary"
             value={openingDecoration}
-            onChange={(assetId) => setDecoration("opening", assetId)}
+            onChange={(assetId) => setDecoration("openingPrimary", assetId)}
           />
 
-          <fieldset className="opening-choice-group">
-            <legend>Elemento principal</legend>
-            <div className="opening-segmented-options">
-              {visualOptions.map((option) => (
-                <button
-                  className={openingVisual === option.id ? "is-selected" : ""}
-                  type="button"
-                  key={option.id}
-                  aria-pressed={openingVisual === option.id}
-                  onClick={() => setOpeningVisual(option.id)}
-                >
-                  <span aria-hidden="true">{option.symbol}</span>
-                  {option.label}
-                </button>
-              ))}
-            </div>
-          </fieldset>
+          <DecorationPicker
+            slot="openingSecondary"
+            value={openingSecondaryDecoration}
+            onChange={(assetId) => setDecoration("openingSecondary", assetId)}
+          />
 
           <div className="opening-field">
             <div className="opening-field__label">

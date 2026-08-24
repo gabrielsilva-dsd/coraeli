@@ -1,5 +1,4 @@
 import { useRef, useState, type ChangeEvent } from "react";
-import auroraWaiting from "../assets/themes/aurora/espera.gif";
 import { useGiftDraft, type CorrectAnswer } from "../context/GiftDraftContext";
 import { DecorationPicker, DecorationVisual } from "./DecorationPicker";
 import "./SurpriseStudio.css";
@@ -109,16 +108,14 @@ export function SurpriseStudio({ onBack, onContinue }: SurpriseStudioProps) {
         <article className="surprise-canvas">
           <span className="surprise-canvas__eyebrow">Uma pausa especial</span>
 
-          {decorations.surprise ? (
-            <DecorationVisual
-              assetId={decorations.surprise}
-              className="surprise-canvas__decoration"
-            />
-          ) : (
-            <div className="surprise-canvas__mascot" aria-hidden="true">
-              <img src={auroraWaiting} alt="" />
-            </div>
-          )}
+          <DecorationVisual
+            assetId={decorations.surprisePrimary}
+            className="surprise-canvas__decoration"
+          />
+          <DecorationVisual
+            assetId={decorations.surpriseSecondary}
+            className="surprise-canvas__decoration-secondary"
+          />
 
           <h1>{surpriseTitle.trim() || "Uma surpresa para você"}</h1>
 
@@ -361,9 +358,15 @@ export function SurpriseStudio({ onBack, onContinue }: SurpriseStudioProps) {
         </section>
 
         <DecorationPicker
-          slot="surprise"
-          value={decorations.surprise}
-          onChange={(assetId) => setDecoration("surprise", assetId)}
+          slot="surprisePrimary"
+          value={decorations.surprisePrimary}
+          onChange={(assetId) => setDecoration("surprisePrimary", assetId)}
+        />
+
+        <DecorationPicker
+          slot="surpriseSecondary"
+          value={decorations.surpriseSecondary}
+          onChange={(assetId) => setDecoration("surpriseSecondary", assetId)}
         />
 
         <div className="surprise-studio__actions">

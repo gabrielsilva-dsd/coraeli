@@ -11,19 +11,30 @@ import {
 
 export type GiftThemeId = "hello-kitty" | "aurora" | "cinema" | "essencia";
 export type DecorationSlotId =
-  | "opening"
-  | "declaration"
-  | "moments"
-  | "surprise"
-  | "final";
+  | "openingPrimary"
+  | "openingSecondary"
+  | "declarationPrimary"
+  | "declarationSecondary"
+  | "momentsPrimary"
+  | "momentsSecondary"
+  | "surprisePrimary"
+  | "surpriseSecondary"
+  | "finalPrimary"
+  | "finalSecondary";
 export type DecorationAssetId =
   | "hello-shy-letter"
   | "hello-heart-frame"
   | "hello-kiss-hearts"
   | "hello-love-dance"
   | "hello-wave"
-  | "hello-pixel-love";
+  | "hello-pixel-love"
+  | "aurora-main"
+  | "aurora-waiting"
+  | "aurora-celebration";
 export type GiftDecorations = Record<DecorationSlotId, DecorationAssetId | null>;
+type LegacyGiftDecorations = Partial<
+  Record<"opening" | "declaration" | "moments" | "surprise" | "final", DecorationAssetId | null>
+>;
 export type OpeningVisual = "mascot" | "heart" | "minimal";
 export type OpeningButtonStyle = "solid" | "outline";
 export type MediaPresentation = "carousel" | "showcase" | "gallery";
@@ -158,7 +169,7 @@ type PersistedGiftDraft = {
   occasion: string;
   message: string;
   selectedThemeId: GiftThemeId;
-  decorations?: GiftDecorations;
+  decorations?: Partial<GiftDecorations> & LegacyGiftDecorations;
   openingVisual: OpeningVisual;
   openingButtonLabel: string;
   openingButtonStyle: OpeningButtonStyle;
@@ -194,12 +205,41 @@ const DRAFT_STORAGE_KEY = "coraeli:gift-draft:v1";
 const DRAFT_DATABASE_NAME = "coraeli-drafts";
 const DRAFT_FILE_STORE = "files";
 const EMPTY_DECORATIONS: GiftDecorations = {
-  opening: null,
-  declaration: null,
-  moments: null,
-  surprise: null,
-  final: null,
+  openingPrimary: null,
+  openingSecondary: null,
+  declarationPrimary: null,
+  declarationSecondary: null,
+  momentsPrimary: null,
+  momentsSecondary: null,
+  surprisePrimary: null,
+  surpriseSecondary: null,
+  finalPrimary: null,
+  finalSecondary: null,
 };
+
+export function normalizeDecorations(
+  savedDecorations?: Partial<GiftDecorations> & LegacyGiftDecorations,
+): GiftDecorations {
+  if (!savedDecorations) return { ...EMPTY_DECORATIONS };
+
+  return {
+    openingPrimary:
+      savedDecorations.openingPrimary ?? savedDecorations.opening ?? null,
+    openingSecondary: savedDecorations.openingSecondary ?? null,
+    declarationPrimary:
+      savedDecorations.declarationPrimary ?? savedDecorations.declaration ?? null,
+    declarationSecondary: savedDecorations.declarationSecondary ?? null,
+    momentsPrimary:
+      savedDecorations.momentsPrimary ?? savedDecorations.moments ?? null,
+    momentsSecondary: savedDecorations.momentsSecondary ?? null,
+    surprisePrimary:
+      savedDecorations.surprisePrimary ?? savedDecorations.surprise ?? null,
+    surpriseSecondary: savedDecorations.surpriseSecondary ?? null,
+    finalPrimary:
+      savedDecorations.finalPrimary ?? savedDecorations.final ?? null,
+    finalSecondary: savedDecorations.finalSecondary ?? null,
+  };
+}
 
 function readPersistedDraft(): PersistedGiftDraft | null {
   try {
@@ -305,10 +345,9 @@ export function GiftDraftProvider({ children }: { children: ReactNode }) {
   );
   const [selectedThemeId, setSelectedThemeId] =
     useState<GiftThemeId>(persistedDraft?.selectedThemeId ?? "aurora");
-  const [decorations, setDecorations] = useState<GiftDecorations>({
-    ...EMPTY_DECORATIONS,
-    ...persistedDraft?.decorations,
-  });
+  const [decorations, setDecorations] = useState<GiftDecorations>(() =>
+    normalizeDecorations(persistedDraft?.decorations),
+  );
   const [openingVisual, setOpeningVisual] = useState<OpeningVisual>(
     persistedDraft?.openingVisual ?? "mascot",
   );

@@ -48,6 +48,7 @@
 }
 
 .moments-canvas {
+  position: relative;
   display: grid;
   min-height: 34rem;
   padding: 2rem 1.1rem;
@@ -72,6 +73,17 @@
   height: min(28vw, 5.4rem);
   margin: 0.3rem auto;
   border-radius: 0.9rem;
+}
+
+.moments-canvas__decoration-secondary {
+  position: absolute;
+  top: 0.9rem;
+  right: 0.8rem;
+  width: 3.8rem;
+  height: 3.4rem;
+  margin: 0;
+  border-radius: 0.75rem;
+  opacity: 0.86;
 }
 
 .moments-canvas__eyebrow {

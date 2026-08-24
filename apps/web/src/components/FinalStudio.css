@@ -59,6 +59,7 @@
 }
 
 .final-canvas {
+  position: relative;
   display: flex;
   min-height: 34rem;
   padding: 2.3rem 1.35rem;
@@ -83,6 +84,17 @@
   height: min(40vw, 7.5rem);
   margin: 0.6rem auto;
   border-radius: 1rem;
+}
+
+.final-canvas__decoration-secondary {
+  position: absolute;
+  top: 0.85rem;
+  right: 0.8rem;
+  width: 4rem;
+  height: 3.6rem;
+  margin: 0;
+  border-radius: 0.75rem;
+  opacity: 0.88;
 }
 
 .final-canvas__eyebrow {

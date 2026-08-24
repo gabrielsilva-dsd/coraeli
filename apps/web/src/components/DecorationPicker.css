@@ -167,6 +167,22 @@
   gap: 0.75rem;
 }
 
+.decoration-library__grid--none {
+  grid-template-columns: 1fr;
+}
+
+.decoration-library__collection {
+  margin-top: 1.15rem;
+}
+
+.decoration-library__collection h4 {
+  margin: 0 0 0.55rem;
+  color: #6b3549;
+  font-size: 0.7rem;
+  letter-spacing: 0.11em;
+  text-transform: uppercase;
+}
+
 .decoration-library__grid > button {
   display: grid;
   min-width: 0;
@@ -210,7 +226,7 @@
 
 .decoration-library__none {
   align-content: center;
-  min-height: 10rem;
+  min-height: 5.5rem;
 }
 
 .decoration-library__none > span {
@@ -237,6 +253,10 @@
 @media (min-width: 44rem) {
   .decoration-library__grid {
     grid-template-columns: repeat(3, minmax(0, 1fr));
+  }
+
+  .decoration-library__grid--none {
+    grid-template-columns: 1fr;
   }
 }
 

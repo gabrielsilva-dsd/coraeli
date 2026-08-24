@@ -5,6 +5,7 @@ import type {
 } from "../context/GiftDraftContext";
 import {
   decorationAssets,
+  decorationCollectionLabels,
   decorationSlotLabels,
   getDecorationAsset,
 } from "../data/decorationCatalog";
@@ -74,7 +75,7 @@ export function DecorationPicker({ slot, value, onChange }: DecorationPickerProp
         <div className="decoration-library__sheet">
           <header>
             <div>
-              <span>Coleção Hello Kitty</span>
+              <span>Biblioteca de personagens</span>
               <h3 id={`decoration-${slot}-library-title`}>Escolha um personagem</h3>
               <p>A prévia muda assim que você escolher.</p>
             </div>
@@ -87,7 +88,7 @@ export function DecorationPicker({ slot, value, onChange }: DecorationPickerProp
             </button>
           </header>
 
-          <div className="decoration-library__grid">
+          <div className="decoration-library__grid decoration-library__grid--none">
             <button
               className={!value ? "is-selected decoration-library__none" : "decoration-library__none"}
               type="button"
@@ -98,23 +99,32 @@ export function DecorationPicker({ slot, value, onChange }: DecorationPickerProp
               <strong>Sem personagem</strong>
               <small>Deixa esta etapa mais limpa.</small>
             </button>
-
-            {decorationAssets.map((asset) => (
-              <button
-                className={value === asset.id ? "is-selected" : ""}
-                type="button"
-                key={asset.id}
-                onClick={() => selectAsset(asset.id)}
-                aria-pressed={value === asset.id}
-              >
-                <span className="decoration-library__preview">
-                  <img src={asset.src} alt="" />
-                </span>
-                <strong>{asset.name}</strong>
-                <small>{asset.description}</small>
-              </button>
-            ))}
           </div>
+
+          {(["hello-kitty", "aurora"] as const).map((collection) => (
+            <section className="decoration-library__collection" key={collection}>
+              <h4>{decorationCollectionLabels[collection]}</h4>
+              <div className="decoration-library__grid">
+                {decorationAssets
+                  .filter((asset) => asset.collection === collection)
+                  .map((asset) => (
+                    <button
+                      className={value === asset.id ? "is-selected" : ""}
+                      type="button"
+                      key={asset.id}
+                      onClick={() => selectAsset(asset.id)}
+                      aria-pressed={value === asset.id}
+                    >
+                      <span className="decoration-library__preview">
+                        <img src={asset.src} alt="" />
+                      </span>
+                      <strong>{asset.name}</strong>
+                      <small>{asset.description}</small>
+                    </button>
+                  ))}
+              </div>
+            </section>
+          ))}
         </div>
       </dialog>
     </section>

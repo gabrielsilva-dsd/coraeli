@@ -1,10 +1,8 @@
-import auroraCelebration from "../assets/themes/aurora/comemorando.gif";
-import auroraMain from "../assets/themes/aurora/principal.gif";
 import { useRef, useState } from "react";
 import { Link } from "react-router";
 import { QRCodeCanvas } from "qrcode.react";
 import { useAuth } from "../context/AuthContext";
-import { useGiftDraft, type FinalVisual } from "../context/GiftDraftContext";
+import { useGiftDraft } from "../context/GiftDraftContext";
 import { publishGift } from "../services/giftPublishing";
 import { DecorationPicker, DecorationVisual } from "./DecorationPicker";
 import "./FinalStudio.css";
@@ -12,32 +10,6 @@ import "./FinalStudio.css";
 type FinalStudioProps = {
   onBack: () => void;
 };
-
-const visualOptions: Array<{
-  id: FinalVisual;
-  symbol: string;
-  title: string;
-  description: string;
-}> = [
-  {
-    id: "celebration",
-    symbol: "✦",
-    title: "Comemoração",
-    description: "GIF alegre para fechar com energia.",
-  },
-  {
-    id: "mascot",
-    symbol: "☺",
-    title: "Carinho",
-    description: "Personagem delicado e romântico.",
-  },
-  {
-    id: "heart",
-    symbol: "♥",
-    title: "Coração",
-    description: "Final limpo, leve e universal.",
-  },
-];
 
 export function FinalStudio({ onBack }: FinalStudioProps) {
   const { user } = useAuth();
@@ -60,8 +32,6 @@ export function FinalStudio({ onBack }: FinalStudioProps) {
     setFinalMessage,
     finalSignature,
     setFinalSignature,
-    finalVisual,
-    setFinalVisual,
     replayButtonLabel,
     setReplayButtonLabel,
     getDraftSnapshot,
@@ -178,23 +148,15 @@ export function FinalStudio({ onBack }: FinalStudioProps) {
         <article className="final-canvas">
           <span className="final-canvas__eyebrow">Para guardar no coração</span>
 
-          {decorations.final ? (
-            <DecorationVisual
-              assetId={decorations.final}
-              className="final-canvas__decoration"
-              decorative={false}
-            />
-          ) : (
-            <div className={`final-canvas__visual final-canvas__visual--${finalVisual}`}>
-              {finalVisual === "celebration" && (
-                <img src={auroraCelebration} alt="Personagem comemorando" />
-              )}
-              {finalVisual === "mascot" && (
-                <img src={auroraMain} alt="Personagem segurando uma mensagem de amor" />
-              )}
-              {finalVisual === "heart" && <span aria-hidden="true">♥</span>}
-            </div>
-          )}
+          <DecorationVisual
+            assetId={decorations.finalPrimary}
+            className="final-canvas__decoration"
+            decorative={false}
+          />
+          <DecorationVisual
+            assetId={decorations.finalSecondary}
+            className="final-canvas__decoration-secondary"
+          />
 
           <small>{recipient}, antes de terminar...</small>
           <h1>{finalTitle.trim() || "Uma última mensagem"}</h1>
@@ -271,36 +233,16 @@ export function FinalStudio({ onBack }: FinalStudioProps) {
           </div>
         </section>
 
-        <section className="final-editor-card" aria-labelledby="final-visual-title">
-          <div className="final-section-heading">
-            <span aria-hidden="true">✦</span>
-            <div>
-              <strong id="final-visual-title">Clima do encerramento</strong>
-              <small>Escolha uma opção. A prévia muda na hora.</small>
-            </div>
-          </div>
-
-          <div className="final-visual-options">
-            {visualOptions.map((option) => (
-              <button
-                className={finalVisual === option.id ? "is-selected" : ""}
-                type="button"
-                key={option.id}
-                onClick={() => setFinalVisual(option.id)}
-                aria-pressed={finalVisual === option.id}
-              >
-                <span aria-hidden="true">{option.symbol}</span>
-                <strong>{option.title}</strong>
-                <small>{option.description}</small>
-              </button>
-            ))}
-          </div>
-        </section>
+        <DecorationPicker
+          slot="finalPrimary"
+          value={decorations.finalPrimary}
+          onChange={(assetId) => setDecoration("finalPrimary", assetId)}
+        />
 
         <DecorationPicker
-          slot="final"
-          value={decorations.final}
-          onChange={(assetId) => setDecoration("final", assetId)}
+          slot="finalSecondary"
+          value={decorations.finalSecondary}
+          onChange={(assetId) => setDecoration("finalSecondary", assetId)}
         />
 
         <section className="final-editor-card" aria-labelledby="final-replay-title">

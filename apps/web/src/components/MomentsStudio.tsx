@@ -213,8 +213,12 @@ export function MomentsStudio({ onBack, onContinue }: MomentsStudioProps) {
         <div className="moments-canvas">
           <span className="moments-canvas__eyebrow">Nossos momentos</span>
           <DecorationVisual
-            assetId={decorations.moments}
+            assetId={decorations.momentsPrimary}
             className="moments-canvas__decoration"
+          />
+          <DecorationVisual
+            assetId={decorations.momentsSecondary}
+            className="moments-canvas__decoration-secondary"
           />
           <h1>Lembranças que continuam em movimento.</h1>
 
@@ -349,9 +353,15 @@ export function MomentsStudio({ onBack, onContinue }: MomentsStudioProps) {
         </fieldset>
 
         <DecorationPicker
-          slot="moments"
-          value={decorations.moments}
-          onChange={(assetId) => setDecoration("moments", assetId)}
+          slot="momentsPrimary"
+          value={decorations.momentsPrimary}
+          onChange={(assetId) => setDecoration("momentsPrimary", assetId)}
+        />
+
+        <DecorationPicker
+          slot="momentsSecondary"
+          value={decorations.momentsSecondary}
+          onChange={(assetId) => setDecoration("momentsSecondary", assetId)}
         />
 
         <div className="moments-studio__actions">

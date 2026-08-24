@@ -51,8 +51,12 @@ export function DeclarationStudio({ onBack, onContinue }: DeclarationStudioProps
         <article className="declaration-canvas">
           <span className="declaration-canvas__occasion">{occasion}</span>
           <DecorationVisual
-            assetId={decorations.declaration}
+            assetId={decorations.declarationPrimary}
             className="declaration-canvas__decoration"
+          />
+          <DecorationVisual
+            assetId={decorations.declarationSecondary}
+            className="declaration-canvas__decoration-secondary"
           />
           <small>Uma declaração para</small>
           <h1>{recipient}</h1>
@@ -187,9 +191,15 @@ export function DeclarationStudio({ onBack, onContinue }: DeclarationStudioProps
           </div>
 
           <DecorationPicker
-            slot="declaration"
-            value={decorations.declaration}
-            onChange={(assetId) => setDecoration("declaration", assetId)}
+            slot="declarationPrimary"
+            value={decorations.declarationPrimary}
+            onChange={(assetId) => setDecoration("declarationPrimary", assetId)}
+          />
+
+          <DecorationPicker
+            slot="declarationSecondary"
+            value={decorations.declarationSecondary}
+            onChange={(assetId) => setDecoration("declarationSecondary", assetId)}
           />
 
           <div className="declaration-studio__actions">

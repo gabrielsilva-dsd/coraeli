@@ -4,6 +4,9 @@ import helloLoveDance from "../assets/themes/hello-kitty/love-dance.gif";
 import helloPixelLove from "../assets/themes/hello-kitty/pixel-love.jpg";
 import helloShyLetter from "../assets/themes/hello-kitty/shy-letter.gif";
 import helloWave from "../assets/themes/hello-kitty/wave.gif";
+import auroraCelebration from "../assets/themes/aurora/comemorando.gif";
+import auroraWaiting from "../assets/themes/aurora/espera.gif";
+import auroraMain from "../assets/themes/aurora/principal.gif";
 import type {
   DecorationAssetId,
   DecorationSlotId,
@@ -15,7 +18,7 @@ export type DecorationAsset = {
   id: DecorationAssetId;
   name: string;
   description: string;
-  collection: "hello-kitty";
+  collection: "hello-kitty" | "aurora";
   src: string;
   kind: "gif" | "image";
 };
@@ -105,30 +108,74 @@ export const decorationAssets: DecorationAsset[] = [
     src: helloPixelLove,
     kind: "image",
   },
+  {
+    id: "aurora-main",
+    name: "Cartinha apaixonada",
+    description: "Personagem principal da coleção Aurora.",
+    collection: "aurora",
+    src: auroraMain,
+    kind: "gif",
+  },
+  {
+    id: "aurora-waiting",
+    name: "Esperando resposta",
+    description: "Reação delicada para perguntas e surpresas.",
+    collection: "aurora",
+    src: auroraWaiting,
+    kind: "gif",
+  },
+  {
+    id: "aurora-celebration",
+    name: "Comemorando",
+    description: "Uma reação alegre para fechar a experiência.",
+    collection: "aurora",
+    src: auroraCelebration,
+    kind: "gif",
+  },
 ];
 
 export const emptyDecorations: GiftDecorations = {
-  opening: null,
-  declaration: null,
-  moments: null,
-  surprise: null,
-  final: null,
+  openingPrimary: null,
+  openingSecondary: null,
+  declarationPrimary: null,
+  declarationSecondary: null,
+  momentsPrimary: null,
+  momentsSecondary: null,
+  surprisePrimary: null,
+  surpriseSecondary: null,
+  finalPrimary: null,
+  finalSecondary: null,
 };
 
 export const helloKittyRecommendedDecorations: GiftDecorations = {
-  opening: "hello-shy-letter",
-  declaration: "hello-heart-frame",
-  moments: "hello-kiss-hearts",
-  surprise: "hello-love-dance",
-  final: "hello-wave",
+  openingPrimary: "hello-shy-letter",
+  openingSecondary: null,
+  declarationPrimary: "hello-heart-frame",
+  declarationSecondary: null,
+  momentsPrimary: "hello-kiss-hearts",
+  momentsSecondary: null,
+  surprisePrimary: "hello-love-dance",
+  surpriseSecondary: null,
+  finalPrimary: "hello-wave",
+  finalSecondary: null,
 };
 
 export const decorationSlotLabels: Record<DecorationSlotId, string> = {
-  opening: "Personagem da abertura",
-  declaration: "Detalhe da declaração",
-  moments: "Detalhe dos momentos",
-  surprise: "Personagem da surpresa",
-  final: "Personagem do encerramento",
+  openingPrimary: "Personagem da abertura",
+  openingSecondary: "Detalhe adicional da abertura",
+  declarationPrimary: "Personagem da declaração",
+  declarationSecondary: "Detalhe adicional da declaração",
+  momentsPrimary: "Personagem dos momentos",
+  momentsSecondary: "Detalhe adicional dos momentos",
+  surprisePrimary: "Personagem da surpresa",
+  surpriseSecondary: "Reação adicional da surpresa",
+  finalPrimary: "Personagem do encerramento",
+  finalSecondary: "Detalhe adicional do encerramento",
+};
+
+export const decorationCollectionLabels: Record<DecorationAsset["collection"], string> = {
+  "hello-kitty": "Hello Kitty",
+  aurora: "Aurora",
 };
 
 export function getDecorationAsset(id: DecorationAssetId | null | undefined) {

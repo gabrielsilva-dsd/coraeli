@@ -7,10 +7,10 @@ import { MediaCarousel } from "../components/MediaCarousel";
 import { DecorationVisual } from "../components/DecorationPicker";
 import {
   useGiftDraft,
+  normalizeDecorations,
   type GiftDraftSnapshot,
 } from "../context/GiftDraftContext";
 import { calculateElapsedTime } from "../utils/elapsedTime";
-import { emptyDecorations } from "../data/decorationCatalog";
 import "./ExperiencePage.css";
 
 const chapters = [
@@ -67,7 +67,8 @@ export function ExperiencePage({
     finalVisual,
     replayButtonLabel,
   } = draft ?? localDraft;
-  const decorations = savedDecorations ?? emptyDecorations;
+  const decorations = normalizeDecorations(savedDecorations);
+  const shouldUseLegacyVisuals = !savedDecorations;
   const recipient = recipientName.trim() || "Alguém especial";
   const sender = senderName.trim() || "Você";
   const openingMessage =
@@ -136,16 +137,16 @@ export function ExperiencePage({
         <div className="experience-opening__content">
           <span className="experience-opening__eyebrow">Uma surpresa para você</span>
 
-          {decorations.opening ? (
+          {decorations.openingPrimary ? (
             <button
               className="experience-opening__mascot experience-opening__mascot--decoration"
               type="button"
               onClick={beginExperience}
               aria-label={`Abrir o presente de ${recipient}`}
             >
-              <DecorationVisual assetId={decorations.opening} />
+              <DecorationVisual assetId={decorations.openingPrimary} />
             </button>
-          ) : openingVisual === "mascot" ? (
+          ) : shouldUseLegacyVisuals && openingVisual === "mascot" ? (
             <button
               className="experience-opening__mascot"
               type="button"
@@ -154,7 +155,7 @@ export function ExperiencePage({
             >
               <img src={auroraMain} alt="" />
             </button>
-          ) : openingVisual === "heart" ? (
+          ) : shouldUseLegacyVisuals && openingVisual === "heart" ? (
             <button
               className="experience-opening__mascot experience-opening__mascot--heart"
               type="button"
@@ -164,6 +165,11 @@ export function ExperiencePage({
               <span aria-hidden="true">♥</span>
             </button>
           ) : null}
+
+          <DecorationVisual
+            assetId={decorations.openingSecondary}
+            className="experience-decoration-secondary experience-decoration-secondary--opening"
+          />
 
           <h1>{recipient}, preparei algo especial.</h1>
           <p>{openingMessage}</p>
@@ -232,8 +238,12 @@ export function ExperiencePage({
           <div className="experience-chapter__content">
             <span className="experience-kicker">{occasion}</span>
             <DecorationVisual
-              assetId={decorations.declaration}
+              assetId={decorations.declarationPrimary}
               className="experience-decoration experience-decoration--declaration"
+            />
+            <DecorationVisual
+              assetId={decorations.declarationSecondary}
+              className="experience-decoration-secondary experience-decoration-secondary--declaration"
             />
             <small>Uma declaração para</small>
             <h2>{recipient}</h2>
@@ -270,8 +280,12 @@ export function ExperiencePage({
           <div className="experience-chapter__content">
             <span className="experience-kicker">Nossos momentos</span>
             <DecorationVisual
-              assetId={decorations.moments}
+              assetId={decorations.momentsPrimary}
               className="experience-decoration experience-decoration--moments"
+            />
+            <DecorationVisual
+              assetId={decorations.momentsSecondary}
+              className="experience-decoration-secondary experience-decoration-secondary--moments"
             />
             <h2>Lembranças que continuam em movimento.</h2>
             <p className="experience-chapter__lead">
@@ -298,16 +312,20 @@ export function ExperiencePage({
           <div className="experience-chapter__content">
             <span className="experience-kicker">Uma pausa especial</span>
 
-            {decorations.surprise ? (
+            {decorations.surprisePrimary ? (
               <DecorationVisual
-                assetId={decorations.surprise}
+                assetId={decorations.surprisePrimary}
                 className="experience-decoration experience-decoration--surprise"
               />
-            ) : (
+            ) : shouldUseLegacyVisuals ? (
               <div className="experience-intro__mascot" aria-hidden="true">
                 <img src={auroraWaiting} alt="" />
               </div>
-            )}
+            ) : null}
+            <DecorationVisual
+              assetId={decorations.surpriseSecondary}
+              className="experience-decoration-secondary experience-decoration-secondary--surprise"
+            />
 
             <h2>{surpriseTitle.trim() || "Uma surpresa para você"}</h2>
 
@@ -367,12 +385,12 @@ export function ExperiencePage({
           <div className="experience-chapter__content">
             <span className="experience-kicker">Antes de terminar</span>
 
-            {decorations.final ? (
+            {decorations.finalPrimary ? (
               <DecorationVisual
-                assetId={decorations.final}
+                assetId={decorations.finalPrimary}
                 className="experience-decoration experience-decoration--final"
               />
-            ) : (
+            ) : shouldUseLegacyVisuals ? (
               <div
                 className={`experience-finale__mascot experience-finale__mascot--${finalVisual}`}
                 aria-hidden="true"
@@ -381,7 +399,11 @@ export function ExperiencePage({
                 {finalVisual === "mascot" && <img src={auroraMain} alt="" />}
                 {finalVisual === "heart" && <span>♥</span>}
               </div>
-            )}
+            ) : null}
+            <DecorationVisual
+              assetId={decorations.finalSecondary}
+              className="experience-decoration-secondary experience-decoration-secondary--final"
+            />
             <h2>{finalTitle.trim() || "Uma última mensagem"}</h2>
             <p>{finalMessage.trim() || "Obrigado por fazer parte desta história."}</p>
             <strong>{finalSignature.trim() || "Com carinho"}, {sender}.</strong>
