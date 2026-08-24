@@ -2,6 +2,7 @@ import { Link } from "react-router";
 import { Features } from "./components/Features";
 import { HowItWorks } from "./components/HowItWorks";
 import { ThemeShowcase } from "./components/ThemeShowcase";
+import { useAuth } from "./context/AuthContext";
 
 const editorBlocks = [
   { symbol: "Aa", name: "Mensagem" },
@@ -11,6 +12,8 @@ const editorBlocks = [
 ];
 
 function App() {
+  const { user, signOut } = useAuth();
+
   return (
     <div className="site-shell">
       <header className="topbar">
@@ -29,9 +32,15 @@ function App() {
         </nav>
 
         <div className="topbar__actions">
-          <button className="text-button" type="button">
-            Entrar
-          </button>
+          {user ? (
+            <button className="text-button" type="button" onClick={() => void signOut()}>
+              Sair
+            </button>
+          ) : (
+            <Link className="text-button" to="/entrar">
+              Entrar
+            </Link>
+          )}
 
           <Link className="button button--small" to="/criar">
             Criar presente
