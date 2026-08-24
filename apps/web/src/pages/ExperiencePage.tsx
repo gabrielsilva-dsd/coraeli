@@ -4,7 +4,10 @@ import auroraCelebration from "../assets/themes/aurora/comemorando.gif";
 import auroraWaiting from "../assets/themes/aurora/espera.gif";
 import auroraMain from "../assets/themes/aurora/principal.gif";
 import { MediaCarousel } from "../components/MediaCarousel";
-import { useGiftDraft } from "../context/GiftDraftContext";
+import {
+  useGiftDraft,
+  type GiftDraftSnapshot,
+} from "../context/GiftDraftContext";
 import { calculateElapsedTime } from "../utils/elapsedTime";
 import "./ExperiencePage.css";
 
@@ -15,12 +18,21 @@ const chapters = [
   { id: "finale", label: "Final" },
 ];
 
-export function ExperiencePage() {
+type ExperiencePageProps = {
+  draft?: GiftDraftSnapshot;
+  showEditorLink?: boolean;
+};
+
+export function ExperiencePage({
+  draft,
+  showEditorLink = true,
+}: ExperiencePageProps = {}) {
   const [hasStarted, setHasStarted] = useState(false);
   const [activeChapter, setActiveChapter] = useState(0);
   const [isSoundtrackPlaying, setIsSoundtrackPlaying] = useState(false);
   const [questionResult, setQuestionResult] = useState<"correct" | "wrong" | null>(null);
   const soundtrackRef = useRef<HTMLAudioElement | null>(null);
+  const localDraft = useGiftDraft();
   const {
     recipientName,
     senderName,
@@ -51,7 +63,7 @@ export function ExperiencePage() {
     finalSignature,
     finalVisual,
     replayButtonLabel,
-  } = useGiftDraft();
+  } = draft ?? localDraft;
   const recipient = recipientName.trim() || "Alguém especial";
   const sender = senderName.trim() || "Você";
   const openingMessage =
@@ -159,7 +171,10 @@ export function ExperiencePage() {
       </div>
 
       <header className="experience-topbar">
-        <Link to="/criar" aria-label="Voltar ao editor da Coraeli">
+        <Link
+          to={showEditorLink ? "/criar" : "/"}
+          aria-label={showEditorLink ? "Voltar ao editor da Coraeli" : "Conhecer a Coraeli"}
+        >
           <span aria-hidden="true">C</span>
           <strong>Coraeli</strong>
         </Link>

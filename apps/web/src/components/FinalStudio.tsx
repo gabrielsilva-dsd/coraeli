@@ -1,7 +1,10 @@
 import auroraCelebration from "../assets/themes/aurora/comemorando.gif";
 import auroraMain from "../assets/themes/aurora/principal.gif";
+import { useState } from "react";
 import { Link } from "react-router";
+import { useAuth } from "../context/AuthContext";
 import { useGiftDraft, type FinalVisual } from "../context/GiftDraftContext";
+import { publishGift } from "../services/giftPublishing";
 import "./FinalStudio.css";
 
 type FinalStudioProps = {
@@ -35,6 +38,13 @@ const visualOptions: Array<{
 ];
 
 export function FinalStudio({ onBack }: FinalStudioProps) {
+  const { user } = useAuth();
+  const [publishStatus, setPublishStatus] = useState<
+    "idle" | "publishing" | "published" | "error"
+  >("idle");
+  const [publishMessage, setPublishMessage] = useState("");
+  const [publishedSlug, setPublishedSlug] = useState<string | null>(null);
+  const [hasCopiedLink, setHasCopiedLink] = useState(false);
   const {
     recipientName,
     senderName,
@@ -49,10 +59,59 @@ export function FinalStudio({ onBack }: FinalStudioProps) {
     setFinalVisual,
     replayButtonLabel,
     setReplayButtonLabel,
+    getDraftSnapshot,
+    getMediaBlob,
+    getSoundtrackBlob,
   } = useGiftDraft();
 
   const recipient = recipientName.trim() || "Alguém especial";
   const sender = senderName.trim() || "Você";
+  const publishedPath = publishedSlug ? `/presente/${publishedSlug}` : null;
+  const publishedUrl = publishedPath
+    ? `${window.location.origin}${publishedPath}`
+    : null;
+
+  async function handlePublish() {
+    if (!user || publishStatus === "publishing") return;
+
+    setPublishStatus("publishing");
+    setPublishMessage("Preparando seu presente");
+    setPublishedSlug(null);
+    setHasCopiedLink(false);
+
+    try {
+      const result = await publishGift({
+        userId: user.id,
+        draft: getDraftSnapshot(),
+        getMediaBlob,
+        getSoundtrackBlob,
+        onProgress: setPublishMessage,
+      });
+
+      setPublishedSlug(result.slug);
+      setPublishMessage("Seu presente está no ar");
+      setPublishStatus("published");
+    } catch (error) {
+      console.error("Erro ao publicar o presente:", error);
+      const message =
+        error instanceof Error
+          ? error.message
+          : typeof error === "object" &&
+              error !== null &&
+              "message" in error &&
+              typeof error.message === "string"
+            ? error.message
+          : "Não foi possível publicar agora. Tente novamente.";
+      setPublishMessage(message);
+      setPublishStatus("error");
+    }
+  }
+
+  async function copyPublishedLink() {
+    if (!publishedUrl) return;
+    await navigator.clipboard.writeText(publishedUrl);
+    setHasCopiedLink(true);
+  }
 
   return (
     <div className={`final-studio final-studio--${selectedThemeId}`}>
@@ -207,12 +266,59 @@ export function FinalStudio({ onBack }: FinalStudioProps) {
           </div>
         </div>
 
+        {publishStatus !== "idle" && (
+          <section
+            className={`final-publish-result final-publish-result--${publishStatus}`}
+            aria-live="polite"
+          >
+            <span aria-hidden="true">
+              {publishStatus === "published" ? "✓" : publishStatus === "error" ? "!" : "···"}
+            </span>
+            <div>
+              <strong>{publishMessage}</strong>
+              {publishStatus === "publishing" && (
+                <small>Não feche esta página durante o envio.</small>
+              )}
+              {publishedUrl && (
+                <>
+                  <small>Este link pode ser aberto em qualquer celular.</small>
+                  <input value={publishedUrl} readOnly aria-label="Link publicado" />
+                  <div className="final-publish-result__actions">
+                    <button type="button" onClick={copyPublishedLink}>
+                      {hasCopiedLink ? "Link copiado" : "Copiar link"}
+                    </button>
+                    <Link to={publishedPath!} target="_blank" rel="noreferrer">
+                      Abrir presente
+                    </Link>
+                  </div>
+                </>
+              )}
+              {publishStatus === "error" && (
+                <small>Seu rascunho continua salvo e nada foi perdido.</small>
+              )}
+            </div>
+          </section>
+        )}
+
         <div className="final-studio__actions">
           <button type="button" onClick={onBack}>← Voltar</button>
           <Link to="/experiencia">
             Visualizar experiência
             <span aria-hidden="true">→</span>
           </Link>
+          <button
+            className="final-studio__publish"
+            type="button"
+            onClick={handlePublish}
+            disabled={publishStatus === "publishing" || publishStatus === "published"}
+          >
+            {publishStatus === "publishing"
+              ? "Publicando..."
+              : publishStatus === "published"
+                ? "Publicado"
+                : "Publicar presente"}
+            <span aria-hidden="true">✦</span>
+          </button>
         </div>
       </section>
     </div>

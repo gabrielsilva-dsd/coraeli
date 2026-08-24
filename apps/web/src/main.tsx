@@ -8,6 +8,7 @@ import { GiftDraftProvider } from "./context/GiftDraftContext";
 import { AuthPage } from "./pages/AuthPage";
 import { BuilderPage } from "./pages/BuilderPage";
 import { ExperiencePage } from "./pages/ExperiencePage";
+import { PublishedGiftPage } from "./pages/PublishedGiftPage";
 import { ResetPasswordPage } from "./pages/ResetPasswordPage";
 import "./index.css";
 
@@ -20,6 +21,7 @@ createRoot(document.getElementById("root")!).render(
             <Route path="/" element={<App />} />
             <Route path="/entrar" element={<AuthPage />} />
             <Route path="/redefinir-senha" element={<ResetPasswordPage />} />
+            <Route path="/presente/:slug" element={<PublishedGiftPage />} />
             <Route
               path="/criar"
               element={

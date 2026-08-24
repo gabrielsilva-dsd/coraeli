@@ -31,6 +31,38 @@ export type GiftSoundtrack = {
   title: string;
 };
 
+export type GiftDraftSnapshot = {
+  recipientName: string;
+  senderName: string;
+  occasion: string;
+  message: string;
+  selectedThemeId: GiftThemeId;
+  openingVisual: OpeningVisual;
+  openingButtonLabel: string;
+  openingButtonStyle: OpeningButtonStyle;
+  declarationTitle: string;
+  declarationText: string;
+  declarationSignature: string;
+  showCounter: boolean;
+  counterLabel: string;
+  relationshipStartDate: string;
+  mediaItems: GiftMediaItem[];
+  mediaPresentation: MediaPresentation;
+  soundtrack: GiftSoundtrack | null;
+  interactionEnabled: boolean;
+  surpriseTitle: string;
+  surpriseQuestion: string;
+  firstAnswer: string;
+  secondAnswer: string;
+  correctAnswer: CorrectAnswer;
+  successMessage: string;
+  finalTitle: string;
+  finalMessage: string;
+  finalSignature: string;
+  finalVisual: FinalVisual;
+  replayButtonLabel: string;
+};
+
 type GiftDraftContextValue = {
   draftStatus: DraftStatus;
   lastSavedAt: string | null;
@@ -92,6 +124,9 @@ type GiftDraftContextValue = {
   setFinalVisual: Dispatch<SetStateAction<FinalVisual>>;
   replayButtonLabel: string;
   setReplayButtonLabel: Dispatch<SetStateAction<string>>;
+  getDraftSnapshot: () => GiftDraftSnapshot;
+  getMediaBlob: (mediaId: number) => Promise<Blob | null>;
+  getSoundtrackBlob: () => Promise<Blob | null>;
 };
 
 type PersistedMediaItem = Omit<GiftMediaItem, "previewUrl">;
@@ -338,6 +373,83 @@ export function GiftDraftProvider({ children }: { children: ReactNode }) {
       soundtrackRef.current = nextSoundtrack;
       return nextSoundtrack;
     });
+  }
+
+  function getDraftSnapshot(): GiftDraftSnapshot {
+    return {
+      recipientName,
+      senderName,
+      occasion,
+      message,
+      selectedThemeId,
+      openingVisual,
+      openingButtonLabel,
+      openingButtonStyle,
+      declarationTitle,
+      declarationText,
+      declarationSignature,
+      showCounter,
+      counterLabel,
+      relationshipStartDate,
+      mediaItems: mediaItems.map((item) => ({ ...item })),
+      mediaPresentation,
+      soundtrack: soundtrack ? { ...soundtrack } : null,
+      interactionEnabled,
+      surpriseTitle,
+      surpriseQuestion,
+      firstAnswer,
+      secondAnswer,
+      correctAnswer,
+      successMessage,
+      finalTitle,
+      finalMessage,
+      finalSignature,
+      finalVisual,
+      replayButtonLabel,
+    };
+  }
+
+  async function getMediaBlob(mediaId: number) {
+    const key = `media:${mediaId}`;
+    const cachedBlob = fileBlobsRef.current.get(key);
+    if (cachedBlob) return cachedBlob;
+
+    const storedBlob = await readStoredFile(key);
+    if (storedBlob) {
+      fileBlobsRef.current.set(key, storedBlob);
+      return storedBlob;
+    }
+
+    const mediaItem = mediaItemsRef.current.find((item) => item.id === mediaId);
+    if (!mediaItem) return null;
+
+    const response = await fetch(mediaItem.previewUrl);
+    if (!response.ok) return null;
+
+    const blob = await response.blob();
+    fileBlobsRef.current.set(key, blob);
+    return blob;
+  }
+
+  async function getSoundtrackBlob() {
+    const cachedBlob = fileBlobsRef.current.get("soundtrack");
+    if (cachedBlob) return cachedBlob;
+
+    const storedBlob = await readStoredFile("soundtrack");
+    if (storedBlob) {
+      fileBlobsRef.current.set("soundtrack", storedBlob);
+      return storedBlob;
+    }
+
+    const currentSoundtrack = soundtrackRef.current;
+    if (!currentSoundtrack) return null;
+
+    const response = await fetch(currentSoundtrack.previewUrl);
+    if (!response.ok) return null;
+
+    const blob = await response.blob();
+    fileBlobsRef.current.set("soundtrack", blob);
+    return blob;
   }
 
   useEffect(() => {
@@ -597,6 +709,9 @@ export function GiftDraftProvider({ children }: { children: ReactNode }) {
         setFinalVisual,
         replayButtonLabel,
         setReplayButtonLabel,
+        getDraftSnapshot,
+        getMediaBlob,
+        getSoundtrackBlob,
       }}
     >
       {children}
