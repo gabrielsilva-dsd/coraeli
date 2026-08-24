@@ -1,6 +1,7 @@
 import { useRef, useState, type ChangeEvent } from "react";
 import auroraWaiting from "../assets/themes/aurora/espera.gif";
 import { useGiftDraft, type CorrectAnswer } from "../context/GiftDraftContext";
+import { DecorationPicker, DecorationVisual } from "./DecorationPicker";
 import "./SurpriseStudio.css";
 
 type SurpriseStudioProps = {
@@ -13,6 +14,8 @@ const MAX_AUDIO_SIZE = 25 * 1024 * 1024;
 export function SurpriseStudio({ onBack, onContinue }: SurpriseStudioProps) {
   const {
     selectedThemeId,
+    decorations,
+    setDecoration,
     soundtrack,
     setSoundtrack,
     interactionEnabled,
@@ -106,9 +109,16 @@ export function SurpriseStudio({ onBack, onContinue }: SurpriseStudioProps) {
         <article className="surprise-canvas">
           <span className="surprise-canvas__eyebrow">Uma pausa especial</span>
 
-          <div className="surprise-canvas__mascot" aria-hidden="true">
-            <img src={auroraWaiting} alt="" />
-          </div>
+          {decorations.surprise ? (
+            <DecorationVisual
+              assetId={decorations.surprise}
+              className="surprise-canvas__decoration"
+            />
+          ) : (
+            <div className="surprise-canvas__mascot" aria-hidden="true">
+              <img src={auroraWaiting} alt="" />
+            </div>
+          )}
 
           <h1>{surpriseTitle.trim() || "Uma surpresa para você"}</h1>
 
@@ -349,6 +359,12 @@ export function SurpriseStudio({ onBack, onContinue }: SurpriseStudioProps) {
             </div>
           )}
         </section>
+
+        <DecorationPicker
+          slot="surprise"
+          value={decorations.surprise}
+          onChange={(assetId) => setDecoration("surprise", assetId)}
+        />
 
         <div className="surprise-studio__actions">
           <button type="button" onClick={onBack}>← Voltar</button>

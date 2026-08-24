@@ -1,5 +1,6 @@
 import { useGiftDraft } from "../context/GiftDraftContext";
 import { calculateElapsedTime } from "../utils/elapsedTime";
+import { DecorationPicker, DecorationVisual } from "./DecorationPicker";
 import "./DeclarationStudio.css";
 
 type DeclarationStudioProps = {
@@ -13,6 +14,8 @@ export function DeclarationStudio({ onBack, onContinue }: DeclarationStudioProps
     senderName,
     occasion,
     selectedThemeId,
+    decorations,
+    setDecoration,
     declarationTitle,
     setDeclarationTitle,
     declarationText,
@@ -47,6 +50,10 @@ export function DeclarationStudio({ onBack, onContinue }: DeclarationStudioProps
 
         <article className="declaration-canvas">
           <span className="declaration-canvas__occasion">{occasion}</span>
+          <DecorationVisual
+            assetId={decorations.declaration}
+            className="declaration-canvas__decoration"
+          />
           <small>Uma declaração para</small>
           <h1>{recipient}</h1>
 
@@ -178,6 +185,12 @@ export function DeclarationStudio({ onBack, onContinue }: DeclarationStudioProps
               </div>
             )}
           </div>
+
+          <DecorationPicker
+            slot="declaration"
+            value={decorations.declaration}
+            onChange={(assetId) => setDecoration("declaration", assetId)}
+          />
 
           <div className="declaration-studio__actions">
             <button type="button" onClick={onBack}>← Voltar</button>

@@ -1,26 +1,20 @@
 import auroraMain from "../assets/themes/aurora/principal.gif";
+import { DecorationPicker, DecorationVisual } from "./DecorationPicker";
 import {
   useGiftDraft,
-  type GiftThemeId,
   type OpeningButtonStyle,
   type OpeningVisual,
 } from "../context/GiftDraftContext";
+import {
+  giftThemes,
+  helloKittyRecommendedDecorations,
+} from "../data/decorationCatalog";
 import "./OpeningStudio.css";
 
 type OpeningStudioProps = {
   occasions: string[];
   onContinue: () => void;
 };
-
-const themes: Array<{
-  id: GiftThemeId;
-  name: string;
-  colors: [string, string];
-}> = [
-  { id: "aurora", name: "Aurora", colors: ["#ed4f70", "#fff2ed"] },
-  { id: "cinema", name: "Cinema", colors: ["#e5b94f", "#1a0e0a"] },
-  { id: "essencia", name: "Essência", colors: ["#a78bca", "#eee8f2"] },
-];
 
 const visualOptions: Array<{
   id: OpeningVisual;
@@ -52,6 +46,9 @@ export function OpeningStudio({ occasions, onContinue }: OpeningStudioProps) {
     setMessage,
     selectedThemeId,
     setSelectedThemeId,
+    decorations,
+    setDecoration,
+    setDecorations,
     openingVisual,
     setOpeningVisual,
     openingButtonLabel,
@@ -63,6 +60,18 @@ export function OpeningStudio({ occasions, onContinue }: OpeningStudioProps) {
   const recipient = recipientName.trim() || "Alguém especial";
   const previewMessage =
     message.trim() || "Algumas histórias não cabem em uma mensagem.";
+  const openingDecoration = decorations.opening;
+
+  function chooseTheme(themeId: typeof selectedThemeId) {
+    setSelectedThemeId(themeId);
+
+    if (
+      themeId === "hello-kitty" &&
+      Object.values(decorations).every((decoration) => decoration === null)
+    ) {
+      setDecorations(helloKittyRecommendedDecorations);
+    }
+  }
 
   return (
     <div className={`opening-studio opening-studio--${selectedThemeId}`}>
@@ -75,17 +84,20 @@ export function OpeningStudio({ occasions, onContinue }: OpeningStudioProps) {
         <div className="opening-canvas">
           <span className="opening-canvas__eyebrow">Uma surpresa para você</span>
 
-          {openingVisual === "mascot" && (
+          {openingDecoration ? (
+            <DecorationVisual
+              assetId={openingDecoration}
+              className="opening-canvas__decoration"
+            />
+          ) : openingVisual === "mascot" ? (
             <div className="opening-canvas__visual opening-canvas__visual--mascot">
               <img src={auroraMain} alt="" />
             </div>
-          )}
-
-          {openingVisual === "heart" && (
+          ) : openingVisual === "heart" ? (
             <div className="opening-canvas__visual opening-canvas__visual--heart" aria-hidden="true">
               ♥
             </div>
-          )}
+          ) : null}
 
           <h1>{recipient}, preparei algo especial.</h1>
           <p>{previewMessage}</p>
@@ -172,23 +184,31 @@ export function OpeningStudio({ occasions, onContinue }: OpeningStudioProps) {
           <fieldset className="opening-choice-group">
             <legend>Tema da abertura</legend>
             <div className="opening-theme-options">
-              {themes.map((theme) => (
+              {giftThemes.map((theme) => (
                 <button
                   className={selectedThemeId === theme.id ? "is-selected" : ""}
                   type="button"
                   key={theme.id}
                   aria-pressed={selectedThemeId === theme.id}
-                  onClick={() => setSelectedThemeId(theme.id)}
+                  onClick={() => chooseTheme(theme.id)}
                 >
                   <span>
                     <i style={{ background: theme.colors[0] }} />
                     <i style={{ background: theme.colors[1] }} />
+                    <i style={{ background: theme.colors[2] }} />
                   </span>
-                  {theme.name}
+                  <strong>{theme.name}</strong>
+                  <small>{theme.description}</small>
                 </button>
               ))}
             </div>
           </fieldset>
+
+          <DecorationPicker
+            slot="opening"
+            value={openingDecoration}
+            onChange={(assetId) => setDecoration("opening", assetId)}
+          />
 
           <fieldset className="opening-choice-group">
             <legend>Elemento principal</legend>

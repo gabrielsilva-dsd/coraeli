@@ -5,6 +5,12 @@
   --moments-ink: #3a101c;
 }
 
+.moments-studio--hello-kitty {
+  --moments-accent: #f45f8f;
+  --moments-paper: #fffaf7;
+  --moments-ink: #421523;
+}
+
 .moments-studio--cinema {
   --moments-accent: #e5b94f;
   --moments-paper: #fff8e7;
@@ -53,6 +59,19 @@
     radial-gradient(circle at 85% 8%, rgba(237, 79, 112, 0.15), transparent 14rem),
     var(--moments-paper);
   overflow: hidden;
+}
+
+.moments-studio--hello-kitty .moments-canvas {
+  background:
+    radial-gradient(circle at 88% 12%, rgba(244, 95, 143, 0.12) 0 0.34rem, transparent 0.37rem),
+    linear-gradient(155deg, #fffaf7, #ffdae6);
+}
+
+.moments-canvas__decoration {
+  width: min(34vw, 6.5rem);
+  height: min(28vw, 5.4rem);
+  margin: 0.3rem auto;
+  border-radius: 0.9rem;
 }
 
 .moments-canvas__eyebrow {

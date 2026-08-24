@@ -1,5 +1,6 @@
 import { useRef, useState, type ChangeEvent } from "react";
 import { MediaCarousel } from "./MediaCarousel";
+import { DecorationPicker, DecorationVisual } from "./DecorationPicker";
 import {
   useGiftDraft,
   type GiftMediaItem,
@@ -45,6 +46,8 @@ const presentationOptions: Array<{
 export function MomentsStudio({ onBack, onContinue }: MomentsStudioProps) {
   const {
     selectedThemeId,
+    decorations,
+    setDecoration,
     mediaItems,
     setMediaItems,
     mediaPresentation,
@@ -209,6 +212,10 @@ export function MomentsStudio({ onBack, onContinue }: MomentsStudioProps) {
 
         <div className="moments-canvas">
           <span className="moments-canvas__eyebrow">Nossos momentos</span>
+          <DecorationVisual
+            assetId={decorations.moments}
+            className="moments-canvas__decoration"
+          />
           <h1>Lembranças que continuam em movimento.</h1>
 
           {mediaItems.length > 0 ? (
@@ -340,6 +347,12 @@ export function MomentsStudio({ onBack, onContinue }: MomentsStudioProps) {
             ))}
           </div>
         </fieldset>
+
+        <DecorationPicker
+          slot="moments"
+          value={decorations.moments}
+          onChange={(assetId) => setDecoration("moments", assetId)}
+        />
 
         <div className="moments-studio__actions">
           <button type="button" onClick={onBack}>← Voltar</button>

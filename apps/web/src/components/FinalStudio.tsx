@@ -6,6 +6,7 @@ import { QRCodeCanvas } from "qrcode.react";
 import { useAuth } from "../context/AuthContext";
 import { useGiftDraft, type FinalVisual } from "../context/GiftDraftContext";
 import { publishGift } from "../services/giftPublishing";
+import { DecorationPicker, DecorationVisual } from "./DecorationPicker";
 import "./FinalStudio.css";
 
 type FinalStudioProps = {
@@ -51,6 +52,8 @@ export function FinalStudio({ onBack }: FinalStudioProps) {
     recipientName,
     senderName,
     selectedThemeId,
+    decorations,
+    setDecoration,
     finalTitle,
     setFinalTitle,
     finalMessage,
@@ -175,15 +178,23 @@ export function FinalStudio({ onBack }: FinalStudioProps) {
         <article className="final-canvas">
           <span className="final-canvas__eyebrow">Para guardar no coração</span>
 
-          <div className={`final-canvas__visual final-canvas__visual--${finalVisual}`}>
-            {finalVisual === "celebration" && (
-              <img src={auroraCelebration} alt="Personagem comemorando" />
-            )}
-            {finalVisual === "mascot" && (
-              <img src={auroraMain} alt="Personagem segurando uma mensagem de amor" />
-            )}
-            {finalVisual === "heart" && <span aria-hidden="true">♥</span>}
-          </div>
+          {decorations.final ? (
+            <DecorationVisual
+              assetId={decorations.final}
+              className="final-canvas__decoration"
+              decorative={false}
+            />
+          ) : (
+            <div className={`final-canvas__visual final-canvas__visual--${finalVisual}`}>
+              {finalVisual === "celebration" && (
+                <img src={auroraCelebration} alt="Personagem comemorando" />
+              )}
+              {finalVisual === "mascot" && (
+                <img src={auroraMain} alt="Personagem segurando uma mensagem de amor" />
+              )}
+              {finalVisual === "heart" && <span aria-hidden="true">♥</span>}
+            </div>
+          )}
 
           <small>{recipient}, antes de terminar...</small>
           <h1>{finalTitle.trim() || "Uma última mensagem"}</h1>
@@ -285,6 +296,12 @@ export function FinalStudio({ onBack }: FinalStudioProps) {
             ))}
           </div>
         </section>
+
+        <DecorationPicker
+          slot="final"
+          value={decorations.final}
+          onChange={(assetId) => setDecoration("final", assetId)}
+        />
 
         <section className="final-editor-card" aria-labelledby="final-replay-title">
           <div className="final-section-heading">

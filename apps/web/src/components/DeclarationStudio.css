@@ -7,6 +7,14 @@
   --declaration-backdrop: #210b17;
 }
 
+.declaration-studio--hello-kitty {
+  --declaration-accent: #f45f8f;
+  --declaration-soft: #ffabc2;
+  --declaration-paper: #fffaf7;
+  --declaration-ink: #421523;
+  --declaration-backdrop: #8f2043;
+}
+
 .declaration-studio--cinema {
   --declaration-accent: #e5b94f;
   --declaration-soft: #efcf7c;
@@ -61,6 +69,19 @@
     var(--declaration-paper);
   text-align: center;
   overflow: hidden;
+}
+
+.declaration-studio--hello-kitty .declaration-canvas {
+  background:
+    radial-gradient(circle at 12% 14%, rgba(244, 95, 143, 0.1) 0 0.32rem, transparent 0.35rem),
+    linear-gradient(160deg, #fffaf7, #ffe3eb);
+}
+
+.declaration-canvas__decoration {
+  width: min(40vw, 7.5rem);
+  height: min(32vw, 6rem);
+  margin: 0.25rem 0 0.45rem;
+  border-radius: 1rem;
 }
 
 .declaration-canvas__occasion {

@@ -1,14 +1,16 @@
 import { useState } from "react";
+import helloHeartFrame from "../assets/themes/hello-kitty/heart-frame.gif";
 
 const themes = [
   {
-    id: "aurora",
-    name: "Aurora",
-    category: "Romântico",
-    description: "Delicado, acolhedor e perfeito para histórias de casal.",
-    colors: ["#f57185", "#f5b8bf", "#fff3ed"],
+    id: "hello-kitty",
+    name: "Hello Kitty",
+    category: "Doce e romântico",
+    description: "Rosa, laços e personagens para uma surpresa cheia de carinho.",
+    colors: ["#f45f8f", "#ffd7e4", "#fff8f4"],
     couple: "Lívia & Theo",
     message: "Você transformou momentos simples nas minhas melhores memórias.",
+    decoration: helloHeartFrame,
   },
   {
     id: "cinema",
@@ -18,6 +20,7 @@ const themes = [
     colors: ["#e5b94f", "#311c18", "#0d0908"],
     couple: "Nossa história",
     message: "Algumas histórias merecem ser lembradas para sempre.",
+    decoration: null,
   },
   {
     id: "minimal",
@@ -27,6 +30,7 @@ const themes = [
     colors: ["#b5a1d8", "#f3efe9", "#232027"],
     couple: "Para você",
     message: "Não precisei de muitas palavras. Só precisava dizer que amo você.",
+    decoration: null,
   },
 ];
 
@@ -120,7 +124,11 @@ export function ThemeShowcase() {
                   </span>
 
                   <div className="theme-phone__photo">
-                    <span aria-hidden="true">♥</span>
+                    {selectedTheme.decoration ? (
+                      <img src={selectedTheme.decoration} alt="" />
+                    ) : (
+                      <span aria-hidden="true">♥</span>
+                    )}
                   </div>
 
                   <small>Uma história especial</small>

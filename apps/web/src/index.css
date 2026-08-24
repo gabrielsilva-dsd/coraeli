@@ -1321,6 +1321,12 @@ a:focus-visible {
   transition: background 250ms ease;
 }
 
+.theme-preview--hello-kitty .theme-preview__stage {
+  background:
+    radial-gradient(circle at 18% 22%, rgba(244, 95, 143, 0.18) 0 0.35rem, transparent 0.39rem),
+    linear-gradient(145deg, #fffaf7, #ffd7e4);
+}
+
 .theme-preview--aurora .theme-preview__stage {
   background:
     radial-gradient(circle at 50% 20%, rgba(245, 113, 133, 0.3), transparent 45%),
@@ -1428,6 +1434,27 @@ a:focus-visible {
 }
 
 /* Cores individuais */
+
+.theme-preview--hello-kitty .theme-phone__content {
+  color: #421523;
+  background: linear-gradient(165deg, #fffaf7, #ffe8ef);
+}
+
+.theme-preview--hello-kitty .theme-phone__photo {
+  background: rgba(255, 255, 255, 0.84);
+}
+
+.theme-preview--hello-kitty .theme-phone__photo img {
+  display: block;
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
+}
+
+.theme-preview--hello-kitty .theme-phone__content button {
+  color: #fffaf7;
+  background: #f45f8f;
+}
 
 .theme-preview--aurora .theme-phone__content {
   color: #4b1d28;

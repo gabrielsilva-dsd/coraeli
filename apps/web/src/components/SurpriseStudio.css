@@ -6,6 +6,13 @@
   --surprise-backdrop: #210b17;
 }
 
+.surprise-studio--hello-kitty {
+  --surprise-accent: #f45f8f;
+  --surprise-paper: #fffaf7;
+  --surprise-ink: #421523;
+  --surprise-backdrop: #8f2043;
+}
+
 .surprise-studio--cinema {
   --surprise-accent: #e5b94f;
   --surprise-paper: #fff8e7;
@@ -58,6 +65,19 @@
     linear-gradient(155deg, var(--surprise-backdrop), #080308 78%);
   text-align: center;
   overflow: hidden;
+}
+
+.surprise-studio--hello-kitty .surprise-canvas {
+  background:
+    radial-gradient(circle at 82% 15%, rgba(255, 171, 194, 0.25), transparent 14rem),
+    linear-gradient(155deg, #6f1837, #2a0c1a 78%);
+}
+
+.surprise-canvas__decoration {
+  width: min(48vw, 9rem);
+  height: min(40vw, 7.5rem);
+  margin: 0.8rem auto;
+  border-radius: 1rem;
 }
 
 .surprise-canvas__eyebrow {

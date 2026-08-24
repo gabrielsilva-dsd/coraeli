@@ -9,7 +9,21 @@ import {
   type SetStateAction,
 } from "react";
 
-export type GiftThemeId = "aurora" | "cinema" | "essencia";
+export type GiftThemeId = "hello-kitty" | "aurora" | "cinema" | "essencia";
+export type DecorationSlotId =
+  | "opening"
+  | "declaration"
+  | "moments"
+  | "surprise"
+  | "final";
+export type DecorationAssetId =
+  | "hello-shy-letter"
+  | "hello-heart-frame"
+  | "hello-kiss-hearts"
+  | "hello-love-dance"
+  | "hello-wave"
+  | "hello-pixel-love";
+export type GiftDecorations = Record<DecorationSlotId, DecorationAssetId | null>;
 export type OpeningVisual = "mascot" | "heart" | "minimal";
 export type OpeningButtonStyle = "solid" | "outline";
 export type MediaPresentation = "carousel" | "showcase" | "gallery";
@@ -37,6 +51,7 @@ export type GiftDraftSnapshot = {
   occasion: string;
   message: string;
   selectedThemeId: GiftThemeId;
+  decorations: GiftDecorations;
   openingVisual: OpeningVisual;
   openingButtonLabel: string;
   openingButtonStyle: OpeningButtonStyle;
@@ -76,6 +91,9 @@ type GiftDraftContextValue = {
   setMessage: Dispatch<SetStateAction<string>>;
   selectedThemeId: GiftThemeId;
   setSelectedThemeId: Dispatch<SetStateAction<GiftThemeId>>;
+  decorations: GiftDecorations;
+  setDecoration: (slot: DecorationSlotId, assetId: DecorationAssetId | null) => void;
+  setDecorations: Dispatch<SetStateAction<GiftDecorations>>;
   openingVisual: OpeningVisual;
   setOpeningVisual: Dispatch<SetStateAction<OpeningVisual>>;
   openingButtonLabel: string;
@@ -140,6 +158,7 @@ type PersistedGiftDraft = {
   occasion: string;
   message: string;
   selectedThemeId: GiftThemeId;
+  decorations?: GiftDecorations;
   openingVisual: OpeningVisual;
   openingButtonLabel: string;
   openingButtonStyle: OpeningButtonStyle;
@@ -174,6 +193,13 @@ type StoredFile = {
 const DRAFT_STORAGE_KEY = "coraeli:gift-draft:v1";
 const DRAFT_DATABASE_NAME = "coraeli-drafts";
 const DRAFT_FILE_STORE = "files";
+const EMPTY_DECORATIONS: GiftDecorations = {
+  opening: null,
+  declaration: null,
+  moments: null,
+  surprise: null,
+  final: null,
+};
 
 function readPersistedDraft(): PersistedGiftDraft | null {
   try {
@@ -279,6 +305,10 @@ export function GiftDraftProvider({ children }: { children: ReactNode }) {
   );
   const [selectedThemeId, setSelectedThemeId] =
     useState<GiftThemeId>(persistedDraft?.selectedThemeId ?? "aurora");
+  const [decorations, setDecorations] = useState<GiftDecorations>({
+    ...EMPTY_DECORATIONS,
+    ...persistedDraft?.decorations,
+  });
   const [openingVisual, setOpeningVisual] = useState<OpeningVisual>(
     persistedDraft?.openingVisual ?? "mascot",
   );
@@ -375,6 +405,16 @@ export function GiftDraftProvider({ children }: { children: ReactNode }) {
     });
   }
 
+  function setDecoration(
+    slot: DecorationSlotId,
+    assetId: DecorationAssetId | null,
+  ) {
+    setDecorations((currentDecorations) => ({
+      ...currentDecorations,
+      [slot]: assetId,
+    }));
+  }
+
   function getDraftSnapshot(): GiftDraftSnapshot {
     return {
       recipientName,
@@ -382,6 +422,7 @@ export function GiftDraftProvider({ children }: { children: ReactNode }) {
       occasion,
       message,
       selectedThemeId,
+      decorations: { ...decorations },
       openingVisual,
       openingButtonLabel,
       openingButtonStyle,
@@ -540,6 +581,7 @@ export function GiftDraftProvider({ children }: { children: ReactNode }) {
             occasion,
             message,
             selectedThemeId,
+            decorations,
             openingVisual,
             openingButtonLabel,
             openingButtonStyle,
@@ -609,6 +651,7 @@ export function GiftDraftProvider({ children }: { children: ReactNode }) {
     occasion,
     message,
     selectedThemeId,
+    decorations,
     openingVisual,
     openingButtonLabel,
     openingButtonStyle,
@@ -661,6 +704,9 @@ export function GiftDraftProvider({ children }: { children: ReactNode }) {
         setMessage,
         selectedThemeId,
         setSelectedThemeId,
+        decorations,
+        setDecoration,
+        setDecorations,
         openingVisual,
         setOpeningVisual,
         openingButtonLabel,

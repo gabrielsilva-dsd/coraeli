@@ -8,6 +8,14 @@
   --opening-backdrop: #210b17;
 }
 
+.opening-studio--hello-kitty {
+  --opening-accent: #f45f8f;
+  --opening-accent-soft: #ffabc2;
+  --opening-surface: #fffaf7;
+  --opening-text: #421523;
+  --opening-backdrop: #8f2043;
+}
+
 .opening-studio--cinema {
   --opening-accent: #e5b94f;
   --opening-accent-soft: #efcf7c;
@@ -62,6 +70,26 @@
     linear-gradient(155deg, var(--opening-backdrop), #080308 78%);
   text-align: center;
   overflow: hidden;
+}
+
+.opening-studio--hello-kitty .opening-canvas {
+  color: var(--opening-text);
+  background:
+    radial-gradient(circle at 16% 18%, rgba(255, 255, 255, 0.92) 0 0.23rem, transparent 0.26rem),
+    radial-gradient(circle at 84% 27%, rgba(244, 95, 143, 0.16) 0 0.3rem, transparent 0.33rem),
+    linear-gradient(155deg, #fffaf7, #ffdce7 76%);
+}
+
+.opening-studio--hello-kitty .opening-canvas p,
+.opening-studio--hello-kitty .opening-canvas > small {
+  color: rgba(66, 21, 35, 0.68);
+}
+
+.opening-canvas__decoration {
+  width: min(58vw, 12rem);
+  height: min(50vw, 10rem);
+  margin: 0.9rem 0;
+  border-radius: 1.2rem;
 }
 
 .opening-canvas__eyebrow {
@@ -268,7 +296,7 @@
 .opening-theme-options,
 .opening-segmented-options {
   display: grid;
-  grid-template-columns: repeat(3, minmax(0, 1fr));
+  grid-template-columns: repeat(2, minmax(0, 1fr));
   gap: 0.55rem;
 }
 
@@ -290,6 +318,23 @@
   font: inherit;
   font-size: 0.64rem;
   cursor: pointer;
+}
+
+.opening-theme-options button {
+  min-height: 5.6rem;
+  align-content: center;
+}
+
+.opening-theme-options button strong {
+  color: inherit;
+  font-size: 0.72rem;
+}
+
+.opening-theme-options button small {
+  color: inherit;
+  font-size: 0.56rem;
+  line-height: 1.35;
+  opacity: 0.7;
 }
 
 .opening-theme-options button.is-selected,

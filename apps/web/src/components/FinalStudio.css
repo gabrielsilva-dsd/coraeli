@@ -10,6 +10,11 @@
   color: var(--final-ink);
 }
 
+.final-studio--hello-kitty {
+  --final-accent: #f45f8f;
+  --final-accent-soft: rgba(244, 95, 143, 0.15);
+}
+
 .final-studio--cinema {
   --final-accent: #efb84b;
   --final-accent-soft: rgba(239, 184, 75, 0.14);
@@ -64,6 +69,20 @@
   background:
     radial-gradient(circle at 50% 28%, var(--final-accent-soft), transparent 34%),
     linear-gradient(165deg, rgba(55, 19, 48, 0.42), rgba(12, 4, 16, 0.9));
+}
+
+.final-studio--hello-kitty .final-canvas {
+  background:
+    radial-gradient(circle at 16% 15%, rgba(244, 95, 143, 0.12) 0 0.3rem, transparent 0.33rem),
+    linear-gradient(155deg, #fffaf7, #ffdeea);
+  color: #421523;
+}
+
+.final-canvas__decoration {
+  width: min(48vw, 9rem);
+  height: min(40vw, 7.5rem);
+  margin: 0.6rem auto;
+  border-radius: 1rem;
 }
 
 .final-canvas__eyebrow {
