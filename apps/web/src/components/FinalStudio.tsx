@@ -1,7 +1,8 @@
 import auroraCelebration from "../assets/themes/aurora/comemorando.gif";
 import auroraMain from "../assets/themes/aurora/principal.gif";
-import { useState } from "react";
+import { useRef, useState } from "react";
 import { Link } from "react-router";
+import { QRCodeCanvas } from "qrcode.react";
 import { useAuth } from "../context/AuthContext";
 import { useGiftDraft, type FinalVisual } from "../context/GiftDraftContext";
 import { publishGift } from "../services/giftPublishing";
@@ -39,6 +40,7 @@ const visualOptions: Array<{
 
 export function FinalStudio({ onBack }: FinalStudioProps) {
   const { user } = useAuth();
+  const qrCodeRef = useRef<HTMLCanvasElement | null>(null);
   const [publishStatus, setPublishStatus] = useState<
     "idle" | "publishing" | "published" | "error"
   >("idle");
@@ -111,6 +113,55 @@ export function FinalStudio({ onBack }: FinalStudioProps) {
     if (!publishedUrl) return;
     await navigator.clipboard.writeText(publishedUrl);
     setHasCopiedLink(true);
+  }
+
+  function downloadQrCode() {
+    const qrCode = qrCodeRef.current;
+    if (!qrCode || !publishedUrl) return;
+
+    const card = document.createElement("canvas");
+    const context = card.getContext("2d");
+    if (!context) return;
+
+    card.width = 1080;
+    card.height = 1350;
+
+    const background = context.createLinearGradient(0, 0, 1080, 1350);
+    background.addColorStop(0, "#fff7f8");
+    background.addColorStop(1, "#f7d9df");
+    context.fillStyle = background;
+    context.fillRect(0, 0, card.width, card.height);
+
+    context.fillStyle = "#32111f";
+    context.textAlign = "center";
+    context.font = "700 58px Georgia, serif";
+    context.fillText("Coraeli", card.width / 2, 120);
+
+    context.font = "700 34px Arial, sans-serif";
+    context.fillText("Um presente espera por você", card.width / 2, 190);
+
+    context.fillStyle = "#ffffff";
+    context.fillRect(130, 245, 820, 820);
+    context.drawImage(qrCode, 180, 295, 720, 720);
+
+    context.fillStyle = "#6f4b59";
+    context.font = "28px Arial, sans-serif";
+    context.fillText("Aponte a câmera do celular para abrir", card.width / 2, 1145);
+
+    context.font = "24px Arial, sans-serif";
+    context.fillText(new URL(publishedUrl).host, card.width / 2, 1205);
+
+    const safeRecipient = recipient
+      .normalize("NFD")
+      .replace(/[\u0300-\u036f]/g, "")
+      .replace(/[^a-zA-Z0-9]+/g, "-")
+      .replace(/^-|-$/g, "")
+      .toLowerCase();
+    const download = document.createElement("a");
+
+    download.download = `coraeli-${safeRecipient || "presente"}-qr-code.png`;
+    download.href = card.toDataURL("image/png");
+    download.click();
   }
 
   return (
@@ -282,10 +333,33 @@ export function FinalStudio({ onBack }: FinalStudioProps) {
               {publishedUrl && (
                 <>
                   <small>Este link pode ser aberto em qualquer celular.</small>
+                  <div className="final-publish-result__qr">
+                    <div className="final-publish-result__qr-frame">
+                      <QRCodeCanvas
+                        ref={qrCodeRef}
+                        value={publishedUrl}
+                        size={720}
+                        level="H"
+                        marginSize={3}
+                        bgColor="#fffafc"
+                        fgColor="#32111f"
+                        title={`QR Code do presente para ${recipient}`}
+                        role="img"
+                        aria-label={`QR Code do presente para ${recipient}`}
+                      />
+                    </div>
+                    <div>
+                      <strong>QR Code pronto</strong>
+                      <small>Aponte a câmera para abrir o presente.</small>
+                    </div>
+                  </div>
                   <input value={publishedUrl} readOnly aria-label="Link publicado" />
                   <div className="final-publish-result__actions">
                     <button type="button" onClick={copyPublishedLink}>
                       {hasCopiedLink ? "Link copiado" : "Copiar link"}
+                    </button>
+                    <button type="button" onClick={downloadQrCode}>
+                      Baixar QR Code
                     </button>
                     <Link to={publishedPath!} target="_blank" rel="noreferrer">
                       Abrir presente
