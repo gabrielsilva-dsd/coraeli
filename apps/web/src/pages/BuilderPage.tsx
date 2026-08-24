@@ -5,6 +5,7 @@ import { FinalStudio } from "../components/FinalStudio";
 import { MomentsStudio } from "../components/MomentsStudio";
 import { OpeningStudio } from "../components/OpeningStudio";
 import { SurpriseStudio } from "../components/SurpriseStudio";
+import { useGiftDraft } from "../context/GiftDraftContext";
 import "./BuilderPage.css";
 
 const occasions = [
@@ -24,11 +25,26 @@ const progressSteps = [
   { number: 5, title: "Final", description: "Mensagem e publicação" },
 ];
 
+const BUILDER_STEP_STORAGE_KEY = "coraeli:builder-step:v1";
+
+function readSavedStep() {
+  const savedStep = Number(window.localStorage.getItem(BUILDER_STEP_STORAGE_KEY));
+  return savedStep >= 1 && savedStep <= progressSteps.length ? savedStep : 1;
+}
+
 export function BuilderPage() {
-  const [currentStep, setCurrentStep] = useState(1);
+  const [currentStep, setCurrentStep] = useState(readSavedStep);
+  const { draftStatus, lastSavedAt } = useGiftDraft();
+  const draftStatusLabel = {
+    loading: "Carregando rascunho",
+    saving: "Salvando rascunho",
+    saved: "Rascunho salvo",
+    error: "Não foi possível salvar",
+  }[draftStatus];
 
   function changeStep(step: number) {
     setCurrentStep(step);
+    window.localStorage.setItem(BUILDER_STEP_STORAGE_KEY, String(step));
     window.scrollTo({ top: 0, behavior: "smooth" });
   }
 
@@ -40,9 +56,21 @@ export function BuilderPage() {
           <strong>Coraeli</strong>
         </Link>
 
-        <div className="builder-header__status">
+        <div
+          className={`builder-header__status builder-header__status--${draftStatus}`}
+          role="status"
+          aria-live="polite"
+          title={
+            lastSavedAt
+              ? `Último salvamento: ${new Date(lastSavedAt).toLocaleTimeString("pt-BR", {
+                  hour: "2-digit",
+                  minute: "2-digit",
+                })}`
+              : undefined
+          }
+        >
           <span aria-hidden="true" />
-          Rascunho salvo
+          {draftStatusLabel}
         </div>
 
         <Link className="builder-header__preview" to="/experiencia">
