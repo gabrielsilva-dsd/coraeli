@@ -1135,6 +1135,122 @@
   background: rgba(255, 253, 245, 0.92);
 }
 
+.experience--pucca {
+  --experience-coral: #d91f2d;
+  --experience-rose: #ff8e91;
+  --experience-ivory: #fff4eb;
+  --experience-wine: #1c0d0e;
+  --experience-ink: #2b1717;
+}
+
+.experience--pucca .experience-opening {
+  color: #2b1717;
+  background:
+    radial-gradient(circle at 14% 18%, rgba(217, 31, 45, 0.16) 0 0.3rem, transparent 0.34rem),
+    radial-gradient(circle at 86% 72%, rgba(23, 19, 19, 0.1) 0 0.24rem, transparent 0.28rem),
+    linear-gradient(155deg, #fff8f1, #f5d5cf 78%);
+}
+
+.experience--pucca .experience-opening p,
+.experience--pucca .experience-opening small {
+  color: rgba(43, 23, 23, 0.7);
+}
+
+.experience--pucca .experience-opening__glow {
+  border-color: rgba(217, 31, 45, 0.2);
+  box-shadow:
+    0 0 0 3rem rgba(217, 31, 45, 0.035),
+    0 0 0 7rem rgba(23, 19, 19, 0.025);
+}
+
+.experience--pucca .experience-intro,
+.experience--pucca .experience-memories {
+  background:
+    radial-gradient(circle at 90% 12%, rgba(23, 19, 19, 0.09) 0 0.3rem, transparent 0.34rem),
+    linear-gradient(155deg, #fff8f1, #f7ddd7);
+}
+
+.experience--pucca .experience-story {
+  background:
+    radial-gradient(circle at 50% 24%, rgba(217, 31, 45, 0.25), transparent 22rem),
+    linear-gradient(155deg, #3a1115, #100708 76%);
+}
+
+.experience--pucca .experience-finale {
+  color: #2b1717;
+  background:
+    radial-gradient(circle at 18% 18%, rgba(23, 19, 19, 0.1) 0 0.3rem, transparent 0.34rem),
+    linear-gradient(155deg, #fff8f1, #f2d1cb);
+}
+
+.experience--pucca .experience-finale p,
+.experience--pucca .experience-finale strong {
+  color: rgba(43, 23, 23, 0.76);
+}
+
+.experience--pucca .experience-navigation {
+  color: #2b1717;
+  background: rgba(255, 244, 235, 0.92);
+}
+
+.experience--my-melody {
+  --experience-coral: #d982aa;
+  --experience-rose: #b9d9e8;
+  --experience-ivory: #fff7ed;
+  --experience-wine: #4f2638;
+  --experience-ink: #4d3034;
+}
+
+.experience--my-melody .experience-opening {
+  color: #4d3034;
+  background:
+    radial-gradient(circle at 14% 18%, rgba(185, 217, 232, 0.23) 0 0.3rem, transparent 0.34rem),
+    radial-gradient(circle at 86% 72%, rgba(217, 130, 170, 0.13) 0 0.24rem, transparent 0.28rem),
+    linear-gradient(155deg, #fffaf3, #f1d9e2 78%);
+}
+
+.experience--my-melody .experience-opening p,
+.experience--my-melody .experience-opening small {
+  color: rgba(77, 48, 52, 0.7);
+}
+
+.experience--my-melody .experience-opening__glow {
+  border-color: rgba(217, 130, 170, 0.18);
+  box-shadow:
+    0 0 0 3rem rgba(185, 217, 232, 0.035),
+    0 0 0 7rem rgba(217, 130, 170, 0.025);
+}
+
+.experience--my-melody .experience-intro,
+.experience--my-melody .experience-memories {
+  background:
+    radial-gradient(circle at 90% 12%, rgba(185, 217, 232, 0.18) 0 0.3rem, transparent 0.34rem),
+    linear-gradient(155deg, #fffaf3, #f3dfe7);
+}
+
+.experience--my-melody .experience-story {
+  background:
+    radial-gradient(circle at 50% 24%, rgba(185, 217, 232, 0.18), transparent 22rem),
+    linear-gradient(155deg, #633047, #27131d 76%);
+}
+
+.experience--my-melody .experience-finale {
+  color: #4d3034;
+  background:
+    radial-gradient(circle at 18% 18%, rgba(185, 217, 232, 0.2) 0 0.3rem, transparent 0.34rem),
+    linear-gradient(155deg, #fffaf3, #efd5df);
+}
+
+.experience--my-melody .experience-finale p,
+.experience--my-melody .experience-finale strong {
+  color: rgba(77, 48, 52, 0.76);
+}
+
+.experience--my-melody .experience-navigation {
+  color: #4d3034;
+  background: rgba(255, 247, 237, 0.92);
+}
+
 @keyframes experience-mascot-float {
   0%, 100% { transform: translateY(0) scale(1); }
   50% { transform: translateY(-0.45rem) scale(1.025); }

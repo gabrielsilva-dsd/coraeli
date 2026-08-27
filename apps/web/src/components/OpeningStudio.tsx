@@ -8,6 +8,8 @@ import {
   getDecorationAsset,
   helloKittyRecommendedDecorations,
   keroppiRecommendedDecorations,
+  myMelodyRecommendedDecorations,
+  puccaRecommendedDecorations,
   snoopyRecommendedDecorations,
 } from "../data/decorationCatalog";
 import "./OpeningStudio.css";
@@ -70,6 +72,10 @@ export function OpeningStudio({ occasions, onContinue }: OpeningStudioProps) {
       setDecorations(snoopyRecommendedDecorations);
     } else if (themeId === "keroppi" && canApplyThemeRecommendations) {
       setDecorations(keroppiRecommendedDecorations);
+    } else if (themeId === "pucca" && canApplyThemeRecommendations) {
+      setDecorations(puccaRecommendedDecorations);
+    } else if (themeId === "my-melody" && canApplyThemeRecommendations) {
+      setDecorations(myMelodyRecommendedDecorations);
     }
   }
 

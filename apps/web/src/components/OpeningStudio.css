@@ -32,6 +32,22 @@
   --opening-backdrop: #0d3b2a;
 }
 
+.opening-studio--pucca {
+  --opening-accent: #d91f2d;
+  --opening-accent-soft: #ff8e91;
+  --opening-surface: #fff4eb;
+  --opening-text: #2b1717;
+  --opening-backdrop: #1c0d0e;
+}
+
+.opening-studio--my-melody {
+  --opening-accent: #d982aa;
+  --opening-accent-soft: #b9d9e8;
+  --opening-surface: #fff7ed;
+  --opening-text: #4d3034;
+  --opening-backdrop: #4f2638;
+}
+
 .opening-studio--cinema {
   --opening-accent: #e5b94f;
   --opening-accent-soft: #efcf7c;
@@ -126,6 +142,32 @@
 .opening-studio--keroppi .opening-canvas p,
 .opening-studio--keroppi .opening-canvas > small {
   color: rgba(23, 59, 42, 0.7);
+}
+
+.opening-studio--pucca .opening-canvas {
+  color: var(--opening-text);
+  background:
+    radial-gradient(circle at 15% 18%, rgba(217, 31, 45, 0.16) 0 0.3rem, transparent 0.34rem),
+    radial-gradient(circle at 86% 74%, rgba(23, 19, 19, 0.1) 0 0.24rem, transparent 0.28rem),
+    linear-gradient(155deg, #fff8f1, #f6d8d2 78%);
+}
+
+.opening-studio--pucca .opening-canvas p,
+.opening-studio--pucca .opening-canvas > small {
+  color: rgba(43, 23, 23, 0.7);
+}
+
+.opening-studio--my-melody .opening-canvas {
+  color: var(--opening-text);
+  background:
+    radial-gradient(circle at 15% 18%, rgba(185, 217, 232, 0.24) 0 0.3rem, transparent 0.34rem),
+    radial-gradient(circle at 86% 74%, rgba(217, 130, 170, 0.14) 0 0.24rem, transparent 0.28rem),
+    linear-gradient(155deg, #fffaf3, #f3dce5 78%);
+}
+
+.opening-studio--my-melody .opening-canvas p,
+.opening-studio--my-melody .opening-canvas > small {
+  color: rgba(77, 48, 52, 0.7);
 }
 
 .opening-canvas__decoration {

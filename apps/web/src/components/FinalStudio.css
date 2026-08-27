@@ -25,6 +25,16 @@
   --final-accent-soft: rgba(168, 217, 63, 0.16);
 }
 
+.final-studio--pucca {
+  --final-accent: #d91f2d;
+  --final-accent-soft: rgba(217, 31, 45, 0.15);
+}
+
+.final-studio--my-melody {
+  --final-accent: #d982aa;
+  --final-accent-soft: rgba(185, 217, 232, 0.18);
+}
+
 .final-studio--cinema {
   --final-accent: #efb84b;
   --final-accent-soft: rgba(239, 184, 75, 0.14);
@@ -101,6 +111,20 @@
   background:
     radial-gradient(circle at 84% 16%, rgba(229, 72, 88, 0.1) 0 0.28rem, transparent 0.32rem),
     linear-gradient(155deg, #fffdf5, #e4f0c0);
+}
+
+.final-studio--pucca .final-canvas {
+  color: #2b1717;
+  background:
+    radial-gradient(circle at 84% 16%, rgba(23, 19, 19, 0.1) 0 0.28rem, transparent 0.32rem),
+    linear-gradient(155deg, #fff8f1, #f2d2cc);
+}
+
+.final-studio--my-melody .final-canvas {
+  color: #4d3034;
+  background:
+    radial-gradient(circle at 84% 16%, rgba(185, 217, 232, 0.2) 0 0.28rem, transparent 0.32rem),
+    linear-gradient(155deg, #fffaf3, #efd5df);
 }
 
 .final-canvas__decoration {

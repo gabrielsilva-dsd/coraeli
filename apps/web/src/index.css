@@ -1339,6 +1339,18 @@ a:focus-visible {
     linear-gradient(145deg, #fffdf5, #dcebad);
 }
 
+.theme-preview--pucca .theme-preview__stage {
+  background:
+    radial-gradient(circle at 82% 18%, rgba(23, 19, 19, 0.1) 0 0.32rem, transparent 0.36rem),
+    linear-gradient(145deg, #fff8f1, #efcbc6);
+}
+
+.theme-preview--my-melody .theme-preview__stage {
+  background:
+    radial-gradient(circle at 82% 18%, rgba(185, 217, 232, 0.22) 0 0.32rem, transparent 0.36rem),
+    linear-gradient(145deg, #fffaf3, #edcfdb);
+}
+
 .theme-preview--aurora .theme-preview__stage {
   background:
     radial-gradient(circle at 50% 20%, rgba(245, 113, 133, 0.3), transparent 45%),
@@ -1508,6 +1520,49 @@ a:focus-visible {
 .theme-preview--keroppi .theme-phone__content button {
   color: #fffdf5;
   background: #2f8a55;
+}
+
+.theme-preview--pucca .theme-phone__content {
+  color: #2b1717;
+  background: linear-gradient(165deg, #fff8f1, #f7ddd7);
+}
+
+.theme-preview--pucca .theme-phone__photo {
+  background: rgba(255, 255, 255, 0.9);
+}
+
+.theme-preview--pucca .theme-phone__photo img {
+  display: block;
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
+  image-rendering: pixelated;
+}
+
+.theme-preview--pucca .theme-phone__content button {
+  color: #fff4eb;
+  background: #d91f2d;
+}
+
+.theme-preview--my-melody .theme-phone__content {
+  color: #4d3034;
+  background: linear-gradient(165deg, #fffaf3, #f3dfe7);
+}
+
+.theme-preview--my-melody .theme-phone__photo {
+  background: rgba(255, 255, 255, 0.9);
+}
+
+.theme-preview--my-melody .theme-phone__photo img {
+  display: block;
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
+}
+
+.theme-preview--my-melody .theme-phone__content button {
+  color: #fff7ed;
+  background: #d982aa;
 }
 
 .theme-preview--aurora .theme-phone__content {

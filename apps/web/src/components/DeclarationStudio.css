@@ -31,6 +31,22 @@
   --declaration-backdrop: #0d3b2a;
 }
 
+.declaration-studio--pucca {
+  --declaration-accent: #d91f2d;
+  --declaration-soft: #ff8e91;
+  --declaration-paper: #fff4eb;
+  --declaration-ink: #2b1717;
+  --declaration-backdrop: #1c0d0e;
+}
+
+.declaration-studio--my-melody {
+  --declaration-accent: #d982aa;
+  --declaration-soft: #b9d9e8;
+  --declaration-paper: #fff7ed;
+  --declaration-ink: #4d3034;
+  --declaration-backdrop: #4f2638;
+}
+
 .declaration-studio--cinema {
   --declaration-accent: #e5b94f;
   --declaration-soft: #efcf7c;
@@ -104,6 +120,18 @@
   background:
     radial-gradient(circle at 88% 12%, rgba(168, 217, 63, 0.16) 0 0.32rem, transparent 0.36rem),
     linear-gradient(160deg, #fffdf5, #edf5d5);
+}
+
+.declaration-studio--pucca .declaration-canvas {
+  background:
+    radial-gradient(circle at 88% 12%, rgba(217, 31, 45, 0.14) 0 0.32rem, transparent 0.36rem),
+    linear-gradient(160deg, #fff8f1, #f7ddd7);
+}
+
+.declaration-studio--my-melody .declaration-canvas {
+  background:
+    radial-gradient(circle at 88% 12%, rgba(185, 217, 232, 0.22) 0 0.32rem, transparent 0.36rem),
+    linear-gradient(160deg, #fffaf3, #f4e1e8);
 }
 
 .declaration-canvas__decoration {

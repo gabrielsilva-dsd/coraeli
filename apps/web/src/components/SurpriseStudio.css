@@ -27,6 +27,20 @@
   --surprise-backdrop: #0d3b2a;
 }
 
+.surprise-studio--pucca {
+  --surprise-accent: #ff5964;
+  --surprise-paper: #fff4eb;
+  --surprise-ink: #2b1717;
+  --surprise-backdrop: #1c0d0e;
+}
+
+.surprise-studio--my-melody {
+  --surprise-accent: #f1a7c5;
+  --surprise-paper: #fff7ed;
+  --surprise-ink: #4d3034;
+  --surprise-backdrop: #4f2638;
+}
+
 .surprise-studio--cinema {
   --surprise-accent: #e5b94f;
   --surprise-paper: #fff8e7;
@@ -98,6 +112,18 @@
   background:
     radial-gradient(circle at 80% 16%, rgba(168, 217, 63, 0.24), transparent 14rem),
     linear-gradient(155deg, #164f38, #071f16 78%);
+}
+
+.surprise-studio--pucca .surprise-canvas {
+  background:
+    radial-gradient(circle at 80% 16%, rgba(217, 31, 45, 0.26), transparent 14rem),
+    linear-gradient(155deg, #3a1115, #100708 78%);
+}
+
+.surprise-studio--my-melody .surprise-canvas {
+  background:
+    radial-gradient(circle at 80% 16%, rgba(185, 217, 232, 0.18), transparent 14rem),
+    linear-gradient(155deg, #633047, #27131d 78%);
 }
 
 .surprise-canvas__decoration {

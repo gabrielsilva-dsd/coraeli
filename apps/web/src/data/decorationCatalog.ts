@@ -15,6 +15,23 @@ import keroppiFlowerGarden from "../assets/themes/keroppi/flower-garden.gif";
 import keroppiSweetLook from "../assets/themes/keroppi/sweet-look.gif";
 import keroppiHappy from "../assets/themes/keroppi/happy.gif";
 import keroppiBirthday from "../assets/themes/keroppi/birthday.gif";
+import puccaTurnAround from "../assets/themes/pucca/turn-around.gif";
+import puccaMischief from "../assets/themes/pucca/mischief.gif";
+import puccaHeartHug from "../assets/themes/pucca/heart-hug.gif";
+import puccaLoveHearts from "../assets/themes/pucca/love-hearts.gif";
+import puccaSweetBow from "../assets/themes/pucca/sweet-bow.gif";
+import puccaSunbathing from "../assets/themes/pucca/sunbathing.gif";
+import puccaRainbowLove from "../assets/themes/pucca/rainbow-love.gif";
+import puccaBlackOutfit from "../assets/themes/pucca/black-outfit.gif";
+import puccaCatReaction from "../assets/themes/pucca/cat-reaction.gif";
+import puccaBoatDate from "../assets/themes/pucca/boat-date.gif";
+import puccaBalloons from "../assets/themes/pucca/balloons.gif";
+import melodyBowShy from "../assets/themes/my-melody/bow-shy.gif";
+import melodyHeartHands from "../assets/themes/my-melody/heart-hands.gif";
+import melodyCozy from "../assets/themes/my-melody/cozy.gif";
+import melodySweetClap from "../assets/themes/my-melody/sweet-clap.gif";
+import melodyCakeTurn from "../assets/themes/my-melody/cake-turn.gif";
+import melodyFlyingKiss from "../assets/themes/my-melody/flying-kiss.gif";
 import auroraCelebration from "../assets/themes/aurora/comemorando.gif";
 import auroraWaiting from "../assets/themes/aurora/espera.gif";
 import auroraMain from "../assets/themes/aurora/principal.gif";
@@ -29,7 +46,7 @@ export type DecorationAsset = {
   id: DecorationAssetId;
   name: string;
   description: string;
-  collection: "hello-kitty" | "snoopy" | "keroppi" | "aurora";
+  collection: "hello-kitty" | "snoopy" | "keroppi" | "pucca" | "my-melody" | "aurora";
   src: string;
   kind: "gif" | "image";
 };
@@ -63,6 +80,20 @@ export const giftThemes: GiftTheme[] = [
     description: "Verde vibrante, divertido e cheio de energia.",
     colors: ["#a8d93f", "#19734a", "#fffdf5"],
     collection: "keroppi",
+  },
+  {
+    id: "pucca",
+    name: "Pucca",
+    description: "Vermelho intenso, preto e romance divertido.",
+    colors: ["#d91f2d", "#171313", "#fff4eb"],
+    collection: "pucca",
+  },
+  {
+    id: "my-melody",
+    name: "My Melody",
+    description: "Rosa antigo, creme e delicadeza acolhedora.",
+    colors: ["#d982aa", "#b9d9e8", "#fff7ed"],
+    collection: "my-melody",
   },
   {
     id: "aurora",
@@ -222,6 +253,142 @@ export const decorationAssets: DecorationAsset[] = [
     kind: "gif",
   },
   {
+    id: "pucca-turn-around",
+    name: "Voltinha surpresa",
+    description: "Um detalhe divertido para fotos e momentos.",
+    collection: "pucca",
+    src: puccaTurnAround,
+    kind: "gif",
+  },
+  {
+    id: "pucca-mischief",
+    name: "Sorriso travesso",
+    description: "Uma reação animada para perguntas e brincadeiras.",
+    collection: "pucca",
+    src: puccaMischief,
+    kind: "gif",
+  },
+  {
+    id: "pucca-heart-hug",
+    name: "Abraço no coração",
+    description: "Um gesto apaixonado para abrir a experiência.",
+    collection: "pucca",
+    src: puccaHeartHug,
+    kind: "gif",
+  },
+  {
+    id: "pucca-love-hearts",
+    name: "Corações apaixonados",
+    description: "Uma animação romântica para acompanhar a declaração.",
+    collection: "pucca",
+    src: puccaLoveHearts,
+    kind: "gif",
+  },
+  {
+    id: "pucca-sweet-bow",
+    name: "Despedida delicada",
+    description: "Um encerramento calmo e carinhoso.",
+    collection: "pucca",
+    src: puccaSweetBow,
+    kind: "gif",
+  },
+  {
+    id: "pucca-sunbathing",
+    name: "Descanso apaixonado",
+    description: "Uma cena descontraída para deixar a surpresa divertida.",
+    collection: "pucca",
+    src: puccaSunbathing,
+    kind: "gif",
+  },
+  {
+    id: "pucca-rainbow-love",
+    name: "Amor no arco-íris",
+    description: "Uma moldura romântica para momentos especiais.",
+    collection: "pucca",
+    src: puccaRainbowLove,
+    kind: "gif",
+  },
+  {
+    id: "pucca-black-outfit",
+    name: "Coração discreto",
+    description: "Uma versão delicada em preto e vermelho.",
+    collection: "pucca",
+    src: puccaBlackOutfit,
+    kind: "gif",
+  },
+  {
+    id: "pucca-cat-reaction",
+    name: "Reação com gatinho",
+    description: "Uma reação engraçada para perguntas e brincadeiras.",
+    collection: "pucca",
+    src: puccaCatReaction,
+    kind: "gif",
+  },
+  {
+    id: "pucca-boat-date",
+    name: "Passeio a dois",
+    description: "Uma cena de casal para acompanhar fotos e memórias.",
+    collection: "pucca",
+    src: puccaBoatDate,
+    kind: "gif",
+  },
+  {
+    id: "pucca-balloons",
+    name: "Balões coloridos",
+    description: "Uma comemoração alegre para o encerramento.",
+    collection: "pucca",
+    src: puccaBalloons,
+    kind: "gif",
+  },
+  {
+    id: "melody-bow-shy",
+    name: "Laço tímido",
+    description: "Uma abertura delicada com um toque azul-claro.",
+    collection: "my-melody",
+    src: melodyBowShy,
+    kind: "gif",
+  },
+  {
+    id: "melody-heart-hands",
+    name: "Coração nas mãos",
+    description: "Um gesto carinhoso para acompanhar a declaração.",
+    collection: "my-melody",
+    src: melodyHeartHands,
+    kind: "gif",
+  },
+  {
+    id: "melody-cozy",
+    name: "Soninho aconchegante",
+    description: "Uma cena tranquila para fotos e memórias.",
+    collection: "my-melody",
+    src: melodyCozy,
+    kind: "gif",
+  },
+  {
+    id: "melody-sweet-clap",
+    name: "Palminhas doces",
+    description: "Uma reação alegre para perguntas e brincadeiras.",
+    collection: "my-melody",
+    src: melodySweetClap,
+    kind: "gif",
+  },
+  {
+    id: "melody-cake-turn",
+    name: "Bolo surpresa",
+    description: "Uma opção divertida para momentos de comemoração.",
+    collection: "my-melody",
+    src: melodyCakeTurn,
+    kind: "gif",
+  },
+  {
+    id: "melody-flying-kiss",
+    name: "Beijinho voando",
+    description: "Uma despedida romântica para o encerramento.",
+    collection: "my-melody",
+    src: melodyFlyingKiss,
+    kind: "gif",
+  },
+  {
     id: "aurora-main",
     name: "Cartinha apaixonada",
     description: "Personagem principal da coleção Aurora.",
@@ -299,6 +466,32 @@ export const keroppiRecommendedDecorations: GiftDecorations = {
   finalSecondary: null,
 };
 
+export const puccaRecommendedDecorations: GiftDecorations = {
+  openingPrimary: "pucca-heart-hug",
+  openingSecondary: null,
+  declarationPrimary: "pucca-love-hearts",
+  declarationSecondary: null,
+  momentsPrimary: "pucca-turn-around",
+  momentsSecondary: null,
+  surprisePrimary: "pucca-mischief",
+  surpriseSecondary: null,
+  finalPrimary: "pucca-sweet-bow",
+  finalSecondary: null,
+};
+
+export const myMelodyRecommendedDecorations: GiftDecorations = {
+  openingPrimary: "melody-bow-shy",
+  openingSecondary: null,
+  declarationPrimary: "melody-heart-hands",
+  declarationSecondary: null,
+  momentsPrimary: "melody-cozy",
+  momentsSecondary: null,
+  surprisePrimary: "melody-sweet-clap",
+  surpriseSecondary: null,
+  finalPrimary: "melody-flying-kiss",
+  finalSecondary: null,
+};
+
 export const decorationSlotLabels: Record<DecorationSlotId, string> = {
   openingPrimary: "Personagem da abertura",
   openingSecondary: "Detalhe adicional da abertura",
@@ -316,6 +509,8 @@ export const decorationCollectionLabels: Record<DecorationAsset["collection"], s
   "hello-kitty": "Hello Kitty",
   snoopy: "Snoopy",
   keroppi: "Keroppi",
+  pucca: "Pucca",
+  "my-melody": "My Melody",
   aurora: "Aurora",
 };
 

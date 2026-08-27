@@ -23,6 +23,18 @@
   --moments-ink: #173b2a;
 }
 
+.moments-studio--pucca {
+  --moments-accent: #d91f2d;
+  --moments-paper: #fff4eb;
+  --moments-ink: #2b1717;
+}
+
+.moments-studio--my-melody {
+  --moments-accent: #d982aa;
+  --moments-paper: #fff7ed;
+  --moments-ink: #4d3034;
+}
+
 .moments-studio--cinema {
   --moments-accent: #e5b94f;
   --moments-paper: #fff8e7;
@@ -90,6 +102,18 @@
   background:
     radial-gradient(circle at 12% 14%, rgba(229, 72, 88, 0.1) 0 0.3rem, transparent 0.34rem),
     linear-gradient(155deg, #fffdf5, #e5f1c3);
+}
+
+.moments-studio--pucca .moments-canvas {
+  background:
+    radial-gradient(circle at 12% 14%, rgba(23, 19, 19, 0.1) 0 0.3rem, transparent 0.34rem),
+    linear-gradient(155deg, #fff8f1, #f4d6d0);
+}
+
+.moments-studio--my-melody .moments-canvas {
+  background:
+    radial-gradient(circle at 12% 14%, rgba(185, 217, 232, 0.2) 0 0.3rem, transparent 0.34rem),
+    linear-gradient(155deg, #fffaf3, #f1d9e2);
 }
 
 .moments-canvas__decoration {

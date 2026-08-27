@@ -2,6 +2,8 @@ import { useState } from "react";
 import helloHeartFrame from "../assets/themes/hello-kitty/heart-frame.gif";
 import snoopyLoveHearts from "../assets/themes/snoopy/love-hearts.gif";
 import keroppiHeartSnack from "../assets/themes/keroppi/heart-snack.gif";
+import puccaHeartHug from "../assets/themes/pucca/heart-hug.gif";
+import melodyHeartHands from "../assets/themes/my-melody/heart-hands.gif";
 
 const themes = [
   {
@@ -33,6 +35,26 @@ const themes = [
     couple: "Lívia & Theo",
     message: "Você deixa meus dias mais leves, alegres e cheios de histórias boas.",
     decoration: keroppiHeartSnack,
+  },
+  {
+    id: "pucca",
+    name: "Pucca",
+    category: "Apaixonado e divertido",
+    description: "Vermelho, preto e pixel art para uma história cheia de atitude.",
+    colors: ["#d91f2d", "#171313", "#fff4eb"],
+    couple: "Lívia & Theo",
+    message: "Meu jeito favorito de viver é encontrar motivos para sorrir com você.",
+    decoration: puccaHeartHug,
+  },
+  {
+    id: "my-melody",
+    name: "My Melody",
+    category: "Delicado e acolhedor",
+    description: "Rosa antigo, creme e azul-claro para uma surpresa suave.",
+    colors: ["#d982aa", "#b9d9e8", "#fff7ed"],
+    couple: "Lívia & Theo",
+    message: "Com você, o amor mora nos gestos pequenos e nos dias tranquilos.",
+    decoration: melodyHeartHands,
   },
   {
     id: "cinema",
