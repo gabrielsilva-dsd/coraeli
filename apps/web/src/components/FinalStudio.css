@@ -15,6 +15,16 @@
   --final-accent-soft: rgba(244, 95, 143, 0.15);
 }
 
+.final-studio--snoopy {
+  --final-accent: #c83d3d;
+  --final-accent-soft: rgba(32, 32, 32, 0.1);
+}
+
+.final-studio--keroppi {
+  --final-accent: #2f8a55;
+  --final-accent-soft: rgba(168, 217, 63, 0.16);
+}
+
 .final-studio--cinema {
   --final-accent: #efb84b;
   --final-accent-soft: rgba(239, 184, 75, 0.14);
@@ -77,6 +87,20 @@
     radial-gradient(circle at 16% 15%, rgba(244, 95, 143, 0.12) 0 0.3rem, transparent 0.33rem),
     linear-gradient(155deg, #fffaf7, #ffdeea);
   color: #421523;
+}
+
+.final-studio--snoopy .final-canvas {
+  color: #202020;
+  background:
+    radial-gradient(circle at 84% 16%, rgba(32, 32, 32, 0.1) 0 0.28rem, transparent 0.32rem),
+    linear-gradient(155deg, #fffdf7, #e5e2dc);
+}
+
+.final-studio--keroppi .final-canvas {
+  color: #173b2a;
+  background:
+    radial-gradient(circle at 84% 16%, rgba(229, 72, 88, 0.1) 0 0.28rem, transparent 0.32rem),
+    linear-gradient(155deg, #fffdf5, #e4f0c0);
 }
 
 .final-canvas__decoration {

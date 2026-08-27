@@ -1,5 +1,7 @@
 import { useState } from "react";
 import helloHeartFrame from "../assets/themes/hello-kitty/heart-frame.gif";
+import snoopyLoveHearts from "../assets/themes/snoopy/love-hearts.gif";
+import keroppiHeartSnack from "../assets/themes/keroppi/heart-snack.gif";
 
 const themes = [
   {
@@ -11,6 +13,26 @@ const themes = [
     couple: "Lívia & Theo",
     message: "Você transformou momentos simples nas minhas melhores memórias.",
     decoration: helloHeartFrame,
+  },
+  {
+    id: "snoopy",
+    name: "Snoopy",
+    category: "Clássico e divertido",
+    description: "Creme, cinza e preto com pequenos detalhes vermelhos.",
+    colors: ["#202020", "#d8d5cf", "#fffaf0"],
+    couple: "Lívia & Theo",
+    message: "Com você, até os dias mais simples viram lembranças especiais.",
+    decoration: snoopyLoveHearts,
+  },
+  {
+    id: "keroppi",
+    name: "Keroppi",
+    category: "Alegre e divertido",
+    description: "Verdes vivos e pequenos detalhes coloridos para uma história leve.",
+    colors: ["#a8d93f", "#19734a", "#fffdf5"],
+    couple: "Lívia & Theo",
+    message: "Você deixa meus dias mais leves, alegres e cheios de histórias boas.",
+    decoration: keroppiHeartSnack,
   },
   {
     id: "cinema",

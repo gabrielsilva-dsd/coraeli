@@ -1019,6 +1019,122 @@
   background: rgba(255, 250, 247, 0.9);
 }
 
+.experience--snoopy {
+  --experience-coral: #c83d3d;
+  --experience-rose: #d8d5cf;
+  --experience-ivory: #fffaf0;
+  --experience-wine: #252525;
+  --experience-ink: #202020;
+}
+
+.experience--snoopy .experience-opening {
+  color: #202020;
+  background:
+    radial-gradient(circle at 14% 18%, rgba(32, 32, 32, 0.1) 0 0.3rem, transparent 0.34rem),
+    radial-gradient(circle at 86% 72%, rgba(200, 61, 61, 0.09) 0 0.24rem, transparent 0.28rem),
+    linear-gradient(155deg, #fffdf7, #e5e2dc 78%);
+}
+
+.experience--snoopy .experience-opening p,
+.experience--snoopy .experience-opening small {
+  color: rgba(32, 32, 32, 0.68);
+}
+
+.experience--snoopy .experience-opening__glow {
+  border-color: rgba(32, 32, 32, 0.15);
+  box-shadow:
+    0 0 0 3rem rgba(32, 32, 32, 0.025),
+    0 0 0 7rem rgba(200, 61, 61, 0.02);
+}
+
+.experience--snoopy .experience-intro,
+.experience--snoopy .experience-memories {
+  background:
+    radial-gradient(circle at 90% 12%, rgba(32, 32, 32, 0.09) 0 0.3rem, transparent 0.34rem),
+    linear-gradient(155deg, #fffdf7, #e8e5df);
+}
+
+.experience--snoopy .experience-story {
+  background:
+    radial-gradient(circle at 50% 24%, rgba(200, 61, 61, 0.14), transparent 22rem),
+    linear-gradient(155deg, #303030, #111111 76%);
+}
+
+.experience--snoopy .experience-finale {
+  color: #202020;
+  background:
+    radial-gradient(circle at 18% 18%, rgba(32, 32, 32, 0.1) 0 0.3rem, transparent 0.34rem),
+    linear-gradient(155deg, #fffdf7, #e4e1db);
+}
+
+.experience--snoopy .experience-finale p,
+.experience--snoopy .experience-finale strong {
+  color: rgba(32, 32, 32, 0.76);
+}
+
+.experience--snoopy .experience-navigation {
+  color: #202020;
+  background: rgba(255, 250, 240, 0.92);
+}
+
+.experience--keroppi {
+  --experience-coral: #2f8a55;
+  --experience-rose: #a8d93f;
+  --experience-ivory: #fffdf5;
+  --experience-wine: #0d3b2a;
+  --experience-ink: #173b2a;
+}
+
+.experience--keroppi .experience-opening {
+  color: #173b2a;
+  background:
+    radial-gradient(circle at 14% 18%, rgba(168, 217, 63, 0.2) 0 0.3rem, transparent 0.34rem),
+    radial-gradient(circle at 86% 72%, rgba(229, 72, 88, 0.1) 0 0.24rem, transparent 0.28rem),
+    linear-gradient(155deg, #fffdf5, #e6f1c5 78%);
+}
+
+.experience--keroppi .experience-opening p,
+.experience--keroppi .experience-opening small {
+  color: rgba(23, 59, 42, 0.7);
+}
+
+.experience--keroppi .experience-opening__glow {
+  border-color: rgba(47, 138, 85, 0.18);
+  box-shadow:
+    0 0 0 3rem rgba(168, 217, 63, 0.035),
+    0 0 0 7rem rgba(47, 138, 85, 0.025);
+}
+
+.experience--keroppi .experience-intro,
+.experience--keroppi .experience-memories {
+  background:
+    radial-gradient(circle at 90% 12%, rgba(229, 72, 88, 0.1) 0 0.3rem, transparent 0.34rem),
+    linear-gradient(155deg, #fffdf5, #eaf3d0);
+}
+
+.experience--keroppi .experience-story {
+  background:
+    radial-gradient(circle at 50% 24%, rgba(168, 217, 63, 0.22), transparent 22rem),
+    linear-gradient(155deg, #164f38, #071f16 76%);
+}
+
+.experience--keroppi .experience-finale {
+  color: #173b2a;
+  background:
+    radial-gradient(circle at 18% 18%, rgba(229, 72, 88, 0.1) 0 0.3rem, transparent 0.34rem),
+    linear-gradient(155deg, #fffdf5, #e2efbd);
+}
+
+.experience--keroppi .experience-finale p,
+.experience--keroppi .experience-finale strong {
+  color: rgba(23, 59, 42, 0.76);
+}
+
+.experience--keroppi .experience-navigation {
+  color: #173b2a;
+  background: rgba(255, 253, 245, 0.92);
+}
+
 @keyframes experience-mascot-float {
   0%, 100% { transform: translateY(0) scale(1); }
   50% { transform: translateY(-0.45rem) scale(1.025); }

@@ -4,6 +4,17 @@ import helloLoveDance from "../assets/themes/hello-kitty/love-dance.gif";
 import helloPixelLove from "../assets/themes/hello-kitty/pixel-love.jpg";
 import helloShyLetter from "../assets/themes/hello-kitty/shy-letter.gif";
 import helloWave from "../assets/themes/hello-kitty/wave.gif";
+import snoopySleeping from "../assets/themes/snoopy/sleeping.gif";
+import snoopyHeartDelivery from "../assets/themes/snoopy/heart-delivery.gif";
+import snoopyLoveHearts from "../assets/themes/snoopy/love-hearts.gif";
+import snoopyShy from "../assets/themes/snoopy/shy.gif";
+import snoopyWowLove from "../assets/themes/snoopy/wow-love.gif";
+import snoopyPixelLove from "../assets/themes/snoopy/pixel-love.gif";
+import keroppiHeartSnack from "../assets/themes/keroppi/heart-snack.gif";
+import keroppiFlowerGarden from "../assets/themes/keroppi/flower-garden.gif";
+import keroppiSweetLook from "../assets/themes/keroppi/sweet-look.gif";
+import keroppiHappy from "../assets/themes/keroppi/happy.gif";
+import keroppiBirthday from "../assets/themes/keroppi/birthday.gif";
 import auroraCelebration from "../assets/themes/aurora/comemorando.gif";
 import auroraWaiting from "../assets/themes/aurora/espera.gif";
 import auroraMain from "../assets/themes/aurora/principal.gif";
@@ -18,7 +29,7 @@ export type DecorationAsset = {
   id: DecorationAssetId;
   name: string;
   description: string;
-  collection: "hello-kitty" | "aurora";
+  collection: "hello-kitty" | "snoopy" | "keroppi" | "aurora";
   src: string;
   kind: "gif" | "image";
 };
@@ -38,6 +49,20 @@ export const giftThemes: GiftTheme[] = [
     description: "Rosa, laços e pequenos gestos de carinho.",
     colors: ["#f45f8f", "#ffd7e4", "#fff8f4"],
     collection: "hello-kitty",
+  },
+  {
+    id: "snoopy",
+    name: "Snoopy",
+    description: "Creme, cinza e traços clássicos em preto.",
+    colors: ["#202020", "#d8d5cf", "#fffaf0"],
+    collection: "snoopy",
+  },
+  {
+    id: "keroppi",
+    name: "Keroppi",
+    description: "Verde vibrante, divertido e cheio de energia.",
+    colors: ["#a8d93f", "#19734a", "#fffdf5"],
+    collection: "keroppi",
   },
   {
     id: "aurora",
@@ -109,6 +134,94 @@ export const decorationAssets: DecorationAsset[] = [
     kind: "image",
   },
   {
+    id: "snoopy-sleeping",
+    name: "Soninho tranquilo",
+    description: "Um detalhe calmo e carinhoso para a abertura.",
+    collection: "snoopy",
+    src: snoopySleeping,
+    kind: "gif",
+  },
+  {
+    id: "snoopy-heart-delivery",
+    name: "Entrega de amor",
+    description: "Um coração especial para declarações.",
+    collection: "snoopy",
+    src: snoopyHeartDelivery,
+    kind: "gif",
+  },
+  {
+    id: "snoopy-love-hearts",
+    name: "Corações apaixonados",
+    description: "Combina com fotos e momentos do casal.",
+    collection: "snoopy",
+    src: snoopyLoveHearts,
+    kind: "gif",
+  },
+  {
+    id: "snoopy-shy",
+    name: "Timidez apaixonada",
+    description: "Uma reação delicada para perguntas e surpresas.",
+    collection: "snoopy",
+    src: snoopyShy,
+    kind: "gif",
+  },
+  {
+    id: "snoopy-wow-love",
+    name: "Uau, é amor",
+    description: "Uma reação divertida para o grande momento.",
+    collection: "snoopy",
+    src: snoopyWowLove,
+    kind: "gif",
+  },
+  {
+    id: "snoopy-pixel-love",
+    name: "Snoopy retrô",
+    description: "Um toque pixelado para composições descontraídas.",
+    collection: "snoopy",
+    src: snoopyPixelLove,
+    kind: "gif",
+  },
+  {
+    id: "keroppi-heart-snack",
+    name: "Lanchinho apaixonado",
+    description: "Uma abertura divertida cercada de corações.",
+    collection: "keroppi",
+    src: keroppiHeartSnack,
+    kind: "gif",
+  },
+  {
+    id: "keroppi-flower-garden",
+    name: "Jardim tranquilo",
+    description: "Um momento leve para acompanhar a declaração.",
+    collection: "keroppi",
+    src: keroppiFlowerGarden,
+    kind: "gif",
+  },
+  {
+    id: "keroppi-sweet-look",
+    name: "Olhar carinhoso",
+    description: "Uma reação delicada para fotos e memórias.",
+    collection: "keroppi",
+    src: keroppiSweetLook,
+    kind: "gif",
+  },
+  {
+    id: "keroppi-happy",
+    name: "Alegria verde",
+    description: "Uma reação animada para perguntas e brincadeiras.",
+    collection: "keroppi",
+    src: keroppiHappy,
+    kind: "gif",
+  },
+  {
+    id: "keroppi-birthday",
+    name: "Bolo de comemoração",
+    description: "Um encerramento alegre para celebrar a surpresa.",
+    collection: "keroppi",
+    src: keroppiBirthday,
+    kind: "gif",
+  },
+  {
     id: "aurora-main",
     name: "Cartinha apaixonada",
     description: "Personagem principal da coleção Aurora.",
@@ -160,6 +273,32 @@ export const helloKittyRecommendedDecorations: GiftDecorations = {
   finalSecondary: null,
 };
 
+export const snoopyRecommendedDecorations: GiftDecorations = {
+  openingPrimary: "snoopy-sleeping",
+  openingSecondary: null,
+  declarationPrimary: "snoopy-heart-delivery",
+  declarationSecondary: null,
+  momentsPrimary: "snoopy-love-hearts",
+  momentsSecondary: null,
+  surprisePrimary: "snoopy-shy",
+  surpriseSecondary: null,
+  finalPrimary: "snoopy-wow-love",
+  finalSecondary: null,
+};
+
+export const keroppiRecommendedDecorations: GiftDecorations = {
+  openingPrimary: "keroppi-heart-snack",
+  openingSecondary: null,
+  declarationPrimary: "keroppi-flower-garden",
+  declarationSecondary: null,
+  momentsPrimary: "keroppi-sweet-look",
+  momentsSecondary: null,
+  surprisePrimary: "keroppi-happy",
+  surpriseSecondary: null,
+  finalPrimary: "keroppi-birthday",
+  finalSecondary: null,
+};
+
 export const decorationSlotLabels: Record<DecorationSlotId, string> = {
   openingPrimary: "Personagem da abertura",
   openingSecondary: "Detalhe adicional da abertura",
@@ -175,6 +314,8 @@ export const decorationSlotLabels: Record<DecorationSlotId, string> = {
 
 export const decorationCollectionLabels: Record<DecorationAsset["collection"], string> = {
   "hello-kitty": "Hello Kitty",
+  snoopy: "Snoopy",
+  keroppi: "Keroppi",
   aurora: "Aurora",
 };
 

@@ -9,7 +9,7 @@ import {
   type SetStateAction,
 } from "react";
 
-export type GiftThemeId = "hello-kitty" | "aurora" | "cinema" | "essencia";
+export type GiftThemeId = "hello-kitty" | "snoopy" | "keroppi" | "aurora" | "cinema" | "essencia";
 export type DecorationSlotId =
   | "openingPrimary"
   | "openingSecondary"
@@ -28,6 +28,17 @@ export type DecorationAssetId =
   | "hello-love-dance"
   | "hello-wave"
   | "hello-pixel-love"
+  | "snoopy-sleeping"
+  | "snoopy-heart-delivery"
+  | "snoopy-love-hearts"
+  | "snoopy-shy"
+  | "snoopy-wow-love"
+  | "snoopy-pixel-love"
+  | "keroppi-heart-snack"
+  | "keroppi-flower-garden"
+  | "keroppi-sweet-look"
+  | "keroppi-happy"
+  | "keroppi-birthday"
   | "aurora-main"
   | "aurora-waiting"
   | "aurora-celebration";

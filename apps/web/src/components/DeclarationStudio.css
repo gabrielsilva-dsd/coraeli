@@ -15,6 +15,22 @@
   --declaration-backdrop: #8f2043;
 }
 
+.declaration-studio--snoopy {
+  --declaration-accent: #c83d3d;
+  --declaration-soft: #d8d5cf;
+  --declaration-paper: #fffaf0;
+  --declaration-ink: #202020;
+  --declaration-backdrop: #252525;
+}
+
+.declaration-studio--keroppi {
+  --declaration-accent: #2f8a55;
+  --declaration-soft: #a8d93f;
+  --declaration-paper: #fffdf5;
+  --declaration-ink: #173b2a;
+  --declaration-backdrop: #0d3b2a;
+}
+
 .declaration-studio--cinema {
   --declaration-accent: #e5b94f;
   --declaration-soft: #efcf7c;
@@ -76,6 +92,18 @@
   background:
     radial-gradient(circle at 12% 14%, rgba(244, 95, 143, 0.1) 0 0.32rem, transparent 0.35rem),
     linear-gradient(160deg, #fffaf7, #ffe3eb);
+}
+
+.declaration-studio--snoopy .declaration-canvas {
+  background:
+    radial-gradient(circle at 88% 12%, rgba(32, 32, 32, 0.1) 0 0.3rem, transparent 0.34rem),
+    linear-gradient(160deg, #fffdf7, #e9e6df);
+}
+
+.declaration-studio--keroppi .declaration-canvas {
+  background:
+    radial-gradient(circle at 88% 12%, rgba(168, 217, 63, 0.16) 0 0.32rem, transparent 0.36rem),
+    linear-gradient(160deg, #fffdf5, #edf5d5);
 }
 
 .declaration-canvas__decoration {

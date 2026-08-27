@@ -16,6 +16,22 @@
   --opening-backdrop: #8f2043;
 }
 
+.opening-studio--snoopy {
+  --opening-accent: #c83d3d;
+  --opening-accent-soft: #d8d5cf;
+  --opening-surface: #fffaf0;
+  --opening-text: #202020;
+  --opening-backdrop: #252525;
+}
+
+.opening-studio--keroppi {
+  --opening-accent: #2f8a55;
+  --opening-accent-soft: #a8d93f;
+  --opening-surface: #fffdf5;
+  --opening-text: #173b2a;
+  --opening-backdrop: #0d3b2a;
+}
+
 .opening-studio--cinema {
   --opening-accent: #e5b94f;
   --opening-accent-soft: #efcf7c;
@@ -84,6 +100,32 @@
 .opening-studio--hello-kitty .opening-canvas p,
 .opening-studio--hello-kitty .opening-canvas > small {
   color: rgba(66, 21, 35, 0.68);
+}
+
+.opening-studio--snoopy .opening-canvas {
+  color: var(--opening-text);
+  background:
+    radial-gradient(circle at 14% 18%, rgba(32, 32, 32, 0.1) 0 0.28rem, transparent 0.32rem),
+    radial-gradient(circle at 86% 72%, rgba(200, 61, 61, 0.1) 0 0.22rem, transparent 0.26rem),
+    linear-gradient(155deg, #fffdf7, #e7e4de 78%);
+}
+
+.opening-studio--snoopy .opening-canvas p,
+.opening-studio--snoopy .opening-canvas > small {
+  color: rgba(32, 32, 32, 0.68);
+}
+
+.opening-studio--keroppi .opening-canvas {
+  color: var(--opening-text);
+  background:
+    radial-gradient(circle at 15% 18%, rgba(168, 217, 63, 0.2) 0 0.3rem, transparent 0.34rem),
+    radial-gradient(circle at 86% 74%, rgba(229, 72, 88, 0.12) 0 0.24rem, transparent 0.28rem),
+    linear-gradient(155deg, #fffdf5, #e8f2c7 78%);
+}
+
+.opening-studio--keroppi .opening-canvas p,
+.opening-studio--keroppi .opening-canvas > small {
+  color: rgba(23, 59, 42, 0.7);
 }
 
 .opening-canvas__decoration {

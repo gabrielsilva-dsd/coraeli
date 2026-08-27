@@ -101,7 +101,7 @@ export function DecorationPicker({ slot, value, onChange }: DecorationPickerProp
             </button>
           </div>
 
-          {(["hello-kitty", "aurora"] as const).map((collection) => (
+          {(["hello-kitty", "snoopy", "keroppi", "aurora"] as const).map((collection) => (
             <section className="decoration-library__collection" key={collection}>
               <h4>{decorationCollectionLabels[collection]}</h4>
               <div className="decoration-library__grid">

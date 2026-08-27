@@ -5,7 +5,10 @@ import {
 } from "../context/GiftDraftContext";
 import {
   giftThemes,
+  getDecorationAsset,
   helloKittyRecommendedDecorations,
+  keroppiRecommendedDecorations,
+  snoopyRecommendedDecorations,
 } from "../data/decorationCatalog";
 import "./OpeningStudio.css";
 
@@ -50,13 +53,23 @@ export function OpeningStudio({ occasions, onContinue }: OpeningStudioProps) {
   const openingSecondaryDecoration = decorations.openingSecondary;
 
   function chooseTheme(themeId: typeof selectedThemeId) {
+    const selectedDecorationIds = Object.values(decorations).filter(
+      (decoration): decoration is NonNullable<typeof decoration> => decoration !== null,
+    );
+    const canApplyThemeRecommendations =
+      selectedDecorationIds.length === 0 ||
+      selectedDecorationIds.every(
+        (decoration) => getDecorationAsset(decoration)?.collection === selectedThemeId,
+      );
+
     setSelectedThemeId(themeId);
 
-    if (
-      themeId === "hello-kitty" &&
-      Object.values(decorations).every((decoration) => decoration === null)
-    ) {
+    if (themeId === "hello-kitty" && canApplyThemeRecommendations) {
       setDecorations(helloKittyRecommendedDecorations);
+    } else if (themeId === "snoopy" && canApplyThemeRecommendations) {
+      setDecorations(snoopyRecommendedDecorations);
+    } else if (themeId === "keroppi" && canApplyThemeRecommendations) {
+      setDecorations(keroppiRecommendedDecorations);
     }
   }
 
